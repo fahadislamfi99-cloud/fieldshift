@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { useApp } from "@/context/AppContext";
+import { optimizeSowingCalendar } from "@/lib/calendar-optimizer";
 import {
   Calendar,
   AlertTriangle,
@@ -149,7 +150,11 @@ export default function CalendarPage() {
               </div>
               <div className="px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-stone-200 text-xs font-medium text-stone-800 shadow-2xs flex items-center gap-1.5">
                 <Flame size={13} className="text-[#DC2626]" />
-                <span>{lang === "en" ? "Avoids: Late March 35°C Heat" : "মার্চের ৩৫° সে তাপদাহ এড়িয়ে চলে"}</span>
+                <span>
+                  {lang === "en"
+                    ? calendar.avoidsTagEn || "Avoids: Thermal Stress"
+                    : calendar.avoidsTagBn || "তাপদাহ এড়িয়ে চলে"}
+                </span>
               </div>
             </div>
           </div>
@@ -300,8 +305,8 @@ export default function CalendarPage() {
               <AlertTriangle size={15} className="shrink-0 text-red-600 mt-0.5" />
               <span>
                 {lang === "en"
-                  ? "Flowering hits late March heat waves (>34.5°C). Hot dry winds dry out pollen, leaving empty grain pods and heavy crop loss."
-                  : "মার্চের ১৫-২৮ তারিখের তাপদাহে ফুল ঝরে যায় এবং পরাগায়ন ব্যাহত হয়ে ফসল চিটা হয়ে যাওয়ার মারাত্মক ঝুঁকি থাকে।"}
+                  ? calendar.riskExplanationEn || "Traditional dates risk exposing flowering stage to adverse thermal spikes."
+                  : calendar.riskExplanationBn || "ঐতিহ্যবাহী সময়ে রোপণ করলে প্রতিকূল তাপদাহে ফুল ঝরে যাওয়ার ঝুঁকি থাকে।"}
               </span>
             </div>
           </div>
@@ -334,8 +339,8 @@ export default function CalendarPage() {
               <ShieldCheck size={15} className="shrink-0 text-[#16A34A] mt-0.5" />
               <span>
                 {lang === "en"
-                  ? `Delaying planting by ${calendar.shiftDeltaDays} days pushes flowering into cooler April night temperatures, dodging the lethal March heat spike completely.`
-                  : `রোপণ ${calendar.shiftDeltaDays} দিন পিছিয়ে দিলে এপ্রিলের সহনশীল রাতের তাপমাত্রায় ফুল ফোটে এবং মার্চের তাপদাহ পুরোপুরি এড়ানো সম্ভব হয়।`}
+                  ? calendar.nasaRecommendationEn || `Delaying planting by ${calendar.shiftDeltaDays} days optimizes temperature and moisture conditions.`
+                  : calendar.nasaRecommendationBn || `রোপণ ${calendar.shiftDeltaDays} দিন সমন্বয় করলে ফলন ও আর্দ্রতা সুরক্ষিত থাকে।`}
               </span>
             </div>
           </div>
@@ -344,63 +349,85 @@ export default function CalendarPage() {
         {/* Step-by-Step Practical Field Guide */}
         <div className="pt-2 space-y-3">
           <h3 className="text-lg font-semibold text-stone-900">
-            {lang === "en" ? "Step-by-Step Planting Instructions:" : "কৃষকের করণীয় ধাপসমূহ:"}
+            {lang === "en"
+              ? `Step-by-Step Planting Instructions for ${currentCrop.nameEn}:`
+              : `${currentCrop.nameBn} এর করণীয় ধাপসমূহ:`}
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-sm">
-            {/* Step 1 */}
-            <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200/80 space-y-1.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-[#1E7B48] uppercase tracking-wider">
-                  {lang === "en" ? "Step 1 • Seedbed" : "ধাপ ১ • বীজতলা"}
-                </span>
-                <Clock size={14} className="text-stone-400" />
-              </div>
-              <div className="text-sm font-semibold text-stone-900">
-                {lang === "en" ? "Prepare Seedbed Later" : "দেরিতে বীজতলা তৈরি"}
-              </div>
-              <p className="text-stone-600 text-sm font-normal leading-relaxed">
-                {lang === "en"
-                  ? "Sow nursery seeds between Nov 28 – Dec 5. Delaying the seedbed stops seedlings from maturing too early."
-                  : "২৮ নভেম্বর থেকে ৫ ডিসেম্বরের মধ্যে বীজতলায় বীজ ফেলুন যাতে চারা অতিরিক্ত আগে না বাড়ে।"}
-              </p>
-            </div>
+            {(calendar.steps && calendar.steps.length > 0
+              ? calendar.steps
+              : [
+                  {
+                    stepNumber: 1,
+                    phaseEn: "Step 1 • Land Prep",
+                    phaseBn: "ধাপ ১ • জমি প্রস্তুত",
+                    titleEn: "Field Preparation",
+                    titleBn: "জমি প্রস্তুত",
+                    instructionEn: "Prepare well-tilled seedbed with adequate soil moisture.",
+                    instructionBn: "পর্যাপ্ত আর্দ্রতায় জমি ভালোভাবে প্রস্তুত করুন।",
+                    iconName: "Clock" as const,
+                  },
+                  {
+                    stepNumber: 2,
+                    phaseEn: "Step 2 • Sowing",
+                    phaseBn: "ধাপ ২ • চারা রোপণ",
+                    titleEn: "Main Sowing",
+                    titleBn: "মূল বপন",
+                    instructionEn: "Sow certified disease-free seed at recommended spacing.",
+                    instructionBn: "সঠিক দূরত্বে মানসম্মত বীজ বপন সম্পন্ন করুন।",
+                    iconName: "Sprout" as const,
+                  },
+                  {
+                    stepNumber: 3,
+                    phaseEn: "Step 3 • Maintenance",
+                    phaseBn: "ধাপ ৩ • পরিচর্যা",
+                    titleEn: "Water & Nutrient Care",
+                    titleBn: "সেচ ও যত্ন",
+                    instructionEn: "Maintain soil moisture at key developmental stages.",
+                    instructionBn: "গুরুত্বপূর্ণ সময়ে প্রয়োজনীয় সেচ নিশ্চিত করুন।",
+                    iconName: "Droplets" as const,
+                  },
+                ]
+            ).map((step) => {
+              const IconComp =
+                step.iconName === "Droplets"
+                  ? Droplets
+                  : step.iconName === "Clock"
+                  ? Clock
+                  : step.iconName === "ShieldCheck"
+                  ? ShieldCheck
+                  : Sprout;
 
-            {/* Step 2 */}
-            <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200/80 space-y-1.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-[#1E7B48] uppercase tracking-wider">
-                  {lang === "en" ? "Step 2 • Field Planting" : "ধাপ ২ • চারা রোপণ"}
-                </span>
-                <Sprout size={14} className="text-stone-400" />
-              </div>
-              <div className="text-sm font-semibold text-stone-900">
-                {lang === "en" ? "Transplant to Main Field" : "মূল জমিতে চারা রোপণ"}
-              </div>
-              <p className="text-stone-600 text-sm font-normal leading-relaxed">
-                {lang === "en"
-                  ? "Transplant 25–30 day old seedlings into the prepared muddy field by Dec 18 for best root establishment."
-                  : "১৮ ডিসেম্বরের মধ্যে ২৫-৩০ দিনের সুস্থ চারা মূল জমিতে রোপণ সম্পন্ন করুন।"}
-              </p>
-            </div>
-
-            {/* Step 3 */}
-            <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200/80 space-y-1.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-[#1E7B48] uppercase tracking-wider">
-                  {lang === "en" ? "Step 3 • Flowering Care" : "ধাপ ৩ • পরিচর্যা"}
-                </span>
-                <Droplets size={14} className="text-[#0284C7]" />
-              </div>
-              <div className="text-sm font-semibold text-stone-900">
-                {lang === "en" ? "Watering During Flowering" : "ফুল ফোটার সময় সেচ"}
-              </div>
-              <p className="text-stone-600 text-sm font-normal leading-relaxed">
-                {lang === "en"
-                  ? "Provide light irrigation in the evening when flowers appear in April to keep root zones cool and grains full."
-                  : "এপ্রিলে ফুল আসার সময় বিকেলে হালকা সেচ দিন যাতে মাটির তাপমাত্রা সহনশীল থাকে।"}
-              </p>
-            </div>
+              return (
+                <div
+                  key={step.stepNumber}
+                  className="p-4 rounded-2xl bg-stone-50 border border-stone-200/80 space-y-1.5"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-semibold text-[#1E7B48] uppercase tracking-wider">
+                      {lang === "en" ? step.phaseEn : step.phaseBn}
+                    </span>
+                    <IconComp
+                      size={14}
+                      className={
+                        step.iconName === "Droplets"
+                          ? "text-[#0284C7]"
+                          : step.iconName === "ShieldCheck"
+                          ? "text-[#16A34A]"
+                          : "text-stone-400"
+                      }
+                    />
+                  </div>
+                  <div className="text-sm font-semibold text-stone-900">
+                    {lang === "en" ? step.titleEn : step.titleBn}
+                  </div>
+                  <p className="text-stone-600 text-sm font-normal leading-relaxed">
+                    {lang === "en" ? step.instructionEn : step.instructionBn}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -427,8 +454,8 @@ export default function CalendarPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {crops.map((c) => {
             const isSelected = currentCrop.id === c.id;
-            const isShifted = c.id === "boro_rice";
-            const safeDates = isShifted ? "Nov 28 - Dec 18" : c.typicalSowing.label;
+            const cropCalendar = optimizeSowingCalendar(c, currentZone, metrics);
+            const safeDates = cropCalendar.nasaAdjustedWindow;
             const image = getCropImage(c.id);
 
             return (
