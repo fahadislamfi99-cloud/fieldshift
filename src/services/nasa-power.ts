@@ -3,6 +3,18 @@ import { CurrentClimateMetrics } from "@/types/climate";
 
 // Fallback telemetry when offline or when NASA API exceeds latency budget
 const ZONE_FALLBACK_METRICS: Record<string, CurrentClimateMetrics> = {
+  barind_tanore: {
+    airTemperatureC: 28.6,
+    maxTemperatureC: 36.5,
+    minTemperatureC: 19.5,
+    rootZoneSoilMoisturePercent: 21.0, // Critical root deficit in Tanore clay
+    surfaceSoilMoisturePercent: 15.5,
+    precipitationMm: 0.0,
+    relativeHumidityPercent: 39.0,
+    solarRadiationKwh: 5.9,
+    windSpeedKmh: 6.8,
+    observationDate: new Date().toISOString().split("T")[0],
+  },
   barind_godagari: {
     airTemperatureC: 28.4,
     maxTemperatureC: 36.2,

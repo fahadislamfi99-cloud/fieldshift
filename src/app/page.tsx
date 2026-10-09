@@ -10,6 +10,8 @@ import {
   ChevronDown,
   ArrowRight,
   CheckCircle2,
+  ShieldCheck,
+  RotateCcw,
 } from "lucide-react";
 
 export default function HomePage() {
@@ -25,7 +27,40 @@ export default function HomePage() {
     setFarmerStatus,
     waterAccess,
     setWaterAccess,
+    hasConfigured,
+    saveUserSelection,
+    resetUserSelection,
   } = useApp();
+
+  const handleSelectZone = (id: string) => {
+    setZoneId(id);
+    saveUserSelection({ zoneId: id, hasConfigured: true });
+  };
+
+  const handleSelectCrop = (id: string) => {
+    setCropId(id);
+    saveUserSelection({ cropId: id, hasConfigured: true });
+  };
+
+  const handleSelectWater = (source: string) => {
+    setWaterAccess(source);
+    saveUserSelection({ waterAccess: source, hasConfigured: true });
+  };
+
+  const handleSelectStatus = (status: "not_planted" | "already_planted") => {
+    setFarmerStatus(status);
+    saveUserSelection({ farmerStatus: status, hasConfigured: true });
+  };
+
+  const handleProceed = () => {
+    saveUserSelection({
+      hasConfigured: true,
+      zoneId: currentZone.id,
+      cropId: currentCrop.id,
+      farmerStatus,
+      waterAccess,
+    });
+  };
 
   return (
     <div className="space-y-6" suppressHydrationWarning>
@@ -60,12 +95,12 @@ export default function HomePage() {
         {/* Hero Card Content */}
         <div className="relative z-10 p-6 sm:p-10 lg:p-12 flex flex-col justify-between h-full space-y-6 max-w-2xl">
           <div>
-            {/* 2-Option Farmer Situation Selector Directly Inside Hero Card */}
+            {/* Farmer Situation Selector & LocalStorage Status Pill */}
             <div className="flex flex-wrap items-center gap-2 mb-4">
               <div className="p-1 rounded-2xl bg-white/95 backdrop-blur-md border border-stone-200/90 shadow-2xs flex items-center gap-1">
                 <button
                   type="button"
-                  onClick={() => setFarmerStatus("not_planted")}
+                  onClick={() => handleSelectStatus("not_planted")}
                   className={`px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-1.5 ${
                     farmerStatus === "not_planted"
                       ? "bg-[#1E7B48] text-white shadow-xs"
@@ -79,7 +114,7 @@ export default function HomePage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setFarmerStatus("already_planted")}
+                  onClick={() => handleSelectStatus("already_planted")}
                   className={`px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-1.5 ${
                     farmerStatus === "already_planted"
                       ? "bg-[#1E7B48] text-white shadow-xs"
@@ -92,6 +127,23 @@ export default function HomePage() {
                   </span>
                 </button>
               </div>
+
+              {hasConfigured && (
+                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50/90 backdrop-blur-md border border-emerald-200 text-xs font-semibold text-[#15803D] shadow-2xs">
+                  <ShieldCheck size={13} className="text-[#1E7B48]" />
+                  <span>
+                    {lang === "en" ? "Saved to Browser" : "ব্রাউজারে সংরক্ষিত"}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={resetUserSelection}
+                    title={lang === "en" ? "Clear saved selection" : "সংরক্ষিত তথ্য মুছুন"}
+                    className="ml-1 text-emerald-700 hover:text-emerald-950 p-0.5 rounded-md hover:bg-emerald-100/60 transition-colors"
+                  >
+                    <RotateCcw size={11} />
+                  </button>
+                </div>
+              )}
             </div>
 
             <h1 className="text-[28px] sm:text-[36px] font-bold text-stone-900 tracking-tight leading-tight">
@@ -134,7 +186,7 @@ export default function HomePage() {
               <select
                 aria-label="Select Target Location"
                 value={currentZone.id}
-                onChange={(e) => setZoneId(e.target.value)}
+                onChange={(e) => handleSelectZone(e.target.value)}
                 className="opacity-0 absolute inset-0 w-full h-full cursor-pointer"
               >
                 {zones.map((z) => (
@@ -164,7 +216,7 @@ export default function HomePage() {
               <select
                 aria-label="Select Current Crop"
                 value={currentCrop.id}
-                onChange={(e) => setCropId(e.target.value)}
+                onChange={(e) => handleSelectCrop(e.target.value)}
                 className="opacity-0 absolute inset-0 w-full h-full cursor-pointer"
               >
                 {crops.map((c) => (
@@ -192,7 +244,7 @@ export default function HomePage() {
               <select
                 aria-label="Select Irrigation Water Access"
                 value={waterAccess}
-                onChange={(e) => setWaterAccess(e.target.value)}
+                onChange={(e) => handleSelectWater(e.target.value)}
                 className="opacity-0 absolute inset-0 w-full h-full cursor-pointer"
               >
                 <option value="Deep Tubewell">Deep Tubewell</option>
@@ -207,6 +259,7 @@ export default function HomePage() {
             {farmerStatus === "already_planted" ? (
               <Link
                 href="/advisory"
+                onClick={handleProceed}
                 className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-[#1E7B48] hover:bg-[#165E36] text-white text-sm sm:text-base font-semibold shadow-md hover:shadow-lg transition-all"
               >
                 <span>{lang === "en" ? "Open In-Season Field Advisory" : "জমির জরুরি কৃষি পরামর্শ"}</span>
@@ -215,6 +268,7 @@ export default function HomePage() {
             ) : (
               <Link
                 href="/shift"
+                onClick={handleProceed}
                 className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-[#1E7B48] hover:bg-[#165E36] text-white text-sm sm:text-base font-semibold shadow-md hover:shadow-lg transition-all"
               >
                 <span>{lang === "en" ? "Get Crop Recommendations" : "বিকল্প ফসলের তালিকা দেখুন"}</span>

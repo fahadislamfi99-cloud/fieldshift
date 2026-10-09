@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { useApp } from "@/context/AppContext";
+import { EmptyStatePrompt } from "@/components/EmptyStatePrompt";
 import {
   Sprout,
   Droplets,
@@ -36,8 +37,12 @@ export default function CropShiftPage() {
     lang,
     farmerStatus,
     setFarmerStatus,
+    waterAccess,
+    farmAcres,
+    setFarmAcres,
+    hasConfigured,
+    isHydrated,
   } = useApp();
-  const [farmAcres, setFarmAcres] = useState<number>(2.0);
 
   // Pick matching photo for each crop
   const getCropImage = (cropId: string) => {
@@ -113,6 +118,23 @@ export default function CropShiftPage() {
   const maxPumpHoursSaved = Math.round(maxWaterSavedM3 / 22);
   const maxMillionLitersSaved = (maxWaterSavedM3 / 1000).toFixed(1);
 
+  if (!isHydrated) {
+    return (
+      <div className="space-y-6 animate-pulse" suppressHydrationWarning>
+        <div className="h-[320px] rounded-3xl bg-stone-200/70 border border-stone-200" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="h-28 rounded-2xl bg-stone-200/70" />
+          <div className="h-28 rounded-2xl bg-stone-200/70" />
+          <div className="h-28 rounded-2xl bg-stone-200/70" />
+        </div>
+      </div>
+    );
+  }
+
+  if (!hasConfigured) {
+    return <EmptyStatePrompt pageType="shift" lang={lang} />;
+  }
+
   return (
     <div className="space-y-6" suppressHydrationWarning>
       {/* =========================================================================
@@ -132,66 +154,26 @@ export default function CropShiftPage() {
         <div className="relative z-10 p-6 sm:p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 h-full">
           {/* Left Title & Simple Explanations */}
           <div className="space-y-3 max-w-2xl">
-            {/* Tag & Farmer Status Switcher Pill */}
-            <div className="flex flex-wrap items-center gap-2">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[#1E7B48] text-xs font-bold border border-emerald-200/80 shadow-2xs">
-                <Sprout size={13} className="text-[#1E7B48]" />
-                <span>
-                  {lang === "en" ? "SMART CROP GUIDE" : "সহজ কৃষি পরামর্শ"}
-                </span>
-                <span className="text-stone-300">•</span>
-                <span className="font-semibold text-stone-700">
-                  {currentZone.nameEn.split(",")[0]}, Rajshahi
-                </span>
-              </div>
-
-              {/* Status Switcher */}
-              <div className="inline-flex items-center gap-1 p-0.5 rounded-full bg-white/95 backdrop-blur-md border border-stone-200 shadow-2xs text-xs font-semibold">
-                <button
-                  type="button"
-                  onClick={() => setFarmerStatus("not_planted")}
-                  className={`px-3 py-1 rounded-full transition-all flex items-center gap-1.5 ${
-                    farmerStatus === "not_planted"
-                      ? "bg-[#1E7B48] text-white shadow-2xs font-bold"
-                      : "text-stone-600 hover:text-stone-900"
-                  }`}
-                >
-                  <Sprout size={13} />
-                  <span>{lang === "en" ? "Not Planted (Plan)" : "ফসল লাগাইনি"}</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setFarmerStatus("already_planted")}
-                  className={`px-3 py-1 rounded-full transition-all flex items-center gap-1.5 ${
-                    farmerStatus === "already_planted"
-                      ? "bg-[#1E7B48] text-white shadow-2xs font-bold"
-                      : "text-stone-600 hover:text-stone-900"
-                  }`}
-                >
-                  <CheckCircle2 size={13} />
-                  <span>{lang === "en" ? "Already Planted" : "ইতিমধ্যে রোপণকৃত"}</span>
-                </button>
-              </div>
+            {/* Tag */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[#1E7B48] text-xs font-bold border border-emerald-200/80 shadow-2xs">
+              <Sprout size={13} className="text-[#1E7B48]" />
+              <span>
+                {lang === "en" ? "SMART CROP GUIDE" : "সহজ কৃষি পরামর্শ"}
+              </span>
+              <span className="text-stone-300">•</span>
+              <span className="font-semibold text-stone-700">
+                {currentZone.nameEn.split(",")[0]}, Rajshahi
+              </span>
             </div>
 
             <h1 className="text-[28px] sm:text-[32px] font-bold text-stone-900 tracking-tight leading-tight">
-              {farmerStatus === "already_planted"
-                ? (lang === "en"
-                    ? "Next-Crop Relay & Alternative Guide"
-                    : "পরবর্তী অন্তর্বর্তীকালীন ও বিকল্প ফসল")
-                : (lang === "en"
-                    ? "Best Crops for Your Farm"
-                    : "আপনার জমির জন্য সেরা ফসল")}
+              {lang === "en" ? "Best Crops for Your Farm" : "আপনার জমির জন্য সেরা ফসল"}
             </h1>
 
             <p className="text-sm sm:text-base font-normal text-stone-600 leading-relaxed max-w-xl">
-              {farmerStatus === "already_planted"
-                ? (lang === "en"
-                    ? "Your main crop is growing. Plan 60-day summer mung bean relay catch crops for post-harvest cash flow, or compare next year's water-saving rotations."
-                    : "জমিতে ফসল রয়েছে। ফসল কাটার পরপরই দ্রুত লাভের জন্য ৬০ দিনের মুগ ডাল অথবা আগামী মৌসুমের পানি সাশ্রয়ী বিকল্প ফসল দেখুন।")
-                : (lang === "en"
-                    ? "Find crops that need only 2 to 3 waterings, beat hot summer weather, and save you thousands of Taka on diesel and electricity bills."
-                    : "নাসার আবহাওয়া তথ্যের ভিত্তিতে মাত্র ২-৩ সেচে ঘরে তোলা যায় এমন লাভজনক ফসল বেছে নিন।")}
+              {lang === "en"
+                ? "Find crops that need only 2 to 3 waterings, beat hot summer weather, and save you thousands of Taka on diesel and electricity bills."
+                : "নাসার আবহাওয়া তথ্যের ভিত্তিতে মাত্র ২-৩ সেচে ঘরে তোলা যায় এমন লাভজনক ফসল বেছে নিন।"}
             </p>
 
             {/* Field Information Pills */}
@@ -206,8 +188,15 @@ export default function CropShiftPage() {
               </div>
               <div className="px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-stone-200 text-xs font-medium text-stone-800 shadow-2xs flex items-center gap-1.5">
                 <Droplets size={13} className="text-[#0284C7]" />
-                <span>{lang === "en" ? "Tubewell Water: Running Low" : "নলকূপের পানি: সংকটজনক"}</span>
+                <span>{waterAccess}</span>
               </div>
+              <Link
+                href="/"
+                className="px-3 py-1.5 rounded-xl bg-white/90 hover:bg-white text-xs font-semibold text-[#1E7B48] border border-emerald-200 shadow-2xs flex items-center gap-1 transition-all"
+              >
+                <Sliders size={12} />
+                <span>{lang === "en" ? "Change Field" : "তথ্য পরিবর্তন"}</span>
+              </Link>
             </div>
           </div>
 

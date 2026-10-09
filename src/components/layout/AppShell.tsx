@@ -6,10 +6,8 @@ import { usePathname } from "next/navigation";
 import { useApp } from "@/context/AppContext";
 import {
   Home,
-  MapPin,
   Calendar,
   Bell,
-  BookOpen,
   Search,
   ChevronDown,
   ChevronRight,
@@ -17,7 +15,6 @@ import {
   X,
   Sprout,
   Leaf,
-  Map as MapIcon,
   MoreHorizontal,
   Globe,
 } from "lucide-react";
@@ -34,11 +31,9 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
 
   const navItems = [
     { href: "/", labelEn: "Home", labelBn: "হোম", icon: Home },
-    { href: "/satellite", labelEn: "Map", labelBn: "মানচিত্র", icon: MapPin },
     { href: "/shift", labelEn: "Recommendations", labelBn: "পরামর্শ ও বিকল্প", icon: Sprout },
     { href: "/calendar", labelEn: "Calendar", labelBn: "ক্যালেন্ডার", icon: Calendar },
     { href: "/advisory", labelEn: "Alerts", labelBn: "সতর্কতা", icon: Bell },
-    { href: "/satellite", labelEn: "Resources", labelBn: "তথ্যভাণ্ডার", icon: BookOpen },
   ];
 
   const isActive = (href: string) => {
@@ -131,7 +126,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
 
           {/* NASA Earth Data Brand Card with Arrow */}
           <Link
-            href="/satellite"
+            href="/shift"
             className="p-3.5 rounded-2xl bg-[#F6FAF6] border border-emerald-100/80 flex items-center justify-between hover:bg-emerald-50/60 transition-colors group"
           >
             <div className="flex items-center gap-3">
@@ -290,13 +285,13 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
           </Link>
 
           <Link
-            href="/satellite"
+            href="/shift"
             className={`flex flex-col items-center gap-1 text-xs font-bold ${
-              isActive("/satellite") ? "text-emerald-700 font-extrabold" : "text-stone-600"
+              isActive("/shift") ? "text-emerald-700 font-extrabold" : "text-stone-600"
             }`}
           >
-            <MapIcon size={18} />
-            <span>{lang === "en" ? "Map" : "ম্যাপ"}</span>
+            <Sprout size={18} />
+            <span>{lang === "en" ? "Crops" : "পরামর্শ"}</span>
           </Link>
 
           <Link

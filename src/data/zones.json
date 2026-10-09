@@ -1,5 +1,20 @@
 [
   {
+    "id": "barind_tanore",
+    "nameEn": "Tanore, Barind Tract",
+    "nameBn": "তানোর, বরেন্দ্র অঞ্চল",
+    "districtEn": "Rajshahi",
+    "upazilaEn": "Tanore",
+    "lat": 24.583,
+    "lon": 88.577,
+    "elevationM": 30,
+    "dominantCurrentCropId": "boro_rice",
+    "groundwaterStatus": "critical_depletion",
+    "salinityRiskLevel": "low",
+    "soilPh": 6.2,
+    "primaryClimateVulnerability": "Severe aquifer depletion (-1.1m/yr), tubewell rationing pressure, and March flowering heat spikes (>35°C)."
+  },
+  {
     "id": "barind_godagari",
     "nameEn": "Godagari, Barind Tract",
     "nameBn": "গোদাগাড়ী, বরেন্দ্র অঞ্চল",
