@@ -34,6 +34,17 @@ export default function CalendarPage() {
     setFarmerStatus,
   } = useApp();
 
+  // Sync crop from URL query param if present
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const cropParam = params.get("crop");
+      if (cropParam && crops.some((c) => c.id === cropParam)) {
+        setCropId(cropParam);
+      }
+    }
+  }, [crops, setCropId]);
+
   // Helper to pick correct photographic thumbnail
   const getCropImage = (cropId: string) => {
     const id = cropId.toLowerCase();

@@ -42,6 +42,7 @@ export default function CropShiftPage() {
     setFarmAcres,
     hasConfigured,
     isHydrated,
+    saveUserSelection,
   } = useApp();
 
   // Pick matching photo for each crop
@@ -635,32 +636,19 @@ export default function CropShiftPage() {
                   </div>
                 </div>
 
-                {/* Card Action Footer */}
-                <div className="p-5 pt-0 space-y-2">
-                  <button
-                    type="button"
-                    onClick={() => setCropId(alt.crop.id)}
-                    className={`w-full py-3 rounded-2xl text-sm sm:text-base font-semibold transition-all flex items-center justify-center gap-2 ${
-                      isSelected
-                        ? "bg-[#1E7B48] text-white shadow-sm"
-                        : "bg-stone-100 hover:bg-[#1E7B48] hover:text-white text-stone-800"
-                    }`}
-                  >
-                    <Check size={14} />
-                    <span>
-                      {isSelected
-                        ? (lang === "en" ? "Selected Crop" : "বাছাই করা ফসল")
-                        : (lang === "en" ? "Choose This Crop" : "এই ফসল বেছে নিন")}
-                    </span>
-                  </button>
-
+                {/* Card Action Footer: Single Prominent 'See Planting Dates' Button */}
+                <div className="p-5 pt-0">
                   <Link
-                    href="/calendar"
-                    onClick={() => setCropId(alt.crop.id)}
-                    className="w-full py-2 rounded-xl text-xs font-semibold text-stone-600 hover:text-stone-900 flex items-center justify-center gap-1 hover:bg-stone-50 transition-colors"
+                    href={`/calendar?crop=${alt.crop.id}`}
+                    onClick={() => {
+                      setCropId(alt.crop.id);
+                      saveUserSelection({ cropId: alt.crop.id });
+                    }}
+                    className="w-full py-3.5 rounded-2xl text-sm sm:text-base font-semibold transition-all flex items-center justify-center gap-2 bg-[#1E7B48] hover:bg-[#165E36] text-white shadow-xs hover:shadow-md"
                   >
+                    <Calendar size={16} />
                     <span>{lang === "en" ? "See Planting Dates" : "রোপণের সময়সূচী দেখুন"}</span>
-                    <ChevronRight size={13} />
+                    <ArrowRight size={16} />
                   </Link>
                 </div>
               </div>
