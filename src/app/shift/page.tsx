@@ -40,13 +40,69 @@ export default function CropShiftPage() {
     return "/images/mustard_crop.jpg";
   };
 
+  // Plain-English watering counts instead of raw mm
+  const getCropWateringInfo = (cropId: string) => {
+    const id = cropId.toLowerCase();
+    if (id.includes("mustard")) {
+      return {
+        rounds: lang === "en" ? "Only 2–3 Waterings" : "মাত্র ২-৩টি সেচ",
+        subtext: lang === "en" ? "77% less water than rice" : "বোরো ধানের চেয়ে ৭৭% কম পানি",
+      };
+    }
+    if (id.includes("maize")) {
+      return {
+        rounds: lang === "en" ? "4–5 Waterings" : "৪-৫টি সেচ",
+        subtext: lang === "en" ? "56% less water than rice" : "বোরো ধানের চেয়ে ৫৬% কম পানি",
+      };
+    }
+    if (id.includes("wheat") || id.includes("gom")) {
+      return {
+        rounds: lang === "en" ? "Only 3 Waterings" : "মাত্র ৩টি সেচ",
+        subtext: lang === "en" ? "69% less water than rice" : "বোরো ধানের চেয়ে ৬৯% কম পানি",
+      };
+    }
+    if (id.includes("rice")) {
+      return {
+        rounds: lang === "en" ? "25–30 Waterings" : "২৫-৩০টি সেচ",
+        subtext: lang === "en" ? "Heavy continuous flooding" : "অবিরাম পানিতে ডোবানো মাঠ",
+      };
+    }
+    return {
+      rounds: lang === "en" ? "2–3 Waterings" : "২-৩টি সেচ",
+      subtext: lang === "en" ? "Light irrigation" : "হালকা সেচ",
+    };
+  };
+
+  // Plain-English salinity tolerance instead of dS/m
+  const getSalinityFriendlyText = (dsM: number) => {
+    if (dsM >= 6.0) {
+      return {
+        label: lang === "en" ? "High (Salt Safe)" : "উচ্চ সহনশীল",
+        subtext: lang === "en" ? "Grows well in coastal soils" : "উপকূলীয় মাটিতেও ভালো হয়",
+      };
+    }
+    if (dsM >= 4.5) {
+      return {
+        label: lang === "en" ? "Medium (Moderate)" : "মাঝারি সহনশীল",
+        subtext: lang === "en" ? "Tolerates normal soil salt" : "স্বাভাবিক মাটিতে সমস্যা নেই",
+      };
+    }
+    return {
+      label: lang === "en" ? "Low (Sensitive)" : "কম সহনশীল",
+      subtext: lang === "en" ? "Needs fresh water only" : "শুধুমাত্র মিঠা পানিতে ভালো হয়",
+    };
+  };
+
   const bestAlternative = assessment.recommendedAlternatives[0];
-  const maxWaterSaved = bestAlternative
+  const maxWaterSavedM3 = bestAlternative
     ? Math.round(bestAlternative.waterSavedM3PerAcre * farmAcres)
     : 0;
   const maxCostSaved = bestAlternative
     ? Math.round(bestAlternative.estimatedCostSavedBdtPerAcre * farmAcres)
     : 0;
+  // Deep/shallow tubewell pump runs at approx 22 m³ per hour (22,000 L/hr)
+  const maxPumpHoursSaved = Math.round(maxWaterSavedM3 / 22);
+  const maxMillionLitersSaved = (maxWaterSavedM3 / 1000).toFixed(1);
 
   return (
     <div className="space-y-6" suppressHydrationWarning>
@@ -85,8 +141,8 @@ export default function CropShiftPage() {
 
             <p className="text-xs sm:text-sm font-medium text-stone-600 leading-relaxed max-w-xl">
               {lang === "en"
-                ? "Find crops that need less water, beat hot summer heat, and save you money on diesel and irrigation — using NASA weather data."
-                : "নাসার আবহাওয়া তথ্যের ভিত্তিতে কম পানি ও কম খরচে বেশি লাভজনক সেরা বিকল্প ফসল খুঁজে নিন।"}
+                ? "Find crops that need only 2 to 3 waterings, beat hot summer weather, and save you thousands of Taka on diesel and electricity bills."
+                : "নাসার আবহাওয়া তথ্যের ভিত্তিতে মাত্র ২-৩ সেচে ঘরে তোলা যায় এমন লাভজনক ফসল বেছে নিন।"}
             </p>
 
             {/* Field Information Pills */}
@@ -101,7 +157,7 @@ export default function CropShiftPage() {
               </div>
               <div className="px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-stone-200 text-xs font-bold text-stone-800 shadow-2xs flex items-center gap-1.5">
                 <Droplets size={13} className="text-[#0284C7]" />
-                <span>{lang === "en" ? "Groundwater: Very Low" : "ভূগর্ভস্থ পানি: সংকটজনক"}</span>
+                <span>{lang === "en" ? "Tubewell Water: Running Low" : "নলকূপের পানি: সংকটজনক"}</span>
               </div>
             </div>
           </div>
@@ -150,15 +206,15 @@ export default function CropShiftPage() {
 
             <div className="text-[10px] text-stone-500 font-medium text-center">
               {lang === "en"
-                ? "Move slider to see how much water & money you save."
-                : "স্লাইডার নাড়িয়ে দেখুন কত পানি ও টাকা সাশ্রয় হবে।"}
+                ? "Move slider to see how much water & diesel money you save."
+                : "স্লাইডার নাড়িয়ে দেখুন কত পানি ও জ্বালানি খরচ বাঁচবে।"}
             </div>
           </div>
         </div>
       </div>
 
       {/* =========================================================================
-          PROBLEM VS SOLUTION (Simple terms for farmers)
+          PROBLEM VS SOLUTION (Clear terms anyone understands)
           ========================================================================= */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
         {/* Left: Problem With Current Crop */}
@@ -170,7 +226,7 @@ export default function CropShiftPage() {
                 <span>{lang === "en" ? "Current Crop Risk" : "বর্তমান ফসলের ঝুঁকি"}</span>
               </div>
               <span className="px-2.5 py-0.5 rounded-full bg-red-600 text-white text-[10px] font-extrabold font-mono">
-                {assessment.currentSuitability.overallScore}% {lang === "en" ? "HEALTH SCORE (HIGH RISK)" : "স্কোর (উচ্চ ঝুঁকি)"}
+                {assessment.currentSuitability.overallScore}% {lang === "en" ? "SAFE (HIGH RISK)" : "নিরাপদ (উচ্চ ঝুঁকি)"}
               </span>
             </div>
 
@@ -191,8 +247,8 @@ export default function CropShiftPage() {
                 </h2>
                 <p className="text-xs text-[#B91C1C] mt-1 leading-relaxed">
                   {lang === "en"
-                    ? "Low underground water and high summer heat during flowering can cause empty grain pods and high pumping costs."
-                    : "ভূগর্ভস্থ পানির তীব্র সংকট ও ফুল ফোটার সময় অতিরিক্ত গরমে ধান চিটা হয়ে যাওয়ার আশঙ্কা থাকে।"}
+                    ? "Deep tubewells are running low. Running pumps for 25–30 waterings eats all profit, and March heat waves can kill rice flowers."
+                    : "ভূগর্ভস্থ পানির তীব্র সংকট। ২৫-৩০ বার সেচ দেওয়ার জ্বালানি খরচেই লাভ শেষ হয়ে যায় এবং গরমে ধান চিটা হওয়ার আশঙ্কা থাকে।"}
                 </p>
               </div>
             </div>
@@ -201,11 +257,12 @@ export default function CropShiftPage() {
           <div className="pt-3 border-t border-red-200/70 grid grid-cols-3 gap-2 text-center text-xs">
             <div className="p-2 rounded-xl bg-white/80 border border-red-100">
               <span className="text-[10px] text-stone-500 font-medium block">
-                {lang === "en" ? "Water Needed" : "পানি প্রয়োজন"}
+                {lang === "en" ? "Watering Needed" : "সেচ প্রয়োজন"}
               </span>
               <span className="font-extrabold text-red-700 font-mono mt-0.5 block">
-                {currentCrop.waterReqMm} mm
+                25–30 Times
               </span>
+              <span className="text-[9px] text-stone-400 block mt-0.5">Heavy Flooding</span>
             </div>
             <div className="p-2 rounded-xl bg-white/80 border border-red-100">
               <span className="text-[10px] text-stone-500 font-medium block">
@@ -214,14 +271,16 @@ export default function CropShiftPage() {
               <span className="font-extrabold text-red-700 font-mono mt-0.5 block">
                 {currentCrop.criticalFloweringTempC}°C
               </span>
+              <span className="text-[9px] text-stone-400 block mt-0.5">Kills flowers</span>
             </div>
             <div className="p-2 rounded-xl bg-white/80 border border-red-100">
               <span className="text-[10px] text-stone-500 font-medium block">
-                {lang === "en" ? "Water Well Risk" : "নলকূপের ঝুঁকি"}
+                {lang === "en" ? "Tubewell Strain" : "নলকূপের চাপ"}
               </span>
               <span className="font-extrabold text-red-700 font-mono mt-0.5 block">
-                {lang === "en" ? "Very High" : "খুব বেশি"}
+                {lang === "en" ? "Severe" : "অতিরিক্ত"}
               </span>
+              <span className="text-[9px] text-stone-400 block mt-0.5">Runs dry in March</span>
             </div>
           </div>
         </div>
@@ -236,7 +295,7 @@ export default function CropShiftPage() {
                   <span>{lang === "en" ? "Best Alternative Crop" : "সেরা বিকল্প ফসল"}</span>
                 </div>
                 <span className="px-2.5 py-0.5 rounded-full bg-[#1E7B48] text-white text-[10px] font-extrabold font-mono">
-                  {bestAlternative.suitability.overallScore}% {lang === "en" ? `SCORE (TOP CHOICE)` : "স্কোর (সেরা পছন্দ)"}
+                  {bestAlternative.suitability.overallScore}% {lang === "en" ? `SAFE (GRADE ${bestAlternative.resilienceRating})` : `নিরাপদ`}
                 </span>
               </div>
 
@@ -257,8 +316,8 @@ export default function CropShiftPage() {
                   </h2>
                   <p className="text-xs text-[#15803D] mt-1 leading-relaxed">
                     {lang === "en"
-                      ? `Harvests in just ${bestAlternative.crop.growthDays} days before summer heat starts. Uses ${bestAlternative.crop.waterSavingsVsRicePercent}% less water than rice.`
-                      : `মাত্র ${bestAlternative.crop.growthDays} দিনে গরম পড়ার আগেই ঘরে তোলা যায়। বোরো ধানের চেয়ে ${bestAlternative.crop.waterSavingsVsRicePercent}% কম সেচ লাগে।`}
+                      ? `Harvests in just ${bestAlternative.crop.growthDays} days before summer heat starts. Needs only 2–3 light waterings, cutting irrigation costs by 77%.`
+                      : `মাত্র ${bestAlternative.crop.growthDays} দিনে গরম পড়ার আগেই ঘরে তোলা যায়। বোরো ধানের চেয়ে ৭৭% কম সেচ লাগে।`}
                   </p>
                 </div>
               </div>
@@ -270,15 +329,21 @@ export default function CropShiftPage() {
                   {lang === "en" ? "Water Saved" : "পানি সাশ্রয়"}
                 </span>
                 <span className="font-extrabold text-[#1E7B48] font-mono mt-0.5 block">
-                  {maxWaterSaved.toLocaleString()} m³
+                  77% Less Water
+                </span>
+                <span className="text-[9px] text-stone-500 block mt-0.5">
+                  ~{maxPumpHoursSaved} pump hrs
                 </span>
               </div>
               <div className="p-2 rounded-xl bg-white/80 border border-emerald-100">
                 <span className="text-[10px] text-stone-500 font-medium block">
-                  {lang === "en" ? "Money Saved" : "টাকা সাশ্রয়"}
+                  {lang === "en" ? "Diesel Bill Saved" : "জ্বালানি খরচ সাশ্রয়"}
                 </span>
                 <span className="font-extrabold text-[#1E7B48] font-mono mt-0.5 block">
                   ৳{maxCostSaved.toLocaleString()}
+                </span>
+                <span className="text-[9px] text-stone-500 block mt-0.5">
+                  In pump fuel/power
                 </span>
               </div>
               <div className="p-2 rounded-xl bg-white/80 border border-emerald-100">
@@ -287,6 +352,9 @@ export default function CropShiftPage() {
                 </span>
                 <span className="font-extrabold text-[#1E7B48] font-mono mt-0.5 block">
                   {lang === "en" ? "+22% High" : "+২২% বেশি"}
+                </span>
+                <span className="text-[9px] text-stone-500 block mt-0.5">
+                  Stable dry season crop
                 </span>
               </div>
             </div>
@@ -311,7 +379,7 @@ export default function CropShiftPage() {
             </h2>
             <p className="text-xs text-stone-500 mt-0.5">
               {lang === "en"
-                ? "Ranked by lowest water use, heat tolerance, and farmer profit"
+                ? "Ranked by least water needed, heat resistance, and highest farmer profit"
                 : "কম পানি, তাপ সহনশীলতা ও বেশি লাভের ভিত্তিতে সাজানো"}
             </p>
           </div>
@@ -331,9 +399,13 @@ export default function CropShiftPage() {
           {assessment.recommendedAlternatives.map((alt, idx) => {
             const isFirst = idx === 0;
             const isSelected = currentCrop.id === alt.crop.id;
-            const totalWaterSaved = Math.round(alt.waterSavedM3PerAcre * farmAcres);
+            const totalWaterSavedM3 = Math.round(alt.waterSavedM3PerAcre * farmAcres);
             const totalCostSaved = Math.round(alt.estimatedCostSavedBdtPerAcre * farmAcres);
+            const pumpHoursSaved = Math.round(totalWaterSavedM3 / 22);
+            const millionLitersSaved = (totalWaterSavedM3 / 1000).toFixed(1);
             const cropImage = getCropImage(alt.crop.id);
+            const waterInfo = getCropWateringInfo(alt.crop.id);
+            const saltInfo = getSalinityFriendlyText(alt.crop.salinityToleranceDsM);
 
             return (
               <div
@@ -393,7 +465,7 @@ export default function CropShiftPage() {
                       {lang === "en" ? alt.crop.descriptionEn : alt.crop.descriptionBn}
                     </p>
 
-                    {/* 4 Simple Farm Specs */}
+                    {/* 4 Simple Farm Specs (No confusing units!) */}
                     <div className="grid grid-cols-2 gap-2 pt-2 border-t border-stone-100 text-xs">
                       {/* Days to Harvest */}
                       <div className="p-2.5 rounded-xl bg-stone-50 border border-stone-100">
@@ -404,16 +476,22 @@ export default function CropShiftPage() {
                         <span className="font-extrabold text-stone-900 block mt-0.5 font-mono">
                           {alt.crop.growthDays} {lang === "en" ? "Days" : "দিন"}
                         </span>
+                        <span className="text-[9px] text-stone-400 block">
+                          Fast harvest
+                        </span>
                       </div>
 
-                      {/* Water Needed */}
+                      {/* Water Needed (In waterings, not mm!) */}
                       <div className="p-2.5 rounded-xl bg-stone-50 border border-stone-100">
                         <span className="text-[10px] text-stone-400 font-medium flex items-center gap-1">
                           <Droplets size={11} className="text-[#0284C7]" />
-                          <span>{lang === "en" ? "Water Needed" : "পানি প্রয়োজন"}</span>
+                          <span>{lang === "en" ? "Watering Needed" : "সেচ প্রয়োজন"}</span>
                         </span>
-                        <span className="font-extrabold text-stone-900 block mt-0.5 font-mono">
-                          {alt.crop.waterReqMm} mm
+                        <span className="font-extrabold text-stone-900 block mt-0.5">
+                          {waterInfo.rounds}
+                        </span>
+                        <span className="text-[9px] text-stone-400 block truncate">
+                          {waterInfo.subtext}
                         </span>
                       </div>
 
@@ -426,40 +504,58 @@ export default function CropShiftPage() {
                         <span className="font-extrabold text-stone-900 block mt-0.5 font-mono">
                           {alt.crop.criticalFloweringTempC}°C
                         </span>
+                        <span className="text-[9px] text-stone-400 block">
+                          Avoids heat damage
+                        </span>
                       </div>
 
-                      {/* Salt Tolerance */}
+                      {/* Salt Tolerance (In plain words, not dS/m!) */}
                       <div className="p-2.5 rounded-xl bg-stone-50 border border-stone-100">
                         <span className="text-[10px] text-stone-400 font-medium flex items-center gap-1">
                           <Layers size={11} className="text-[#1E7B48]" />
                           <span>{lang === "en" ? "Salt Tolerance" : "লবণাক্ততা সীমা"}</span>
                         </span>
-                        <span className="font-extrabold text-stone-900 block mt-0.5 font-mono">
-                          {alt.crop.salinityToleranceDsM} dS/m
+                        <span className="font-extrabold text-stone-900 block mt-0.5">
+                          {saltInfo.label}
+                        </span>
+                        <span className="text-[9px] text-stone-400 block truncate">
+                          {saltInfo.subtext}
                         </span>
                       </div>
                     </div>
 
-                    {/* Money & Water Saved Box */}
+                    {/* Money & Water Saved Box (Plain terms!) */}
                     <div className="rounded-2xl p-3.5 bg-[#F6FAF6] border border-emerald-100 space-y-2">
                       <div className="flex items-center justify-between text-xs">
                         <span className="text-stone-600 font-medium flex items-center gap-1.5">
                           <Droplets size={13} className="text-[#0284C7]" />
                           <span>{lang === "en" ? "Water Saved:" : "পানি সাশ্রয়:"}</span>
                         </span>
-                        <span className="font-extrabold text-stone-900 font-mono">
-                          {totalWaterSaved.toLocaleString()} m³
-                        </span>
+                        <div className="text-right">
+                          <span className="font-extrabold text-[#0284C7] font-mono text-xs sm:text-sm block">
+                            {alt.crop.waterSavingsVsRicePercent}% Less Water
+                          </span>
+                          <span className="text-[10px] text-stone-500 font-medium block">
+                            {lang === "en"
+                              ? `Saves ~${pumpHoursSaved} pump hrs (${millionLitersSaved}M Liters)`
+                              : `~${pumpHoursSaved} ঘণ্টা কম পাম্পিং (${millionLitersSaved} লাখ লিটার)`}
+                          </span>
+                        </div>
                       </div>
 
-                      <div className="flex items-center justify-between text-xs">
+                      <div className="flex items-center justify-between text-xs pt-1 border-t border-emerald-100/60">
                         <span className="text-stone-600 font-medium flex items-center gap-1.5">
                           <Banknote size={13} className="text-[#1E7B48]" />
-                          <span>{lang === "en" ? "Pumping Money Saved:" : "সেচ খরচ সাশ্রয়:"}</span>
+                          <span>{lang === "en" ? "Pump Fuel Money Saved:" : "সেচ খরচ সাশ্রয়:"}</span>
                         </span>
-                        <span className="font-extrabold text-[#1E7B48] font-mono text-sm">
-                          ৳{totalCostSaved.toLocaleString()} BDT
-                        </span>
+                        <div className="text-right">
+                          <span className="font-extrabold text-[#1E7B48] font-mono text-xs sm:text-sm block">
+                            ৳{totalCostSaved.toLocaleString()} BDT
+                          </span>
+                          <span className="text-[10px] text-stone-500 font-medium block">
+                            {lang === "en" ? "Saved on diesel & electricity" : "ডিজেল ও বিদ্যুৎ বিলে সাশ্রয়"}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -500,7 +596,7 @@ export default function CropShiftPage() {
       </div>
 
       {/* =========================================================================
-          BOTTOM IMPACT BAR & PROCEED CTA
+          BOTTOM IMPACT BAR & PROCEED CTA (Clear metrics for any user)
           ========================================================================= */}
       <div className="rounded-3xl bg-white border border-stone-200/90 shadow-[0_2px_10px_rgba(0,0,0,0.03)] p-6 sm:p-7 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex flex-wrap items-center gap-6 sm:gap-8">
@@ -511,10 +607,15 @@ export default function CropShiftPage() {
             </div>
             <div>
               <div className="text-[10px] text-stone-400 font-medium uppercase tracking-wider">
-                {lang === "en" ? `Total Water Saved (${farmAcres} Acres)` : `মোট পানি সাশ্রয় (${farmAcres} একর)`}
+                {lang === "en" ? `Water Saved (${farmAcres} Acres)` : `মোট পানি সাশ্রয় (${farmAcres} একর)`}
               </div>
-              <div className="text-lg font-extrabold text-stone-900 font-mono">
-                {maxWaterSaved.toLocaleString()} m³
+              <div className="text-base sm:text-lg font-extrabold text-stone-900 font-mono">
+                77% Less Water
+              </div>
+              <div className="text-[10px] text-stone-500 font-medium">
+                {lang === "en"
+                  ? `Saves ~${maxPumpHoursSaved} pump hours (${maxMillionLitersSaved}M Liters)`
+                  : `প্রায় ${maxPumpHoursSaved} ঘণ্টা কম পাম্পিং (${maxMillionLitersSaved} লাখ লিটার)`}
               </div>
             </div>
           </div>
@@ -530,8 +631,11 @@ export default function CropShiftPage() {
               <div className="text-[10px] text-stone-400 font-medium uppercase tracking-wider">
                 {lang === "en" ? "Diesel & Pumping Cost Saved" : "ডিজেল ও সেচ খরচ সাশ্রয়"}
               </div>
-              <div className="text-lg font-extrabold text-[#1E7B48] font-mono">
+              <div className="text-base sm:text-lg font-extrabold text-[#1E7B48] font-mono">
                 ৳{maxCostSaved.toLocaleString()} BDT
+              </div>
+              <div className="text-[10px] text-stone-500 font-medium">
+                {lang === "en" ? "Cut electric & tubewell bills" : "বিদ্যুৎ ও সেচ বিলে সরাসরি সাশ্রয়"}
               </div>
             </div>
           </div>
@@ -545,10 +649,13 @@ export default function CropShiftPage() {
             </div>
             <div>
               <div className="text-[10px] text-stone-400 font-medium uppercase tracking-wider">
-                {lang === "en" ? "Groundwater Saved" : "ভূগর্ভস্থ পানি সাশ্রয়"}
+                {lang === "en" ? "Tubewell Protection" : "নলকূপ রক্ষা"}
               </div>
-              <div className="text-lg font-extrabold text-stone-900 font-mono">
-                {lang === "en" ? "77% Less Pumped" : "৭৭% কম পাম্পিং"}
+              <div className="text-base sm:text-lg font-extrabold text-stone-900 font-mono">
+                {lang === "en" ? "Wells Protected" : "ভূগর্ভস্থ পানি নিরাপদ"}
+              </div>
+              <div className="text-[10px] text-stone-500 font-medium">
+                {lang === "en" ? "Aquifers stay healthy for future" : "পরবর্তী মৌসুমের জন্য পানি সুরক্ষিত"}
               </div>
             </div>
           </div>

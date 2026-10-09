@@ -555,8 +555,8 @@ export default function HomePage() {
                   <Droplets size={11} className="text-[#0284C7]" />
                   <span>Water Saved</span>
                 </div>
-                <div className="text-xs font-extrabold text-stone-900 mt-0.5 font-mono">
-                  1,200 m³
+                <div className="text-xs font-extrabold text-[#0284C7] mt-0.5 font-mono">
+                  60% Saved
                 </div>
               </div>
 
