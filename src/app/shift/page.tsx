@@ -640,10 +640,6 @@ export default function CropShiftPage() {
                 <div className="p-5 pt-0">
                   <Link
                     href={`/calendar?crop=${alt.crop.id}`}
-                    onClick={() => {
-                      setCropId(alt.crop.id);
-                      saveUserSelection({ cropId: alt.crop.id });
-                    }}
                     className="w-full py-3.5 rounded-2xl text-sm sm:text-base font-semibold transition-all flex items-center justify-center gap-2 bg-[#1E7B48] hover:bg-[#165E36] text-white shadow-xs hover:shadow-md"
                   >
                     <Calendar size={16} />

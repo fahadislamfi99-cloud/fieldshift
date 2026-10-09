@@ -25,26 +25,55 @@ import {
 export default function CalendarPage() {
   const {
     currentZone,
-    currentCrop,
+    currentCrop: contextCrop,
     crops,
     setCropId,
-    calendar,
     metrics,
     lang,
     farmerStatus,
     setFarmerStatus,
   } = useApp();
 
-  // Sync crop from URL query param if present
+  // Read crop from URL synchronously if present to avoid any frame flicker
+  const [urlCropId, setUrlCropId] = React.useState<string | null>(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const cropParam = params.get("crop");
+      if (cropParam && crops.some((c) => c.id === cropParam)) {
+        return cropParam;
+      }
+    }
+    return null;
+  });
+
+  // Sync crop from URL query param if present to global context
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
       const cropParam = params.get("crop");
       if (cropParam && crops.some((c) => c.id === cropParam)) {
+        setUrlCropId(cropParam);
         setCropId(cropParam);
       }
     }
   }, [crops, setCropId]);
+
+  const currentCrop = React.useMemo(() => {
+    if (urlCropId) {
+      const match = crops.find((c) => c.id === urlCropId);
+      if (match) return match;
+    }
+    return contextCrop;
+  }, [urlCropId, crops, contextCrop]);
+
+  const calendar = React.useMemo(() => {
+    return optimizeSowingCalendar(currentCrop, currentZone, metrics);
+  }, [currentCrop, currentZone, metrics]);
+
+  const handleSelectCrop = (id: string) => {
+    setUrlCropId(id);
+    setCropId(id);
+  };
 
   // Helper to pick correct photographic thumbnail
   const getCropImage = (cropId: string) => {
@@ -176,7 +205,7 @@ export default function CalendarPage() {
               <select
                 aria-label="Select Target Crop"
                 value={currentCrop.id}
-                onChange={(e) => setCropId(e.target.value)}
+                onChange={(e) => handleSelectCrop(e.target.value)}
                 className="w-full py-2.5 px-3 rounded-xl bg-stone-50 border border-stone-200 text-xs font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#1E7B48]/20 focus:border-[#1E7B48]"
               >
                 {crops.map((c) => (
@@ -193,7 +222,7 @@ export default function CalendarPage() {
                 <button
                   key={c.id}
                   type="button"
-                  onClick={() => setCropId(c.id)}
+                  onClick={() => handleSelectCrop(c.id)}
                   className={`px-2.5 py-1 rounded-lg text-sm font-semibold transition-all ${
                     currentCrop.id === c.id
                       ? "bg-[#1E7B48] text-white shadow-2xs"
@@ -461,7 +490,7 @@ export default function CalendarPage() {
             return (
               <div
                 key={c.id}
-                onClick={() => setCropId(c.id)}
+                onClick={() => handleSelectCrop(c.id)}
                 className={`group p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between ${
                   isSelected
                     ? "border-[#1E7B48] bg-[#F6FAF6] ring-2 ring-[#1E7B48]/15 shadow-sm"
