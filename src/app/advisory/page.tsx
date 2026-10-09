@@ -11,7 +11,6 @@ import {
   Flame,
   Clock,
   Calendar,
-  CheckCircle2,
   ShieldAlert,
   ShieldCheck,
   TrendingDown,
@@ -29,14 +28,12 @@ export default function AdvisoryPage() {
     assessment,
     calendar,
     lang,
-    farmerStatus,
-    setFarmerStatus,
     waterAccess,
     hasConfigured,
     isHydrated,
   } = useApp();
 
-  const isPlanted = farmerStatus === "already_planted";
+  const isPlanted = true;
 
   if (!isHydrated) {
     return (
@@ -71,9 +68,9 @@ export default function AdvisoryPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 sm:via-white/70 to-transparent rounded-3xl pointer-events-none" />
 
         {/* Content Container */}
-        <div className="relative z-10 p-6 sm:p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 h-full">
+        <div className="relative z-10 p-6 sm:p-8 flex items-center justify-between gap-6 h-full">
           {/* Left Title & Simple Explanations */}
-          <div className="space-y-3 max-w-2xl">
+          <div className="space-y-3 max-w-3xl">
             {/* Tag Badge */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[#1E7B48] text-xs font-bold border border-emerald-200/80 shadow-2xs">
               <ShieldCheck size={13} className="text-[#1E7B48]" />
@@ -134,79 +131,6 @@ export default function AdvisoryPage() {
                 <Sliders size={12} />
                 <span>{lang === "en" ? "Change Field" : "তথ্য পরিবর্তন"}</span>
               </Link>
-            </div>
-          </div>
-
-          {/* Right: Tactile Status Pill & Quick Snapshot Card */}
-          <div className="w-full lg:w-84 p-5 rounded-2xl bg-white/95 backdrop-blur-md border border-stone-200 shadow-md space-y-3.5 shrink-0">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-stone-800 flex items-center gap-1.5">
-                <Sliders size={14} className="text-[#1E7B48]" />
-                <span>{lang === "en" ? "Farmer Situation" : "কৃষকের অবস্থা"}</span>
-              </span>
-              <span
-                className={`px-3 py-0.5 rounded-full text-xs font-semibold border font-mono shadow-2xs ${
-                  isPlanted
-                    ? "bg-amber-100 text-amber-900 border-amber-200"
-                    : "bg-[#DCFCE7] text-[#15803D] border-emerald-200"
-                }`}
-              >
-                {isPlanted
-                  ? (lang === "en" ? "Standing Crop" : "জমিতে ফসল আছে")
-                  : (lang === "en" ? "Pre-Sowing Plan" : "ফসল লাগাইনি")}
-              </span>
-            </div>
-
-            {/* Quick Switcher Buttons */}
-            <div className="flex items-center gap-1 p-1 rounded-xl bg-stone-100 border border-stone-200/80">
-              <button
-                type="button"
-                onClick={() => setFarmerStatus("not_planted")}
-                className={`flex-1 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center justify-center gap-1 ${
-                  !isPlanted
-                    ? "bg-[#1E7B48] text-white shadow-2xs"
-                    : "text-stone-600 hover:text-stone-900"
-                }`}
-              >
-                <Sprout size={13} />
-                <span>{lang === "en" ? "Not Planted" : "ফসল লাগাইনি"}</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setFarmerStatus("already_planted")}
-                className={`flex-1 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center justify-center gap-1 ${
-                  isPlanted
-                    ? "bg-[#1E7B48] text-white shadow-2xs"
-                    : "text-stone-600 hover:text-stone-900"
-                }`}
-              >
-                <CheckCircle2 size={13} />
-                <span>{lang === "en" ? "Planted" : "রোপণকৃত"}</span>
-              </button>
-            </div>
-
-            {/* Snapshot KPI Grid */}
-            <div className="pt-1 grid grid-cols-2 gap-2 text-center">
-              <div className="p-2.5 rounded-xl bg-stone-50 border border-stone-200/70">
-                <span className="text-xs text-stone-500 font-medium block">
-                  {isPlanted
-                    ? (lang === "en" ? "AWD Saves Fuel" : "ডিজেল সাশ্রয়")
-                    : (lang === "en" ? "Calendar Shift" : "সময়সূচী স্থানান্তর")}
-                </span>
-                <span className="text-sm font-bold text-[#1E7B48] font-mono block mt-0.5">
-                  {isPlanted ? "28% Less" : "+14 Days"}
-                </span>
-              </div>
-              <div className="p-2.5 rounded-xl bg-stone-50 border border-stone-200/70">
-                <span className="text-xs text-stone-500 font-medium block">
-                  {isPlanted
-                    ? (lang === "en" ? "Thermal Defense" : "তাপদাহ সুরক্ষা")
-                    : (lang === "en" ? "Water Saved" : "পানি সাশ্রয়")}
-                </span>
-                <span className="text-sm font-bold text-amber-700 font-mono block mt-0.5">
-                  {isPlanted ? ">34.5°C Guard" : "77% Less"}
-                </span>
-              </div>
             </div>
           </div>
         </div>
