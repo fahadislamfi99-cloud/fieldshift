@@ -1,0 +1,76 @@
+@import "tailwindcss";
+@import "maplibre-gl/dist/maplibre-gl.css";
+
+:root {
+  /* Canvas & Surfaces */
+  --bg-canvas: #EFF4EF;
+  --bg-surface: #FFFFFF;
+  --bg-surface-subtle: #F6F9F6;
+  --bg-frosted: rgba(255, 255, 255, 0.22);
+  --border-frosted: rgba(255, 255, 255, 0.35);
+  --border-subtle: #E2ECE3;
+
+  /* Brand Greens */
+  --brand-deep: #163B2A;
+  --brand-primary: #1F513A;
+  --brand-vibrant: #65C938;
+  --brand-light: #E7F6E1;
+
+  /* Text & Contrast */
+  --text-primary: #14211A;
+  --text-secondary: #576B5F;
+  --text-tertiary: #87998F;
+  --text-on-image: #FFFFFF;
+
+  /* Agronomic Status Alerts */
+  --status-good-bg: #E2F5DC;
+  --status-good-text: #195222;
+  --status-warn-bg: #FEF4E2;
+  --status-warn-text: #965B07;
+  --status-danger-bg: #FEECEB;
+  --status-danger-text: #9E1C13;
+
+  /* Elevation Shadows */
+  --shadow-card: 0 4px 18px rgba(18, 43, 30, 0.04), 0 1px 3px rgba(18, 43, 30, 0.02);
+  --shadow-nav: 0 -4px 24px rgba(18, 43, 30, 0.06);
+}
+
+@theme inline {
+  --color-canvas: var(--bg-canvas);
+  --color-surface: var(--bg-surface);
+  --color-surface-subtle: var(--bg-surface-subtle);
+  --color-frosted: var(--bg-frosted);
+  --color-brand-deep: var(--brand-deep);
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-vibrant: var(--brand-vibrant);
+  --color-brand-light: var(--brand-light);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-border-subtle: var(--border-subtle);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom scrollbar for mobile feel */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: #C4D3C6;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
