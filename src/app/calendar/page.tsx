@@ -363,11 +363,11 @@ export default function CalendarPage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between">
                         <span className="text-lg font-semibold text-stone-900 truncate">
-                          {c.nameEn}
+                          {lang === "en" ? c.nameEn : c.nameBn}
                         </span>
                         {isSelected && (
                           <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-[#DCFCE7] text-[#15803D]">
-                            Active
+                            {lang === "en" ? "Active" : "সক্রিয়"}
                           </span>
                         )}
                       </div>
@@ -400,7 +400,9 @@ export default function CalendarPage() {
 
                 <div className="pt-3 mt-2 border-t border-stone-100 flex items-center justify-between text-xs">
                   <span className={`font-semibold text-xs ${isSelected ? "text-[#1E7B48]" : "text-stone-600"}`}>
-                    {isSelected ? "Currently Viewing" : "Click to View Calendar"}
+                    {isSelected
+                      ? (lang === "en" ? "Currently Viewing" : "বর্তমানে প্রদর্শিত")
+                      : (lang === "en" ? "Click to View Calendar" : "ক্যালেন্ডার দেখতে ক্লিক করুন")}
                   </span>
                   <ChevronRight size={14} className={isSelected ? "text-[#1E7B48]" : "text-stone-400"} />
                 </div>
@@ -427,7 +429,7 @@ export default function CalendarPage() {
             {lang === "en" ? `Calendar Ready for ${currentCrop.nameEn}` : `${currentCrop.nameBn} এর সময়সূচী প্রস্তুত`}
           </div>
           <div className="text-xs text-stone-600 font-medium">
-            {lang === "en" ? "Receive timely alerts on your mobile phone" : "আপনার ফোনে সঠিক সময়ে বার্তা পেতে অ্যালার্ট দেখুন"}
+            {lang === "en" ? "Access timely alerts and weather advisories" : "সঠিক সময়ে আবহাওয়া ও কৃষি পরামর্শ দেখুন"}
           </div>
         </div>
 
@@ -435,7 +437,7 @@ export default function CalendarPage() {
           href="/advisory"
           className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#1E7B48] hover:bg-[#165E36] text-white text-sm sm:text-base font-semibold shadow-md hover:shadow-lg transition-all shrink-0"
         >
-          <span>{lang === "en" ? "See Weather Alerts & SMS" : "আবহাওয়া সতর্কতা ও বার্তা"}</span>
+          <span>{lang === "en" ? "See Weather & Climate Alerts" : "আবহাওয়া ও জলবায়ু সতর্কতা"}</span>
           <ArrowRight size={16} />
         </Link>
       </div>

@@ -115,52 +115,60 @@ export default function SatellitePage() {
           </span>
           <h3 className="text-base font-bold text-stone-900">NASA POWER</h3>
           <p className="text-sm text-stone-600 leading-relaxed">
-            Daily agroclimatology (T2M, Radiation, Rain). Zero-token open REST endpoint queried live.
+            {lang === "en"
+              ? "Daily agroclimatology (T2M, Radiation, Rain). Zero-token open REST endpoint queried live."
+              : "দৈনিক কৃষি-আবহাওয়া (তাপমাত্রা, সৌর বিকিরণ, বৃষ্টিপাত)। ওপেন এন্ডপয়েন্ট থেকে রিয়েল-টাইম ডেটা।"}
           </p>
           <div className="text-xs font-bold text-[#163B2A] pt-2 border-t border-stone-100">
-            Resolution: 0.5° x 0.5°
+            {lang === "en" ? "Resolution: 0.5° x 0.5°" : "রেজোলিউশন: ০.৫° x ০.৫°"}
           </div>
         </div>
 
         {/* Sensor 2 */}
         <div className="bg-white p-4.5 rounded-2xl border border-stone-200 shadow-xs space-y-2">
           <span className="text-xs font-bold px-2 py-0.5 rounded-md bg-stone-100 text-stone-700">
-            Microwave Radar/Radiometer
+            {lang === "en" ? "Microwave Radar/Radiometer" : "মাইক্রোওয়েভ রেডার"}
           </span>
           <h3 className="text-base font-bold text-stone-900">SMAP L4 (SPL4SMAU)</h3>
           <p className="text-sm text-stone-600 leading-relaxed">
-            Assimilates 0–100 cm root-zone soil moisture, bypassing deceptive surface crust drying.
+            {lang === "en"
+              ? "Assimilates 0–100 cm root-zone soil moisture, bypassing deceptive surface crust drying."
+              : "০-১০০ সেমি মাটির মূল স্তরের আর্দ্রতা পরিমাপ করে, যা সেচ নির্ধারণে সাহায্য করে।"}
           </p>
           <div className="text-xs font-bold text-[#163B2A] pt-2 border-t border-stone-100">
-            Resolution: 9 km Assimilated
+            {lang === "en" ? "Resolution: 9 km Assimilated" : "রেজোলিউশন: ৯ কিমি"}
           </div>
         </div>
 
         {/* Sensor 3 */}
         <div className="bg-white p-4.5 rounded-2xl border border-stone-200 shadow-xs space-y-2">
           <span className="text-xs font-bold px-2 py-0.5 rounded-md bg-stone-100 text-stone-700">
-            ISS Thermal Infrared
+            {lang === "en" ? "ISS Thermal Infrared" : "থার্মাল ইনফ্রারেড"}
           </span>
           <h3 className="text-base font-bold text-stone-900">ECOSTRESS (ISS)</h3>
           <p className="text-sm text-stone-600 leading-relaxed">
-            Measures Evapotranspiration (ET) and plant canopy stress up to 7 days before physical wilting.
+            {lang === "en"
+              ? "Measures Evapotranspiration (ET) and plant canopy stress up to 7 days before physical wilting."
+              : "ফসল শুকিয়ে যাওয়ার ৭ দিন পূর্বেই পাতার তাপমাত্রা ও উদ্ভিদের পানিশূন্যতা শনাক্ত করে।"}
           </p>
           <div className="text-xs font-bold text-[#163B2A] pt-2 border-t border-stone-100">
-            Resolution: 70m Thermal
+            {lang === "en" ? "Resolution: 70m Thermal" : "রেজোলিউশন: ৭০ মিটার থার্মাল"}
           </div>
         </div>
 
         {/* Sensor 4 */}
         <div className="bg-white p-4.5 rounded-2xl border border-stone-200 shadow-xs space-y-2">
           <span className="text-xs font-bold px-2 py-0.5 rounded-md bg-stone-100 text-stone-700">
-            Spectroradiometer
+            {lang === "en" ? "Spectroradiometer" : "স্পেকট্রো-রেডিওমিটার"}
           </span>
           <h3 className="text-base font-bold text-stone-900">MODIS / Landsat</h3>
           <p className="text-sm text-stone-600 leading-relaxed">
-            15-year thermal baseline (2010–2025) establishing the multi-decadal Climate Drift Index ($\Delta T$).
+            {lang === "en"
+              ? "15-year thermal baseline (2010–2025) establishing the multi-decadal Climate Drift Index."
+              : "১৫ বছরের ঐতিহাসিক তাপমাত্রা বিশ্লেষণ যা দীর্ঘমেয়াদী জলবায়ু পরিবর্তনের ধারা প্রকাশ করে।"}
           </p>
           <div className="text-xs font-bold text-[#163B2A] pt-2 border-t border-stone-100">
-            Resolution: 250m - 1km
+            {lang === "en" ? "Resolution: 250m - 1km" : "রেজোলিউশন: ২৫০ মি - ১ কিমি"}
           </div>
         </div>
       </div>
@@ -172,27 +180,27 @@ export default function SatellitePage() {
             {lang === "en" ? "Daily NASA Telemetry Log (Last 14 Days)" : "সাম্প্রতিক উপগ্রহ পর্যবেক্ষণ লগ (১৪ দিন)"}
           </h3>
           <span className="text-xs text-stone-500">
-            Filtered for NASA -999 orbit latency gaps
+            {lang === "en" ? "Filtered for NASA orbit latency" : "উপগ্রহ কক্ষপথের রিয়েল-টাইম রিডিং"}
           </span>
         </div>
 
         {loading ? (
           <div className="py-8 text-center text-xs text-stone-500 font-semibold animate-pulse">
-            Connecting to NASA POWER Data Center...
+            {lang === "en" ? "Connecting to NASA POWER Data Center..." : "নাসা ডেটা সেন্টারের সাথে সংযোগ হচ্ছে..."}
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-left">
               <thead>
                 <tr className="border-b border-stone-200 text-stone-500 font-bold uppercase tracking-wider">
-                  <th className="py-2.5 px-3">Date</th>
-                  <th className="py-2.5 px-3">Mean Temp</th>
-                  <th className="py-2.5 px-3">Max Temp</th>
-                  <th className="py-2.5 px-3">Min Temp</th>
-                  <th className="py-2.5 px-3">Rain (mm)</th>
-                  <th className="py-2.5 px-3">Humidity (%)</th>
-                  <th className="py-2.5 px-3">Solar (kWh/m²)</th>
-                  <th className="py-2.5 px-3">Wind (km/h)</th>
+                  <th className="py-2.5 px-3">{lang === "en" ? "Date" : "তারিখ"}</th>
+                  <th className="py-2.5 px-3">{lang === "en" ? "Mean Temp" : "গড় তাপমাত্রা"}</th>
+                  <th className="py-2.5 px-3">{lang === "en" ? "Max Temp" : "সর্বোচ্চ তাপ"}</th>
+                  <th className="py-2.5 px-3">{lang === "en" ? "Min Temp" : "সর্বনিম্ন তাপ"}</th>
+                  <th className="py-2.5 px-3">{lang === "en" ? "Rain (mm)" : "বৃষ্টি (মিমি)"}</th>
+                  <th className="py-2.5 px-3">{lang === "en" ? "Humidity (%)" : "আর্দ্রতা (%)"}</th>
+                  <th className="py-2.5 px-3">{lang === "en" ? "Solar (kWh/m²)" : "সৌর বিকিরণ"}</th>
+                  <th className="py-2.5 px-3">{lang === "en" ? "Wind (km/h)" : "বাতাস (কিমি/ঘ)"}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-stone-100 font-mono">

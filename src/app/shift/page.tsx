@@ -259,9 +259,11 @@ export default function CropShiftPage() {
                 {lang === "en" ? "Watering Needed" : "সেচ প্রয়োজন"}
               </span>
               <span className="text-sm font-extrabold text-red-700 font-mono mt-0.5 block">
-                25–30 Times
+                {lang === "en" ? "25–30 Times" : "২৫-৩০ বার"}
               </span>
-              <span className="text-xs text-stone-500 block mt-0.5">Heavy Flooding</span>
+              <span className="text-xs text-stone-500 block mt-0.5">
+                {lang === "en" ? "Heavy Flooding" : "অতিরিক্ত পানি"}
+              </span>
             </div>
             <div className="p-2 rounded-xl bg-white/80 border border-red-100">
               <span className="text-xs text-stone-600 font-medium block">
@@ -270,7 +272,9 @@ export default function CropShiftPage() {
               <span className="text-sm font-extrabold text-red-700 font-mono mt-0.5 block">
                 {currentCrop.criticalFloweringTempC}°C
               </span>
-              <span className="text-xs text-stone-500 block mt-0.5">Kills flowers</span>
+              <span className="text-xs text-stone-500 block mt-0.5">
+                {lang === "en" ? "Kills flowers" : "ফুল নষ্ট হয়"}
+              </span>
             </div>
             <div className="p-2 rounded-xl bg-white/80 border border-red-100">
               <span className="text-xs text-stone-600 font-medium block">
@@ -279,7 +283,9 @@ export default function CropShiftPage() {
               <span className="text-sm font-extrabold text-red-700 font-mono mt-0.5 block">
                 {lang === "en" ? "Severe" : "অতিরিক্ত"}
               </span>
-              <span className="text-xs text-stone-500 block mt-0.5">Runs dry in March</span>
+              <span className="text-xs text-stone-500 block mt-0.5">
+                {lang === "en" ? "Runs dry in March" : "মার্চে পানি কমে"}
+              </span>
             </div>
           </div>
         </div>
@@ -328,10 +334,10 @@ export default function CropShiftPage() {
                   {lang === "en" ? "Water Saved" : "পানি সাশ্রয়"}
                 </span>
                 <span className="text-[26px] sm:text-[30px] font-bold text-[#1E7B48] font-mono mt-0.5 block leading-tight">
-                  77% Less
+                  {lang === "en" ? "77% Less" : "৭৭% কম"}
                 </span>
                 <span className="text-xs text-stone-500 font-medium block mt-0.5">
-                  ~{maxPumpHoursSaved} pump hrs
+                  {lang === "en" ? `~${maxPumpHoursSaved} pump hrs` : `~${maxPumpHoursSaved} ঘণ্টা পাম্প`}
                 </span>
               </div>
               <div className="p-2 rounded-xl bg-white/80 border border-emerald-100">
@@ -342,7 +348,7 @@ export default function CropShiftPage() {
                   ৳{maxCostSaved.toLocaleString()}
                 </span>
                 <span className="text-xs text-stone-500 font-medium block mt-0.5">
-                  In pump fuel/power
+                  {lang === "en" ? "In pump fuel/power" : "সেচ ও বিদ্যুৎ বিলে"}
                 </span>
               </div>
               <div className="p-2 rounded-xl bg-white/80 border border-emerald-100">
@@ -353,7 +359,7 @@ export default function CropShiftPage() {
                   {lang === "en" ? "+22% High" : "+২২% বেশি"}
                 </span>
                 <span className="text-xs text-stone-500 font-medium block mt-0.5">
-                  Stable dry season crop
+                  {lang === "en" ? "Stable dry season crop" : "নিরাপদ রবি ফসল"}
                 </span>
               </div>
             </div>
@@ -609,7 +615,7 @@ export default function CropShiftPage() {
                 {lang === "en" ? `Water Saved (${farmAcres} Acres)` : `মোট পানি সাশ্রয় (${farmAcres} একর)`}
               </div>
               <div className="text-[26px] sm:text-[30px] font-bold text-stone-900 font-mono leading-tight">
-                77% Less Water
+                {lang === "en" ? "77% Less Water" : "৭৭% কম পানি"}
               </div>
               <div className="text-xs text-stone-600 font-medium">
                 {lang === "en"

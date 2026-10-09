@@ -233,7 +233,7 @@ export default function HomePage() {
                     href="/advisory"
                     className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1E7B48] hover:bg-[#165E36] text-white text-sm sm:text-base font-semibold shadow-md hover:shadow-lg transition-all"
                   >
-                    <span>{lang === "en" ? "Open In-Season Advisory & SMS" : "জরুরি কৃষক বার্তা ও এসএমএস"}</span>
+                    <span>{lang === "en" ? "Open In-Season Field Advisory" : "জমির জরুরি কৃষি পরামর্শ"}</span>
                     <ArrowRight size={15} />
                   </Link>
                 ) : (
@@ -726,7 +726,7 @@ export default function HomePage() {
                 href="/advisory"
                 className="w-full py-3 rounded-2xl bg-stone-900 hover:bg-stone-800 text-white text-sm font-semibold transition-all flex items-center justify-center gap-2 shadow-sm"
               >
-                <span>{lang === "en" ? "Open Weather & SMS Alert Hub" : "আবহাওয়া ও এসএমএস সতর্কতা কেন্দ্র"}</span>
+                <span>{lang === "en" ? "Open Weather & Advisory Hub" : "আবহাওয়া ও মাঠপর্যায়ের পরামর্শ কেন্দ্র"}</span>
                 <ArrowRight size={15} />
               </Link>
             </div>

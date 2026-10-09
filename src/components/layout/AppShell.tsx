@@ -33,12 +33,12 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const navItems = [
-    { href: "/", label: "Home", icon: Home },
-    { href: "/satellite", label: "Map", icon: MapPin },
-    { href: "/shift", label: "Recommendations", icon: Sprout },
-    { href: "/calendar", label: "Calendar", icon: Calendar },
-    { href: "/advisory", label: "Alerts", icon: Bell },
-    { href: "/satellite", label: "Resources", icon: BookOpen },
+    { href: "/", labelEn: "Home", labelBn: "হোম", icon: Home },
+    { href: "/satellite", labelEn: "Map", labelBn: "মানচিত্র", icon: MapPin },
+    { href: "/shift", labelEn: "Recommendations", labelBn: "পরামর্শ ও বিকল্প", icon: Sprout },
+    { href: "/calendar", labelEn: "Calendar", labelBn: "ক্যালেন্ডার", icon: Calendar },
+    { href: "/advisory", labelEn: "Alerts", labelBn: "সতর্কতা", icon: Bell },
+    { href: "/satellite", labelEn: "Resources", labelBn: "তথ্যভাণ্ডার", icon: BookOpen },
   ];
 
   const isActive = (href: string) => {
@@ -63,7 +63,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
                 FieldShift
               </h1>
               <p className="text-xs font-medium text-stone-600 mt-1">
-                Smarter Farms. Stronger Futures.
+                {lang === "en" ? "Smarter Farms. Stronger Futures." : "স্মার্ট কৃষি। নিরাপদ ভবিষ্যৎ।"}
               </p>
             </div>
           </Link>
@@ -75,7 +75,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
               const Icon = item.icon;
               return (
                 <Link
-                  key={item.label}
+                  key={item.href}
                   href={item.href}
                   className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
                     active
@@ -87,14 +87,14 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
                     size={18}
                     className={active ? "text-[#2E7D32]" : "text-stone-500"}
                   />
-                  <span>{item.label}</span>
+                  <span>{lang === "en" ? item.labelEn : item.labelBn}</span>
                 </Link>
               );
             })}
           </nav>
         </div>
 
-        {/* Bottom Sidebar Cards (Exact match to target mockup) */}
+        {/* Bottom Sidebar Cards */}
         <div className="space-y-3 pt-6 pb-2 border-t border-stone-100">
           {/* Bangladesh Region Selector Card */}
           <div className="relative p-3 rounded-2xl bg-white border border-stone-200/90 shadow-2xs hover:border-emerald-300 transition-all cursor-pointer">
@@ -106,10 +106,10 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
                 </div>
                 <div>
                   <div className="text-sm font-bold text-stone-900 leading-tight">
-                    Bangladesh
+                    {lang === "en" ? "Bangladesh" : "বাংলাদেশ"}
                   </div>
                   <div className="text-xs text-stone-600 font-medium">
-                    Barind Tract & Coastal Belt
+                    {lang === "en" ? "Barind Tract & Coastal Belt" : "বরেন্দ্র অঞ্চল ও উপকূলীয় বলয়"}
                   </div>
                 </div>
               </div>
@@ -121,7 +121,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
               >
                 {zones.map((z) => (
                   <option key={z.id} value={z.id}>
-                    {z.nameEn}
+                    {lang === "en" ? z.nameEn : z.nameBn}
                   </option>
                 ))}
               </select>
@@ -140,10 +140,12 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
               </div>
               <div>
                 <div className="text-sm font-bold text-[#163B2A] leading-tight">
-                  NASA Earth Data
+                  {lang === "en" ? "NASA Earth Data" : "নাসা উপগ্রহ ডেটা"}
                 </div>
                 <div className="text-xs text-stone-600 mt-0.5 font-medium">
-                  Real Climate Insights. Better Farm Decisions.
+                  {lang === "en"
+                    ? "Real Climate Insights. Better Farm Decisions."
+                    : "রিয়েল-টাইম তথ্য ও সঠিক কৃষি সিদ্ধান্ত।"}
                 </div>
               </div>
             </div>
@@ -177,7 +179,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
             </div>
           </div>
 
-          {/* Search Bar (Matches Mockup with pill shape) */}
+          {/* Search Bar */}
           <div className="hidden sm:flex items-center flex-1 max-w-md mx-2 lg:mx-0">
             <div className="relative w-full">
               <Search
@@ -188,7 +190,11 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search location, upazila, or coordinates..."
+                placeholder={
+                  lang === "en"
+                    ? "Search location, upazila, or coordinates..."
+                    : "অবস্থান, উপজেলা বা এলাকা খুঁজুন..."
+                }
                 className="w-full pl-9 pr-4 py-2 rounded-full bg-white border border-stone-200/90 text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent shadow-2xs transition-all"
               />
             </div>
@@ -228,9 +234,11 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
               </div>
               <div className="hidden md:block text-left">
                 <div className="text-sm font-bold text-stone-900 leading-tight">
-                  Farmer Support
+                  {lang === "en" ? "Farmer Support" : "কৃষক সহায়তা"}
                 </div>
-                <div className="text-xs text-stone-600 font-medium">Field Officer</div>
+                <div className="text-xs text-stone-600 font-medium">
+                  {lang === "en" ? "Field Officer" : "মাঠ কর্মকর্তা"}
+                </div>
               </div>
               <ChevronDown size={14} className="text-stone-500 hidden md:block" />
             </div>
@@ -245,7 +253,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
               const Icon = item.icon;
               return (
                 <Link
-                  key={item.label}
+                  key={item.href}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={`flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-semibold ${
@@ -255,7 +263,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
                   }`}
                 >
                   <Icon size={18} />
-                  <span>{item.label}</span>
+                  <span>{lang === "en" ? item.labelEn : item.labelBn}</span>
                 </Link>
               );
             })}
@@ -268,7 +276,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
         </main>
 
         {/* =====================================================================
-            MOBILE BOTTOM NAVIGATION DOCK (Matches phone mockup at right of design)
+            MOBILE BOTTOM NAVIGATION DOCK
             ===================================================================== */}
         <div className="lg:hidden fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-stone-200 py-2.5 px-6 flex justify-around items-center z-50 shadow-lg">
           <Link
@@ -278,7 +286,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
             }`}
           >
             <Home size={18} />
-            <span>Home</span>
+            <span>{lang === "en" ? "Home" : "হোম"}</span>
           </Link>
 
           <Link
@@ -288,7 +296,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
             }`}
           >
             <MapIcon size={18} />
-            <span>Map</span>
+            <span>{lang === "en" ? "Map" : "ম্যাপ"}</span>
           </Link>
 
           <Link
@@ -298,7 +306,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
             }`}
           >
             <Bell size={18} />
-            <span>Alerts</span>
+            <span>{lang === "en" ? "Alerts" : "সতর্কতা"}</span>
           </Link>
 
           <button
@@ -306,7 +314,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
             className="flex flex-col items-center gap-1 text-xs font-bold text-stone-600"
           >
             <MoreHorizontal size={18} />
-            <span>More</span>
+            <span>{lang === "en" ? "More" : "আরও"}</span>
           </button>
         </div>
       </div>
