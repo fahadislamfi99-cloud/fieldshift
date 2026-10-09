@@ -1,27 +1,25 @@
 import type { Metadata, Viewport } from "next";
+import { AppProvider } from "@/context/AppContext";
+import { Navbar } from "@/components/navigation/Navbar";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "FieldShift | Adapting Farms with NASA Data",
   description:
-    "Prescriptive climate adaptation engine turning NASA Earth Observation data into actionable crop and calendar shifts for smallholder farmers.",
+    "Prescriptive climate adaptation platform translating NASA Earth Science telemetry into actionable crop and calendar shifts for smallholder farmers.",
   keywords: [
-    "NASA Space Apps",
+    "NASA Space Apps 2026",
     "Field Shift",
-    "Smart Farming",
     "Climate Adaptation",
     "Bangladesh Agriculture",
     "SMAP",
     "NASA POWER",
   ],
-  authors: [{ name: "FieldShift Team" }],
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
   themeColor: "#163B2A",
 };
 
@@ -31,8 +29,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full">
-      <body className="h-full antialiased bg-[#DDE6DE]">{children}</body>
+    <html lang="en" className="h-full antialiased">
+      <body className="min-h-full flex flex-col bg-stone-50/60 text-stone-900 font-sans">
+        <AppProvider>
+          <Navbar />
+          <main className="flex-1 w-full">{children}</main>
+        </AppProvider>
+      </body>
     </html>
   );
 }

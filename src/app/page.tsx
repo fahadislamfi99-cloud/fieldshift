@@ -1,23 +1,23 @@
 "use client";
 
-import React, { useState, useMemo, useRef } from "react";
+import React from "react";
+import Link from "next/link";
 import dynamic from "next/dynamic";
-import { HeroHeader } from "@/components/header/HeroHeader";
-import { WaterEfficiencyCard } from "@/components/metrics/WaterEfficiencyCard";
-import { CropViabilityGauge } from "@/components/metrics/CropViabilityGauge";
-import { ConditionStatusCard } from "@/components/metrics/ConditionStatusCard";
-import { CropShiftMatrix } from "@/components/shift/CropShiftMatrix";
-import { BottomDock, NavTab } from "@/components/navigation/BottomDock";
-
-import zonesData from "@/data/zones.json";
-import cropsData from "@/data/crops.json";
-import { ZoneProfile } from "@/types/climate";
-import { CropProfile } from "@/types/crop";
-import { calculateClimateDrift } from "@/lib/climate-drift";
-import { performCropShiftAssessment } from "@/lib/ecocrop";
-import { optimizeSowingCalendar } from "@/lib/calendar-optimizer";
-import { getFallbackZoneMetrics } from "@/services/nasa-power";
-import { Globe2, Sparkles, Satellite, Info } from "lucide-react";
+import { useApp } from "@/context/AppContext";
+import {
+  Thermometer,
+  Droplets,
+  AlertTriangle,
+  Calendar,
+  ArrowRight,
+  TrendingUp,
+  ShieldAlert,
+  Sprout,
+  CheckCircle2,
+  Wind,
+  Sun,
+  Layers,
+} from "lucide-react";
 
 // Safe dynamic import for WebGL Map
 const FieldMap = dynamic(
@@ -25,185 +25,346 @@ const FieldMap = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="h-[185px] w-full rounded-[22px] bg-[#E8F0E9] animate-pulse flex items-center justify-center text-xs font-semibold text-[#576B5F]">
+      <div className="h-[260px] w-full rounded-2xl bg-stone-150 animate-pulse flex items-center justify-center text-xs font-semibold text-stone-500">
         Loading Satellite Mesh...
       </div>
     ),
   }
 );
 
-const ZONES = zonesData as ZoneProfile[];
-const CROPS = cropsData as CropProfile[];
+export default function DashboardOverview() {
+  const { currentZone, currentCrop, crops, setCropId, metrics, drift, assessment, calendar, lang } =
+    useApp();
 
-export default function Home() {
-  const [lang, setLang] = useState<"en" | "bn">("en");
-  const [activeZoneId, setActiveZoneId] = useState<string>("barind_godagari");
-  const [activeCropId, setActiveCropId] = useState<string>("boro_rice");
-  const [activeTab, setActiveTab] = useState<NavTab>("home");
-
-  const shiftSectionRef = useRef<HTMLDivElement>(null);
-
-  // Active Zone & Crop
-  const currentZone = useMemo(() => {
-    return ZONES.find((z) => z.id === activeZoneId) || ZONES[0];
-  }, [activeZoneId]);
-
-  const currentCrop = useMemo(() => {
-    return CROPS.find((c) => c.id === activeCropId) || CROPS[0];
-  }, [activeCropId]);
-
-  // Reactive NASA Climate Telemetry
-  const climateMetrics = useMemo(() => {
-    return getFallbackZoneMetrics(currentZone.id);
-  }, [currentZone.id]);
-
-  // Reactive Climate Drift Summary
-  const driftSummary = useMemo(() => {
-    return calculateClimateDrift(
-      currentZone,
-      climateMetrics.airTemperatureC,
-      climateMetrics.rootZoneSoilMoisturePercent
-    );
-  }, [currentZone, climateMetrics]);
-
-  // Reactive Modified EcoCrop Suitability Assessment
-  const assessment = useMemo(() => {
-    return performCropShiftAssessment(currentCrop.id, currentZone, climateMetrics);
-  }, [currentCrop.id, currentZone, climateMetrics]);
-
-  // Reactive Sowing Calendar Optimization
-  const calendarDetails = useMemo(() => {
-    return optimizeSowingCalendar(currentCrop, currentZone, climateMetrics);
-  }, [currentCrop, currentZone, climateMetrics]);
-
-  // Toggle between Barind Tract and Coastal Belt
-  const handleToggleZone = () => {
-    const nextZoneId = activeZoneId === "barind_godagari" ? "coastal_shyamnagar" : "barind_godagari";
-    setActiveZoneId(nextZoneId);
-    // Auto-select dominant crop for that region
-    const nextZone = ZONES.find((z) => z.id === nextZoneId);
-    if (nextZone) {
-      setActiveCropId(nextZone.dominantCurrentCropId);
-    }
-  };
-
-  const handleScrollToShift = () => {
-    shiftSectionRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  const isCritical = assessment.currentSuitability.overallScore < 50;
 
   return (
-    <div className="min-h-screen bg-[#DDE6DE] flex justify-center items-start sm:py-6 selection:bg-[#65C938] selection:text-[#14211A]">
-      {/* Mobile-First Frame Container (Max 440px width matching iPhone / Android viewport) */}
-      <main className="w-full max-w-[440px] min-h-screen sm:min-h-[880px] bg-[#EFF4EF] sm:rounded-[36px] shadow-[0_20px_60px_rgba(18,43,30,0.18)] overflow-hidden flex flex-col relative border border-[#E2ECE3]/80">
-        
-        {/* Floating Language Switcher Pill (Top Right on Header) */}
-        <div className="absolute top-4 right-16 z-30">
-          <button
-            onClick={() => setLang(lang === "en" ? "bn" : "en")}
-            className="px-2.5 py-1 rounded-full bg-white/25 backdrop-blur-md border border-white/40 text-[11px] font-bold text-white hover:bg-white/35 transition-all flex items-center gap-1 shadow-sm active:scale-95"
-            title="Toggle Language"
-          >
-            <Globe2 size={12} />
-            <span>{lang === "en" ? "বাংলা" : "EN"}</span>
-          </button>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+      {/* Top Hero Section: Region Context & Mission Alert */}
+      <div className="bg-white rounded-2xl border border-stone-200 p-6 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#E7F6E1] text-[#163B2A] border border-[#C4E6BB]">
+              {currentZone.districtEn} District
+            </span>
+            <span className="text-xs text-stone-500">
+              Coordinates: {currentZone.lat.toFixed(3)}°N, {currentZone.lon.toFixed(3)}°E
+            </span>
+          </div>
+          <h1 className="text-2xl font-extrabold text-stone-900 mt-1 tracking-tight">
+            {lang === "en" ? `${currentZone.nameEn} Adaptation Monitor` : `${currentZone.nameBn} জলবায়ু পর্যবেক্ষণ`}
+          </h1>
+          <p className="text-sm text-stone-600 mt-1 max-w-2xl leading-relaxed">
+            {currentZone.primaryClimateVulnerability}
+          </p>
         </div>
 
-        {/* 1. Photographic Hero Header */}
-        <HeroHeader
-          zone={currentZone}
-          metrics={climateMetrics}
-          drift={driftSummary}
-          onZoneToggle={handleToggleZone}
-          lang={lang}
-        />
+        {/* Action Link to Full Crop Shift Engine */}
+        <Link
+          href="/shift"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#163B2A] hover:bg-[#1F513A] text-white text-xs font-bold shadow-xs transition-all active:scale-95 flex-shrink-0"
+        >
+          <span>{lang === "en" ? "Explore Crop Shift Engine" : "ফসল পরিবর্তন ইঞ্জিন দেখুন"}</span>
+          <ArrowRight size={14} className="text-[#65C938]" />
+        </Link>
+      </div>
 
-        {/* Scrollable Dashboard Body */}
-        <div className="flex-1 px-4 py-3 flex flex-col gap-3 pb-24 overflow-y-auto">
-          
-          {/* Quick Crop Selector Pill Carousel */}
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
-            <span className="text-[11px] font-bold text-[#576B5F] flex-shrink-0 mr-1">
-              {lang === "en" ? "Crop:" : "ফসল:"}
+      {/* 4 Key Agronomic Metric Telemetry Strip */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Metric 1: Temperature & 15-Yr Drift */}
+        <div className="bg-white rounded-2xl border border-stone-200 p-4.5 shadow-xs">
+          <div className="flex items-center justify-between text-xs text-stone-500 font-semibold mb-2">
+            <span>{lang === "en" ? "Thermal Drift" : "তাপমাত্রা বৃদ্ধি"}</span>
+            <Thermometer size={16} className="text-amber-600" />
+          </div>
+          <div className="flex items-baseline gap-2">
+            <span className="text-3xl font-extrabold text-stone-900 tabular-nums">
+              {metrics.airTemperatureC.toFixed(1)}°C
             </span>
-            {CROPS.map((crop) => {
-              const isActive = crop.id === currentCrop.id;
-              return (
-                <button
-                  key={crop.id}
-                  onClick={() => setActiveCropId(crop.id)}
-                  className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 active:scale-95 flex-shrink-0 ${
-                    isActive
-                      ? "bg-[#1F513A] text-white shadow-sm"
-                      : "bg-white text-[#576B5F] hover:bg-[#F6F9F6] border border-[#E2ECE3]"
-                  }`}
-                >
-                  {lang === "en" ? crop.nameEn.split(" ")[0] : crop.nameBn.split(" ")[0]}
-                </button>
-              );
-            })}
+            <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-red-50 text-red-700 border border-red-200">
+              +{drift.tempDriftDeltaC}°C
+            </span>
           </div>
+          <p className="text-[11px] text-stone-500 mt-1.5">
+            {lang === "en" ? "vs 15-Yr Historical Baseline" : "১৫ বছরের গড় ঐতিহাসিক মাত্রার চেয়ে"}
+          </p>
+        </div>
 
-          {/* 2. Water Efficiency Segmented Pill Meter Card */}
-          <WaterEfficiencyCard
-            moisturePercent={climateMetrics.rootZoneSoilMoisturePercent}
-            deficitPercent={driftSummary.rootZoneMoistureDeficitPercent}
-            lang={lang}
-          />
-
-          {/* 3. Crop Viability Gauge Card */}
-          <CropViabilityGauge
-            crop={currentCrop}
-            suitability={assessment.currentSuitability}
-            onExploreShift={handleScrollToShift}
-            lang={lang}
-          />
-
-          {/* 4. Soil & Stress 3-Pillar Status Card */}
-          <ConditionStatusCard zone={currentZone} lang={lang} />
-
-          {/* 5. Embedded Interactive WebGL Micro-Map */}
-          <FieldMap
-            zone={currentZone}
-            moisturePercent={climateMetrics.rootZoneSoilMoisturePercent}
-            onOpenFullMap={handleScrollToShift}
-            lang={lang}
-          />
-
-          {/* 6. The Prescriptive Double Shift Engine */}
-          <div ref={shiftSectionRef}>
-            <CropShiftMatrix
-              assessment={assessment}
-              calendar={calendarDetails}
-              lang={lang}
-            />
+        {/* Metric 2: Root-Zone Soil Moisture */}
+        <div className="bg-white rounded-2xl border border-stone-200 p-4.5 shadow-xs">
+          <div className="flex items-center justify-between text-xs text-stone-500 font-semibold mb-2">
+            <span>{lang === "en" ? "Root Moisture (0–100cm)" : "মূল অঞ্চলের আর্দ্রতা"}</span>
+            <Droplets size={16} className="text-sky-600" />
           </div>
+          <div className="flex items-baseline gap-2">
+            <span className="text-3xl font-extrabold text-stone-900 tabular-nums">
+              {metrics.rootZoneSoilMoisturePercent}%
+            </span>
+            <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-red-50 text-red-700 border border-red-200">
+              {drift.rootZoneMoistureDeficitPercent}% Deficit
+            </span>
+          </div>
+          <p className="text-[11px] text-stone-500 mt-1.5">
+            NASA SMAP L4 Assimilation
+          </p>
+        </div>
 
-          {/* NASA Data Attribution Card */}
-          <div className="w-full bg-white/70 rounded-2xl p-3 border border-[#E2ECE3] flex items-center justify-between text-[11px] text-[#576B5F]">
-            <div className="flex items-center gap-2">
-              <Satellite size={16} className="text-[#1F513A]" />
-              <span>NASA POWER • SMAP L4 • ECOSTRESS</span>
+        {/* Metric 3: Planned Crop Viability */}
+        <div className="bg-white rounded-2xl border border-stone-200 p-4.5 shadow-xs">
+          <div className="flex items-center justify-between text-xs text-stone-500 font-semibold mb-2">
+            <span>{lang === "en" ? "Crop Suitability" : "ফসলের উপযোগিতা"}</span>
+            <Sprout size={16} className="text-emerald-700" />
+          </div>
+          <div className="flex items-baseline gap-2">
+            <span className="text-3xl font-extrabold text-stone-900 tabular-nums">
+              {assessment.currentSuitability.overallScore}%
+            </span>
+            <span
+              className={`text-xs font-bold px-2 py-0.5 rounded-full ${
+                isCritical
+                  ? "bg-red-50 text-red-700 border border-red-200"
+                  : "bg-emerald-50 text-emerald-800 border border-emerald-200"
+              }`}
+            >
+              {isCritical ? "Critical Risk" : "Viable"}
+            </span>
+          </div>
+          <p className="text-[11px] text-stone-500 mt-1.5 truncate">
+            {currentCrop.nameEn}
+          </p>
+        </div>
+
+        {/* Metric 4: Sowing Calendar Offset */}
+        <div className="bg-white rounded-2xl border border-stone-200 p-4.5 shadow-xs">
+          <div className="flex items-center justify-between text-xs text-stone-500 font-semibold mb-2">
+            <span>{lang === "en" ? "Sowing Shift" : "বপন সময়সূচী পরিবর্তন"}</span>
+            <Calendar size={16} className="text-indigo-600" />
+          </div>
+          <div className="flex items-baseline gap-2">
+            <span className="text-3xl font-extrabold text-stone-900 tabular-nums">
+              +{calendar.shiftDeltaDays}d
+            </span>
+            <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+              {calendar.heatAvoidanceScorePercent}% Safe
+            </span>
+          </div>
+          <p className="text-[11px] text-stone-500 mt-1.5">
+            {lang === "en" ? "Dodges March heat waves" : "মার্চের তাপদাহ এড়াতে স্থানান্তর"}
+          </p>
+        </div>
+      </div>
+
+      {/* Main 2-Column Responsive Dashboard Body */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Left Column (5 Cols): Crop Evaluator & Soil Metrics */}
+        <div className="lg:col-span-5 space-y-6">
+          {/* Crop Switcher Card */}
+          <div className="bg-white rounded-2xl border border-stone-200 p-5 shadow-xs">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-sm font-bold text-stone-900">
+                {lang === "en" ? "Select Field Crop" : "জমির ফসল নির্বাচন করুন"}
+              </h2>
+              <span className="text-xs text-stone-500">
+                {crops.length} {lang === "en" ? "Models Available" : "টি মডেল"}
+              </span>
             </div>
-            <span className="font-semibold text-[#1F513A]">
-              Space Apps 2026
-            </span>
+
+            <div className="grid grid-cols-3 gap-2">
+              {crops.map((crop) => {
+                const isActive = crop.id === currentCrop.id;
+                return (
+                  <button
+                    key={crop.id}
+                    onClick={() => setCropId(crop.id)}
+                    className={`p-2.5 rounded-xl border text-left transition-all active:scale-95 ${
+                      isActive
+                        ? "bg-[#163B2A] text-white border-[#163B2A] shadow-xs"
+                        : "bg-stone-50 hover:bg-stone-100 text-stone-800 border-stone-200"
+                    }`}
+                  >
+                    <p className="text-xs font-bold truncate">
+                      {lang === "en" ? crop.nameEn.split("(")[0] : crop.nameBn.split("(")[0]}
+                    </p>
+                    <p className={`text-[10px] mt-0.5 ${isActive ? "text-[#65C938]" : "text-stone-500"}`}>
+                      {crop.growthDays}d • {crop.waterReqMm}mm
+                    </p>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
+          {/* Current Crop Vulnerability Assessment */}
+          <div className="bg-white rounded-2xl border border-stone-200 p-5 shadow-xs space-y-4">
+            <div className="flex items-start justify-between">
+              <div>
+                <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500">
+                  {lang === "en" ? "Agronomic Diagnostics" : "কৃষিগত মূল্যায়ন"}
+                </span>
+                <h3 className="text-base font-bold text-stone-900 mt-0.5">
+                  {currentCrop.nameEn}
+                </h3>
+              </div>
+              <span
+                className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 ${
+                  isCritical
+                    ? "bg-red-100 text-red-800"
+                    : "bg-emerald-100 text-emerald-800"
+                }`}
+              >
+                {isCritical ? <AlertTriangle size={12} /> : <CheckCircle2 size={12} />}
+                {isCritical ? "Shift Recommended" : "Suitable"}
+              </span>
+            </div>
+
+            {/* Sub-Scores (Thermal, Moisture, Salinity) */}
+            <div className="space-y-2.5 pt-2 border-t border-stone-100">
+              <div>
+                <div className="flex justify-between text-xs font-semibold text-stone-700 mb-1">
+                  <span>{lang === "en" ? "Thermal Compatibility" : "তাপমাত্রা সহনশীলতা"}</span>
+                  <span className="tabular-nums">{assessment.currentSuitability.thermalScore}%</span>
+                </div>
+                <div className="h-2 w-full bg-stone-100 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-amber-500 rounded-full"
+                    style={{ width: `${assessment.currentSuitability.thermalScore}%` }}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between text-xs font-semibold text-stone-700 mb-1">
+                  <span>{lang === "en" ? "Root Moisture Compatibility" : "পানির সহজলভ্যতা"}</span>
+                  <span className="tabular-nums">{assessment.currentSuitability.moistureScore}%</span>
+                </div>
+                <div className="h-2 w-full bg-stone-100 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-sky-500 rounded-full"
+                    style={{ width: `${assessment.currentSuitability.moistureScore}%` }}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between text-xs font-semibold text-stone-700 mb-1">
+                  <span>{lang === "en" ? "Salinity Resilience" : "লবণাক্ততা সহনশীলতা"}</span>
+                  <span className="tabular-nums">{assessment.currentSuitability.salinityScore}%</span>
+                </div>
+                <div className="h-2 w-full bg-stone-100 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-emerald-600 rounded-full"
+                    style={{ width: `${assessment.currentSuitability.salinityScore}%` }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Primary Risk Callout */}
+            <div className="p-3 bg-stone-50 rounded-xl border border-stone-200 text-xs text-stone-700 leading-relaxed">
+              <span className="font-bold text-stone-900">{lang === "en" ? "Agronomic Verdict: " : "সিদ্ধান্ত: "}</span>
+              {assessment.currentSuitability.primaryRiskReason}
+            </div>
+          </div>
         </div>
 
-        {/* 7. Floating Bottom Navigation Dock */}
-        <BottomDock
-          activeTab={activeTab}
-          onTabChange={(tab) => {
-            setActiveTab(tab);
-            if (tab === "crop_shift" || tab === "calendar") {
-              handleScrollToShift();
-            }
-          }}
-          lang={lang}
-        />
+        {/* Right Column (7 Cols): Satellite Map & Double Shift Quick Engine */}
+        <div className="lg:col-span-7 space-y-6">
+          {/* Interactive WebGL Satellite Map */}
+          <div className="bg-white rounded-2xl border border-stone-200 p-5 shadow-xs">
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <h3 className="text-sm font-bold text-stone-900">
+                  {lang === "en" ? "Geospatial Observation Mesh" : "উপগ্রহ ভিত্তিক ভূ-স্থানিক মানচিত্র"}
+                </h3>
+                <p className="text-xs text-stone-500">
+                  MapLibre WebGL • {currentZone.upazilaEn}, {currentZone.districtEn}
+                </p>
+              </div>
 
-      </main>
+              <Link
+                href="/satellite"
+                className="text-xs font-bold text-[#163B2A] hover:underline flex items-center gap-1"
+              >
+                <span>{lang === "en" ? "Full-Screen Telemetry" : "পূর্ণাঙ্গ ডেটা"}</span>
+                <ArrowRight size={12} />
+              </Link>
+            </div>
+
+            <div className="rounded-xl overflow-hidden border border-stone-200">
+              <FieldMap
+                zone={currentZone}
+                moisturePercent={metrics.rootZoneSoilMoisturePercent}
+                lang={lang}
+              />
+            </div>
+          </div>
+
+          {/* Quick Double Shift Recommendation Teaser */}
+          <div className="bg-white rounded-2xl border border-stone-200 p-5 shadow-xs space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500">
+                  {lang === "en" ? "Prescriptive Shift Strategy" : "নির্ধারিত স্থানান্তর কৌশল"}
+                </span>
+                <h3 className="text-base font-bold text-stone-900">
+                  {lang === "en" ? "The Double Shift Decision" : "দ্বৈত পরিবর্তন সিদ্ধান্ত"}
+                </h3>
+              </div>
+
+              <Link
+                href="/shift"
+                className="px-3 py-1.5 rounded-lg bg-[#E7F6E1] text-[#163B2A] hover:bg-[#D4ECCB] text-xs font-bold transition-colors"
+              >
+                {lang === "en" ? "Open Full Matrix" : "ম্যাট্রিক্স খুলুন"}
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {/* Option 1: The Crop Shift */}
+              <div className="p-4 rounded-xl border border-stone-200 bg-stone-50/70 hover:bg-white transition-colors">
+                <div className="flex items-center gap-2 text-[#163B2A] font-bold text-xs mb-1.5">
+                  <Sprout size={16} />
+                  <span>1. {lang === "en" ? "The Crop Shift" : "ফসল পরিবর্তন"}</span>
+                </div>
+                <p className="text-xs text-stone-600 leading-relaxed mb-3">
+                  {lang === "en"
+                    ? `Swap out ${currentCrop.nameEn.split("(")[0]} for ${assessment.recommendedAlternatives[0]?.crop.nameEn.split("(")[0]}.`
+                    : `${currentCrop.nameBn.split("(")[0]} এর বদলে ${assessment.recommendedAlternatives[0]?.crop.nameBn.split("(")[0]} চাষ করুন।`}
+                </p>
+                <div className="flex items-center justify-between text-xs font-bold pt-2 border-t border-stone-200/80">
+                  <span className="text-emerald-700">
+                    +{assessment.recommendedAlternatives[0]?.crop.waterSavingsVsRicePercent}% Water Saved
+                  </span>
+                  <Link href="/shift" className="text-stone-900 hover:underline">
+                    Details →
+                  </Link>
+                </div>
+              </div>
+
+              {/* Option 2: The Calendar Shift */}
+              <div className="p-4 rounded-xl border border-stone-200 bg-stone-50/70 hover:bg-white transition-colors">
+                <div className="flex items-center gap-2 text-indigo-700 font-bold text-xs mb-1.5">
+                  <Calendar size={16} />
+                  <span>2. {lang === "en" ? "The Calendar Shift" : "সময় পরিবর্তন"}</span>
+                </div>
+                <p className="text-xs text-stone-600 leading-relaxed mb-3">
+                  {lang === "en"
+                    ? `If growing ${currentCrop.nameEn.split("(")[0]}, delay sowing to ${calendar.nasaAdjustedWindow}.`
+                    : `একই ফসল রাখতে চাইলে বীজ বপন ${calendar.nasaAdjustedWindow} পর্যন্ত পিছিয়ে দিন।`}
+                </p>
+                <div className="flex items-center justify-between text-xs font-bold pt-2 border-t border-stone-200/80">
+                  <span className="text-indigo-700">
+                    +{calendar.shiftDeltaDays} Days Offset
+                  </span>
+                  <Link href="/calendar" className="text-stone-900 hover:underline">
+                    View Sowing →
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
