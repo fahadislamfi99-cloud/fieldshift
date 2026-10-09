@@ -22,8 +22,17 @@ import {
 } from "lucide-react";
 
 export default function CalendarPage() {
-  const { currentZone, currentCrop, crops, setCropId, calendar, metrics, lang } =
-    useApp();
+  const {
+    currentZone,
+    currentCrop,
+    crops,
+    setCropId,
+    calendar,
+    metrics,
+    lang,
+    farmerStatus,
+    setFarmerStatus,
+  } = useApp();
 
   // Helper to pick correct photographic thumbnail
   const getCropImage = (cropId: string) => {
@@ -55,26 +64,66 @@ export default function CalendarPage() {
         <div className="relative z-10 p-6 sm:p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 h-full">
           {/* Left Title & Plain Explanation */}
           <div className="space-y-3 max-w-2xl">
-            {/* Tag */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[#1E7B48] text-xs font-bold border border-emerald-200/80 shadow-2xs">
-              <Calendar size={13} className="text-[#1E7B48]" />
-              <span>
-                {lang === "en" ? "SMART PLANTING CALENDAR" : "সহজ রোপণ ক্যালেন্ডার"}
-              </span>
-              <span className="text-stone-300">•</span>
-              <span className="font-semibold text-stone-700">
-                {currentZone.nameEn.split(",")[0]}, Rajshahi
-              </span>
+            {/* Tag & Farmer Status Switcher Pill */}
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[#1E7B48] text-xs font-bold border border-emerald-200/80 shadow-2xs">
+                <Calendar size={13} className="text-[#1E7B48]" />
+                <span>
+                  {lang === "en" ? "SMART PLANTING CALENDAR" : "সহজ রোপণ ক্যালেন্ডার"}
+                </span>
+                <span className="text-stone-300">•</span>
+                <span className="font-semibold text-stone-700">
+                  {currentZone.nameEn.split(",")[0]}, Rajshahi
+                </span>
+              </div>
+
+              {/* Status Switcher */}
+              <div className="inline-flex items-center gap-1 p-0.5 rounded-full bg-white/95 backdrop-blur-md border border-stone-200 shadow-2xs text-xs font-semibold">
+                <button
+                  type="button"
+                  onClick={() => setFarmerStatus("not_planted")}
+                  className={`px-3 py-1 rounded-full transition-all flex items-center gap-1.5 ${
+                    farmerStatus === "not_planted"
+                      ? "bg-[#1E7B48] text-white shadow-2xs font-bold"
+                      : "text-stone-600 hover:text-stone-900"
+                  }`}
+                >
+                  <Sprout size={13} />
+                  <span>{lang === "en" ? "Not Planted (Plan)" : "ফসল লাগাইনি"}</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFarmerStatus("already_planted")}
+                  className={`px-3 py-1 rounded-full transition-all flex items-center gap-1.5 ${
+                    farmerStatus === "already_planted"
+                      ? "bg-[#1E7B48] text-white shadow-2xs font-bold"
+                      : "text-stone-600 hover:text-stone-900"
+                  }`}
+                >
+                  <CheckCircle2 size={13} />
+                  <span>{lang === "en" ? "Already Planted" : "ইতিমধ্যে রোপণকৃত"}</span>
+                </button>
+              </div>
             </div>
 
             <h1 className="text-[28px] sm:text-[32px] font-bold text-stone-900 tracking-tight leading-tight">
-              {lang === "en" ? "When to Plant Your Crops" : "ফসল রোপণের সঠিক সময়সূচী"}
+              {farmerStatus === "already_planted"
+                ? (lang === "en"
+                    ? "In-Season Timeline & Heatwave Watch"
+                    : "মাঠপর্যায়ের সময়সূচী ও তাপদাহ ক্যালেন্ডার")
+                : (lang === "en"
+                    ? "When to Plant Your Crops"
+                    : "ফসল রোপণের সঠিক সময়সূচী")}
             </h1>
 
             <p className="text-sm sm:text-base font-normal text-stone-600 leading-relaxed max-w-xl">
-              {lang === "en"
-                ? "Planting on the right dates protects your flowers from hot summer heat waves and delayed monsoon rains — using NASA weather forecasts."
-                : "সঠিক সময়ে রোপণ করলে গরম বাতাসে ধান বা ফসলের ফুল ঝরে পড়া রোধ হয় এবং ফলন সুরক্ষিত থাকে।"}
+              {farmerStatus === "already_planted"
+                ? (lang === "en"
+                    ? "Your crop is already planted. Track your in-season AWD irrigation cycles, March 15–28 pollination heatwave danger window, and harvest relay prep."
+                    : "জমিতে ফসল রয়েছে। পর্যায়ক্রমিক সেচ শিডিউল, ১৫-২৮ মার্চ ফুল ফোটার তাপদাহ সতর্কতা ও ফসল কাটার প্রস্তুতি সময়সূচী দেখুন।")
+                : (lang === "en"
+                    ? "Planting on the right dates protects your flowers from hot summer heat waves and delayed monsoon rains — using NASA weather forecasts."
+                    : "সঠিক সময়ে রোপণ করলে গরম বাতাসে ধান বা ফসলের ফুল ঝরে পড়া রোধ হয় এবং ফলন সুরক্ষিত থাকে।")}
             </p>
 
             {/* Field Information Pills */}
@@ -148,6 +197,36 @@ export default function CalendarPage() {
           </div>
         </div>
       </div>
+
+      {/* In-Season Notice for Already Planted Crops */}
+      {farmerStatus === "already_planted" && (
+        <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/90 border border-amber-200/90 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-2xs">
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center shrink-0 border border-amber-200">
+              <Flame size={20} className="text-amber-700" />
+            </div>
+            <div>
+              <h3 className="text-sm sm:text-base font-bold text-amber-950">
+                {lang === "en"
+                  ? "Standing Crop Heatwave & Milestone Notice"
+                  : "জমিতে থাকা ফসলের তাপদাহ ও সময়সূচী সতর্কতা"}
+              </h3>
+              <p className="text-xs sm:text-sm text-stone-600 mt-0.5 leading-relaxed">
+                {lang === "en"
+                  ? "Your crop is in the field. Sowing date is locked. Critical upcoming event: March 15–28 pollination heatwave. Keep 5–7 cm water depth during >34.5°C days to cool canopy."
+                  : "আপনার জমিতে ফসল রয়েছে। রোপণ সময় পরিবর্তন সম্ভব নয়। আসন্ন গুরুত্বপূর্ণ পর্যায়: ১৫-২৮ মার্চ ফুল ফোটার তাপদাহ। ৩৫° সে তাপমাত্রা উঠলে জমিতে ৫-৭ সেমি পানি ধরে রাখুন।"}
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/advisory"
+            className="px-4 py-2 rounded-xl bg-stone-900 hover:bg-stone-800 text-white text-xs sm:text-sm font-semibold transition-all shrink-0 flex items-center gap-1.5 shadow-2xs"
+          >
+            <span>{lang === "en" ? "Open Field Advisory" : "জরুরি পরামর্শ দেখুন"}</span>
+            <ArrowRight size={14} />
+          </Link>
+        </div>
+      )}
 
       {/* =========================================================================
           ACTIVE CROP EVALUATION CARD: OLD DATES VS NEW SAFE DATES

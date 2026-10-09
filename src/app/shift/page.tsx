@@ -25,8 +25,18 @@ import {
 } from "lucide-react";
 
 export default function CropShiftPage() {
-  const { currentZone, currentCrop, zones, setZoneId, crops, setCropId, assessment, lang } =
-    useApp();
+  const {
+    currentZone,
+    currentCrop,
+    zones,
+    setZoneId,
+    crops,
+    setCropId,
+    assessment,
+    lang,
+    farmerStatus,
+    setFarmerStatus,
+  } = useApp();
   const [farmAcres, setFarmAcres] = useState<number>(2.0);
 
   // Pick matching photo for each crop
@@ -122,26 +132,66 @@ export default function CropShiftPage() {
         <div className="relative z-10 p-6 sm:p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 h-full">
           {/* Left Title & Simple Explanations */}
           <div className="space-y-3 max-w-2xl">
-            {/* Tag */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[#1E7B48] text-xs font-bold border border-emerald-200/80 shadow-2xs">
-              <Sprout size={13} className="text-[#1E7B48]" />
-              <span>
-                {lang === "en" ? "SMART CROP GUIDE" : "সহজ কৃষি পরামর্শ"}
-              </span>
-              <span className="text-stone-300">•</span>
-              <span className="font-semibold text-stone-700">
-                {currentZone.nameEn.split(",")[0]}, Rajshahi
-              </span>
+            {/* Tag & Farmer Status Switcher Pill */}
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[#1E7B48] text-xs font-bold border border-emerald-200/80 shadow-2xs">
+                <Sprout size={13} className="text-[#1E7B48]" />
+                <span>
+                  {lang === "en" ? "SMART CROP GUIDE" : "সহজ কৃষি পরামর্শ"}
+                </span>
+                <span className="text-stone-300">•</span>
+                <span className="font-semibold text-stone-700">
+                  {currentZone.nameEn.split(",")[0]}, Rajshahi
+                </span>
+              </div>
+
+              {/* Status Switcher */}
+              <div className="inline-flex items-center gap-1 p-0.5 rounded-full bg-white/95 backdrop-blur-md border border-stone-200 shadow-2xs text-xs font-semibold">
+                <button
+                  type="button"
+                  onClick={() => setFarmerStatus("not_planted")}
+                  className={`px-3 py-1 rounded-full transition-all flex items-center gap-1.5 ${
+                    farmerStatus === "not_planted"
+                      ? "bg-[#1E7B48] text-white shadow-2xs font-bold"
+                      : "text-stone-600 hover:text-stone-900"
+                  }`}
+                >
+                  <Sprout size={13} />
+                  <span>{lang === "en" ? "Not Planted (Plan)" : "ফসল লাগাইনি"}</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFarmerStatus("already_planted")}
+                  className={`px-3 py-1 rounded-full transition-all flex items-center gap-1.5 ${
+                    farmerStatus === "already_planted"
+                      ? "bg-[#1E7B48] text-white shadow-2xs font-bold"
+                      : "text-stone-600 hover:text-stone-900"
+                  }`}
+                >
+                  <CheckCircle2 size={13} />
+                  <span>{lang === "en" ? "Already Planted" : "ইতিমধ্যে রোপণকৃত"}</span>
+                </button>
+              </div>
             </div>
 
             <h1 className="text-[28px] sm:text-[32px] font-bold text-stone-900 tracking-tight leading-tight">
-              {lang === "en" ? "Best Crops for Your Farm" : "আপনার জমির জন্য সেরা ফসল"}
+              {farmerStatus === "already_planted"
+                ? (lang === "en"
+                    ? "Next-Crop Relay & Alternative Guide"
+                    : "পরবর্তী অন্তর্বর্তীকালীন ও বিকল্প ফসল")
+                : (lang === "en"
+                    ? "Best Crops for Your Farm"
+                    : "আপনার জমির জন্য সেরা ফসল")}
             </h1>
 
             <p className="text-sm sm:text-base font-normal text-stone-600 leading-relaxed max-w-xl">
-              {lang === "en"
-                ? "Find crops that need only 2 to 3 waterings, beat hot summer weather, and save you thousands of Taka on diesel and electricity bills."
-                : "নাসার আবহাওয়া তথ্যের ভিত্তিতে মাত্র ২-৩ সেচে ঘরে তোলা যায় এমন লাভজনক ফসল বেছে নিন।"}
+              {farmerStatus === "already_planted"
+                ? (lang === "en"
+                    ? "Your main crop is growing. Plan 60-day summer mung bean relay catch crops for post-harvest cash flow, or compare next year's water-saving rotations."
+                    : "জমিতে ফসল রয়েছে। ফসল কাটার পরপরই দ্রুত লাভের জন্য ৬০ দিনের মুগ ডাল অথবা আগামী মৌসুমের পানি সাশ্রয়ী বিকল্প ফসল দেখুন।")
+                : (lang === "en"
+                    ? "Find crops that need only 2 to 3 waterings, beat hot summer weather, and save you thousands of Taka on diesel and electricity bills."
+                    : "নাসার আবহাওয়া তথ্যের ভিত্তিতে মাত্র ২-৩ সেচে ঘরে তোলা যায় এমন লাভজনক ফসল বেছে নিন।")}
             </p>
 
             {/* Field Information Pills */}
@@ -211,6 +261,36 @@ export default function CropShiftPage() {
           </div>
         </div>
       </div>
+
+      {/* In-Season Notice if crop is already planted */}
+      {farmerStatus === "already_planted" && (
+        <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/90 border border-amber-200/90 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-2xs">
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center shrink-0 border border-amber-200">
+              <CheckCircle2 size={20} />
+            </div>
+            <div>
+              <h3 className="text-sm sm:text-base font-bold text-amber-950">
+                {lang === "en"
+                  ? "Standing Crop Advisory Available"
+                  : "জমিতে থাকা ফসলের জরুরি পরামর্শ প্রস্তুত"}
+              </h3>
+              <p className="text-xs sm:text-sm text-stone-600 mt-0.5 leading-relaxed">
+                {lang === "en"
+                  ? "Your current crop is already planted. For urgent AWD irrigation schedules (28% diesel saved) and flower heatwave cooling, check your live field advisory."
+                  : "আপনার জমিতে ফসল রোপণ করা আছে। জরুরি পর্যায়ক্রমিক সেচ (AWD) ও তাপদাহে ফুল রক্ষার নির্দেশনা দেখতে লাইভ পরামর্শ কেন্দ্র ব্যবহার করুন।"}
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/advisory"
+            className="px-4 py-2 rounded-xl bg-stone-900 hover:bg-stone-800 text-white text-xs sm:text-sm font-semibold transition-all shrink-0 flex items-center gap-1.5 shadow-2xs"
+          >
+            <span>{lang === "en" ? "Open Field Advisory" : "মাঠপর্যায়ের পরামর্শ দেখুন"}</span>
+            <ArrowRight size={14} />
+          </Link>
+        </div>
+      )}
 
       {/* =========================================================================
           PROBLEM VS SOLUTION (Clear terms anyone understands)
