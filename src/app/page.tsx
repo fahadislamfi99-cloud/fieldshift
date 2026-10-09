@@ -337,25 +337,25 @@ export default function HomePage() {
                 </div>
                 <div>
                   <h2 className="text-sm font-extrabold text-stone-900">
-                    Climate Drift Diagnostic
+                    Weather & Climate Warnings
                   </h2>
                   <p className="text-[11px] text-stone-500 font-medium">
-                    Based on NASA Earth Science Data
+                    From NASA Satellite Weather Data
                   </p>
                 </div>
               </div>
 
               {/* 3 Telemetry List Rows */}
               <div className="space-y-2.5 divide-y divide-stone-100 text-xs">
-                {/* Row 1: Temperature Shift */}
+                {/* Row 1: Temperature Rise */}
                 <div className="pt-2 flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
                     <div className="w-7 h-7 rounded-full bg-[#FEE2E2] text-[#DC2626] flex items-center justify-center shrink-0">
                       <Thermometer size={14} />
                     </div>
                     <div>
-                      <div className="font-bold text-stone-900">Temperature Shift</div>
-                      <div className="text-[10px] text-stone-500">Daytime LST rise (15 years)</div>
+                      <div className="font-bold text-stone-900">Temperature Rise</div>
+                      <div className="text-[10px] text-stone-500">Daytime heat rising (15-yr trend)</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
@@ -364,15 +364,15 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                {/* Row 2: Moisture Deficit */}
+                {/* Row 2: Dry Soil */}
                 <div className="pt-2 flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
                     <div className="w-7 h-7 rounded-full bg-[#E0F2FE] text-[#0284C7] flex items-center justify-center shrink-0">
                       <Droplets size={14} />
                     </div>
                     <div>
-                      <div className="font-bold text-stone-900">Moisture Deficit</div>
-                      <div className="text-[10px] text-stone-500">Root-zone soil moisture (SMAP)</div>
+                      <div className="font-bold text-stone-900">Dry Underground Soil</div>
+                      <div className="text-[10px] text-stone-500">Low root-zone moisture (NASA SMAP)</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
@@ -381,15 +381,15 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                {/* Row 3: Rain Drift */}
+                {/* Row 3: Rain Delay */}
                 <div className="pt-2 flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
                     <div className="w-7 h-7 rounded-full bg-[#F3E8FF] text-[#9333EA] flex items-center justify-center shrink-0">
                       <CloudRain size={14} />
                     </div>
                     <div>
-                      <div className="font-bold text-stone-900">Rain Drift</div>
-                      <div className="text-[10px] text-stone-500">Monsoon onset shift (GPM)</div>
+                      <div className="font-bold text-stone-900">Rain Season Delayed</div>
+                      <div className="text-[10px] text-stone-500">Monsoon arriving 12 days late</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
@@ -404,10 +404,10 @@ export default function HomePage() {
                 <AlertTriangle size={16} className="text-[#D97706] shrink-0 mt-0.5" />
                 <div>
                   <span className="font-extrabold text-[#92400E] block">
-                    Status Quo Unsustainable
+                    High Risk for Boro Rice
                   </span>
                   <span className="text-[#B45309] text-[11px] leading-tight block mt-0.5">
-                    Boro Rice suitability drops from 65% to 42% by 2032.
+                    Rice harvest drops due to severe heat and water shortages.
                   </span>
                 </div>
               </div>
@@ -424,11 +424,11 @@ export default function HomePage() {
             <div className="flex items-center gap-2">
               <Sprout size={18} className="text-[#1E7B48]" />
               <h2 className="text-base font-extrabold text-stone-900">
-                Recommended Actions
+                What You Can Do
               </h2>
             </div>
 
-            {/* Toggle Tabs: Crop Shift | Calendar Shift */}
+            {/* Toggle Tabs: Change Crop | Change Planting Date */}
             <div className="p-1 rounded-full bg-stone-100 flex items-center gap-1 text-xs font-bold">
               <button
                 onClick={() => setActiveTab("crop")}
@@ -438,7 +438,7 @@ export default function HomePage() {
                     : "text-stone-600 hover:text-stone-900"
                 }`}
               >
-                Crop Shift
+                Change Crop
               </button>
               <button
                 onClick={() => setActiveTab("calendar")}
@@ -448,7 +448,7 @@ export default function HomePage() {
                     : "text-stone-600 hover:text-stone-900"
                 }`}
               >
-                Calendar Shift
+                Change Planting Date
               </button>
             </div>
 
@@ -460,7 +460,7 @@ export default function HomePage() {
                   Boro Rice has 65% failure risk this season.
                 </span>
                 <span className="text-[#B91C1C] text-[11px] leading-tight block mt-0.5">
-                  Groundwater cost will eat all profit.
+                  Groundwater pumping cost will eat all profit.
                 </span>
               </div>
             </div>
@@ -468,10 +468,10 @@ export default function HomePage() {
             {/* Recommended Alternatives List Header */}
             <div>
               <div className="text-xs font-extrabold text-stone-900">
-                Recommended Alternatives
+                Better Crops for Your Field
               </div>
               <div className="text-[11px] text-stone-500">
-                Top 2 options for your field
+                Top 2 safer options for this land
               </div>
             </div>
 
@@ -501,9 +501,9 @@ export default function HomePage() {
                     </span>
                   </div>
                   <ul className="text-[11px] text-stone-500 mt-1 space-y-0.5">
-                    <li>• 60% less water</li>
-                    <li>• Matches dry season</li>
-                    <li>• 22% higher profit stability</li>
+                    <li>• 60% less water needed</li>
+                    <li>• Harvests before hot summer</li>
+                    <li>• Higher, safer profit</li>
                   </ul>
                 </div>
 
@@ -535,9 +535,9 @@ export default function HomePage() {
                     Hybrid Maize
                   </div>
                   <ul className="text-[11px] text-stone-500 mt-1 space-y-0.5">
-                    <li>• Drought tolerant</li>
-                    <li>• Heat-resilient flowering</li>
-                    <li>• Good market demand</li>
+                    <li>• Handles drought well</li>
+                    <li>• Strong against summer heat</li>
+                    <li>• High demand in market</li>
                   </ul>
                 </div>
 
@@ -563,7 +563,7 @@ export default function HomePage() {
               <div className="p-2 rounded-xl bg-white border border-stone-200/80">
                 <div className="flex items-center justify-center gap-1 text-[10px] font-medium text-stone-500">
                   <TrendingDown size={11} className="text-[#16A34A]" />
-                  <span>Cost Delta</span>
+                  <span>Cost Saved</span>
                 </div>
                 <div className="text-xs font-extrabold text-[#16A34A] mt-0.5 font-mono">
                   -35%
@@ -573,10 +573,10 @@ export default function HomePage() {
               <div className="p-2 rounded-xl bg-white border border-stone-200/80">
                 <div className="flex items-center justify-center gap-1 text-[10px] font-medium text-stone-500">
                   <Gauge size={11} className="text-[#16A34A]" />
-                  <span>Climate Risk Score</span>
+                  <span>Safety Score</span>
                 </div>
                 <div className="text-xs font-extrabold text-stone-900 mt-0.5 font-mono">
-                  32/100
+                  Safe (32/100)
                 </div>
               </div>
             </div>

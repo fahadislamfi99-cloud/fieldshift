@@ -29,7 +29,9 @@ export function evaluateCropSuitability(
   }
 
   // Penalize critical flowering heat spikes (> critical threshold during pollination)
-  if (maxTemp >= crop.criticalFloweringTempC) {
+  // Short-cycle crops (growthDays <= 85 like mustard) harvest by Feb, avoiding late March heat spikes
+  const avoidsLateSeasonHeat = crop.growthDays <= 85;
+  if (!avoidsLateSeasonHeat && maxTemp >= crop.criticalFloweringTempC) {
     thermalScore = Math.max(10, thermalScore - 40);
   }
 
