@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useApp } from "@/context/AppContext";
+import { CustomSelect } from "@/components/CustomSelect";
 import {
   Home,
   Calendar,
@@ -33,7 +34,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
     { href: "/", labelEn: "Home", labelBn: "হোম", icon: Home },
     { href: "/shift", labelEn: "Recommendations", labelBn: "পরামর্শ ও বিকল্প", icon: Sprout },
     { href: "/calendar", labelEn: "Calendar", labelBn: "ক্যালেন্ডার", icon: Calendar },
-    { href: "/advisory", labelEn: "Alerts", labelBn: "সতর্কতা", icon: Bell },
+    { href: "/advisory", labelEn: "Advisory", labelBn: "পরামর্শ", icon: Bell },
   ];
 
   const isActive = (href: string) => {
@@ -92,37 +93,26 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
         {/* Bottom Sidebar Cards */}
         <div className="space-y-3 pt-6 pb-2 border-t border-stone-100">
           {/* Bangladesh Region Selector Card */}
-          <div className="relative p-3 rounded-2xl bg-white border border-stone-200/90 shadow-2xs hover:border-emerald-300 transition-all cursor-pointer">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                {/* Bangladesh Flag Badge (Green with red circle) */}
-                <div className="w-7 h-5 rounded bg-[#006A4E] relative overflow-hidden flex items-center justify-center shadow-2xs shrink-0">
-                  <div className="w-3 h-3 rounded-full bg-[#F42A41]" />
-                </div>
-                <div>
-                  <div className="text-sm font-bold text-stone-900 leading-tight">
-                    {lang === "en" ? "Bangladesh" : "বাংলাদেশ"}
-                  </div>
-                  <div className="text-xs text-stone-600 font-medium">
-                    {lang === "en" ? "Barind Tract & Coastal Belt" : "বরেন্দ্র অঞ্চল ও উপকূলীয় বলয়"}
-                  </div>
-                </div>
+          <CustomSelect
+            variant="tile"
+            value={currentZone.id}
+            onChange={(val) => setZoneId(val)}
+            options={zones.map((z) => ({
+              value: z.id,
+              label: lang === "en" ? z.nameEn : z.nameBn,
+              sublabel: lang === "en" ? `${z.districtEn} District` : `${z.districtEn} জেলা`,
+              badge: z.id.includes("barind") ? (lang === "en" ? "Barind" : "বরেন্দ্র") : (lang === "en" ? "Coastal" : "উপকূলীয়"),
+            }))}
+            icon={
+              <div className="w-7 h-5 rounded bg-[#006A4E] relative overflow-hidden flex items-center justify-center shadow-2xs shrink-0">
+                <div className="w-3 h-3 rounded-full bg-[#F42A41]" />
               </div>
-              <select
-                aria-label="Select Agricultural Region"
-                value={currentZone.id}
-                onChange={(e) => setZoneId(e.target.value)}
-                className="opacity-0 absolute inset-0 w-full h-full cursor-pointer"
-              >
-                {zones.map((z) => (
-                  <option key={z.id} value={z.id}>
-                    {lang === "en" ? z.nameEn : z.nameBn}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown size={14} className="text-stone-500 shrink-0 pointer-events-none" />
-            </div>
-          </div>
+            }
+            placeholder={lang === "en" ? "Bangladesh" : "বাংলাদেশ"}
+            subtextPlaceholder={lang === "en" ? currentZone.nameEn : currentZone.nameBn}
+            menuWidth="w-full"
+            direction="up"
+          />
 
           {/* NASA Earth Data Brand Card with Arrow */}
           <Link
@@ -301,7 +291,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
             }`}
           >
             <Bell size={18} />
-            <span>{lang === "en" ? "Alerts" : "সতর্কতা"}</span>
+            <span>{lang === "en" ? "Advisory" : "পরামর্শ"}</span>
           </Link>
 
           <button

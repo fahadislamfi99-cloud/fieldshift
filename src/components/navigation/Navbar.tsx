@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useApp } from "@/context/AppContext";
+import { CustomSelect } from "@/components/CustomSelect";
 import {
   Sprout,
   LayoutDashboard,
@@ -49,7 +50,7 @@ export const Navbar: React.FC = () => {
     },
     {
       href: "/advisory",
-      labelEn: "Farmer Advisory",
+      labelEn: "Advisory",
       labelBn: "পরামর্শ",
       icon: BookOpen,
     },
@@ -111,21 +112,20 @@ export const Navbar: React.FC = () => {
           {/* Right: Controls (Region, Language) */}
           <div className="flex items-center gap-2 sm:gap-3">
             {/* Region Selector */}
-            <div className="relative">
-              <select
-                value={currentZone.id}
-                onChange={(e) => setZoneId(e.target.value)}
-                className="appearance-none pl-7 pr-7 py-1.5 rounded-lg bg-stone-100 hover:bg-stone-150 border border-stone-200 text-sm font-semibold text-stone-800 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#163B2A]/20 transition-all"
-                title="Select Agricultural Region"
-              >
-                {zones.map((z) => (
-                  <option key={z.id} value={z.id}>
-                    {lang === "en" ? z.nameEn : z.nameBn}
-                  </option>
-                ))}
-              </select>
-              <MapPin size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-stone-500 pointer-events-none" />
-            </div>
+            <CustomSelect
+              variant="compact"
+              align="right"
+              value={currentZone.id}
+              onChange={(val) => setZoneId(val)}
+              options={zones.map((z) => ({
+                value: z.id,
+                label: lang === "en" ? z.nameEn.split(",")[0] : z.nameBn.split(",")[0],
+                sublabel: lang === "en" ? `${z.districtEn} District` : `${z.districtEn} জেলা`,
+                badge: z.id.includes("barind") ? (lang === "en" ? "Barind" : "বরেন্দ্র") : (lang === "en" ? "Coastal" : "উপকূলীয়"),
+              }))}
+              icon={<MapPin size={13} className="text-[#1E7B48]" />}
+              placeholder={lang === "en" ? "Select Region" : "এলাকা নির্বাচন"}
+            />
 
             {/* Language Toggle */}
             <button

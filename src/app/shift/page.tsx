@@ -141,15 +141,15 @@ export default function CropShiftPage() {
       {/* =========================================================================
           HERO BANNER & LIVE FARM SCALE CONTROLLER
           ========================================================================= */}
-      <div className="relative rounded-3xl overflow-hidden border border-stone-200/90 shadow-[0_2px_12px_rgba(0,0,0,0.03)] min-h-[320px] flex flex-col justify-between">
+      <div className="relative rounded-3xl border border-stone-200/90 shadow-[0_2px_12px_rgba(0,0,0,0.03)] min-h-[320px] flex flex-col justify-between">
         {/* Full Photographic Landscape Background */}
         <div
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute inset-0 bg-cover bg-center rounded-3xl"
           style={{ backgroundImage: `url('/images/hero_landscape.jpg')` }}
         />
 
         {/* Soft Gradient Overlay for Easy Reading */}
-        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 sm:via-white/70 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 sm:via-white/70 to-transparent rounded-3xl pointer-events-none" />
 
         {/* Content Container */}
         <div className="relative z-10 p-6 sm:p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 h-full">

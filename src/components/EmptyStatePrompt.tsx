@@ -40,15 +40,15 @@ export const EmptyStatePrompt: React.FC<EmptyStatePromptProps> = ({ pageType, la
   return (
     <div className="space-y-6" suppressHydrationWarning>
       {/* HERO BANNER CARD */}
-      <div className="relative rounded-3xl overflow-hidden border border-stone-200/90 shadow-[0_4px_20px_rgba(0,0,0,0.03)] min-h-[380px] sm:min-h-[420px] flex flex-col justify-between">
+      <div className="relative rounded-3xl border border-stone-200/90 shadow-[0_4px_20px_rgba(0,0,0,0.03)] min-h-[380px] sm:min-h-[420px] flex flex-col justify-between">
         {/* Full Photographic Landscape Background */}
         <div
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute inset-0 bg-cover bg-center rounded-3xl"
           style={{ backgroundImage: `url('/images/hero_landscape.jpg')` }}
         />
 
         {/* Soft Gradient Overlay for Optimal Readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/90 sm:via-white/80 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/90 sm:via-white/80 to-transparent rounded-3xl pointer-events-none" />
 
         {/* Content Container */}
         <div className="relative z-10 p-6 sm:p-10 lg:p-12 flex flex-col justify-between h-full space-y-6 max-w-2xl">
