@@ -26,27 +26,8 @@ export default function HomePage() {
   const { currentZone, currentCrop, zones, setZoneId, crops, setCropId } =
     useApp();
 
-  const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<"crop" | "calendar">("crop");
   const [waterAccess, setWaterAccess] = useState("Deep Tubewell");
-
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return (
-      <div className="space-y-6" suppressHydrationWarning>
-        <div className="h-[340px] bg-white rounded-3xl border border-stone-200/90 shadow-xs" />
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <div className="h-20 bg-white rounded-2xl border border-stone-200" />
-          <div className="h-20 bg-white rounded-2xl border border-stone-200" />
-          <div className="h-20 bg-white rounded-2xl border border-stone-200" />
-          <div className="h-20 bg-white rounded-2xl border border-stone-200" />
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-6" suppressHydrationWarning>
@@ -58,34 +39,60 @@ export default function HomePage() {
             LEFT COLUMN (8 cols): Hero Banner + 4 KPIs + Satellite Field & Diagnostics
             ======================================================================= */}
         <div className="xl:col-span-8 space-y-6">
-          {/* HERO BANNER CARD (Split: White left section + Sunny valley landscape right section) */}
-          <div className="relative rounded-3xl overflow-hidden bg-white border border-stone-200/90 shadow-[0_2px_12px_rgba(0,0,0,0.03)] flex flex-col lg:flex-row items-stretch min-h-[330px]">
-            {/* Left Content Area (61% width on desktop) */}
-            <div className="p-6 sm:p-8 flex flex-col justify-between space-y-6 lg:w-[61%] z-10 bg-white">
+          {/* HERO BANNER CARD (Full background image spanning edge-to-edge) */}
+          <div className="relative rounded-3xl overflow-hidden border border-stone-200/90 shadow-[0_2px_12px_rgba(0,0,0,0.03)] min-h-[340px] flex flex-col justify-between">
+            {/* FULL BACKGROUND PHOTOGRAPHIC LANDSCAPE */}
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url('/images/hero_landscape.jpg')` }}
+            />
+
+            {/* Soft gradient fade overlay so left text and filters are 100% readable while entire scenery shows */}
+            <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 sm:via-white/70 to-transparent pointer-events-none" />
+
+            {/* Floating Location Marker on the Landscape Photo (Right side) */}
+            <div className="hidden md:flex absolute top-8 right-16 z-20 flex-col items-center pointer-events-none">
+              <div className="px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-stone-200 text-xs font-bold text-stone-900 shadow-md flex items-center gap-1.5">
+                <MapPin size={13} className="text-[#1E7B48]" />
+                <span>Godagari, Rajshahi</span>
+              </div>
+              {/* Pin Stem Line */}
+              <div className="w-0.5 h-16 bg-white/90 shadow-sm" />
+              {/* Target Reticle Pin */}
+              <div className="relative flex items-center justify-center">
+                <div className="w-7 h-7 rounded-full bg-emerald-500/30 animate-ping absolute" />
+                <div className="w-4 h-4 rounded-full bg-white border-2 border-[#1E7B48] shadow-lg flex items-center justify-center">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#1E7B48]" />
+                </div>
+              </div>
+            </div>
+
+            {/* Hero Card Content (Sitting over the full background image) */}
+            <div className="relative z-10 p-6 sm:p-8 flex flex-col justify-between h-full space-y-6 max-w-2xl">
               <div>
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight leading-tight">
                   Welcome to FieldShift
                 </h1>
-                <p className="text-xs sm:text-sm font-medium text-stone-500 mt-1">
+                <p className="text-xs sm:text-sm font-medium text-stone-600 mt-1">
                   Satellite-powered insights for climate-resilient farming.
                 </p>
               </div>
 
               {/* 3 Distinct Filter Boxes (Location, Current Crop, Water Access) */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              <div className="flex flex-wrap items-center gap-2.5">
                 {/* Box 1: Location */}
-                <div className="relative p-2.5 rounded-2xl bg-white border border-stone-200/90 shadow-2xs hover:border-emerald-300 transition-all">
+                <div className="relative p-2.5 px-3.5 rounded-2xl bg-white/95 backdrop-blur-md border border-stone-200 shadow-2xs hover:border-emerald-400 transition-all">
                   <div className="flex items-center gap-2">
                     <MapPin size={16} className="text-[#1E7B48] shrink-0" />
-                    <div className="flex-1 min-w-0">
+                    <div>
                       <span className="text-[10px] text-stone-400 font-medium block leading-none">
                         Location
                       </span>
-                      <span className="text-[11px] xl:text-xs font-bold text-stone-900 block mt-0.5 leading-tight whitespace-nowrap">
+                      <span className="text-xs font-bold text-stone-900 block mt-0.5 leading-tight whitespace-nowrap">
                         {currentZone.nameEn.split(",")[0]}, Rajshahi
                       </span>
                     </div>
-                    <ChevronDown size={13} className="text-stone-400 shrink-0 pointer-events-none" />
+                    <ChevronDown size={13} className="text-stone-400 shrink-0 pointer-events-none ml-1" />
                   </div>
                   <select
                     aria-label="Select Target Location"
@@ -102,18 +109,18 @@ export default function HomePage() {
                 </div>
 
                 {/* Box 2: Current Crop */}
-                <div className="relative p-2.5 rounded-2xl bg-white border border-stone-200/90 shadow-2xs hover:border-emerald-300 transition-all">
+                <div className="relative p-2.5 px-3.5 rounded-2xl bg-white/95 backdrop-blur-md border border-stone-200 shadow-2xs hover:border-emerald-400 transition-all">
                   <div className="flex items-center gap-2">
                     <Sprout size={16} className="text-[#1E7B48] shrink-0" />
-                    <div className="flex-1 min-w-0">
+                    <div>
                       <span className="text-[10px] text-stone-400 font-medium block leading-none">
                         Current Crop
                       </span>
-                      <span className="text-xs font-bold text-stone-900 truncate block mt-0.5 leading-tight">
+                      <span className="text-xs font-bold text-stone-900 block mt-0.5 leading-tight whitespace-nowrap">
                         {currentCrop.nameEn.split(" ")[0]} Rice
                       </span>
                     </div>
-                    <ChevronDown size={13} className="text-stone-400 shrink-0 pointer-events-none" />
+                    <ChevronDown size={13} className="text-stone-400 shrink-0 pointer-events-none ml-1" />
                   </div>
                   <select
                     aria-label="Select Current Crop"
@@ -130,18 +137,18 @@ export default function HomePage() {
                 </div>
 
                 {/* Box 3: Water Access */}
-                <div className="relative p-2.5 rounded-2xl bg-white border border-stone-200/90 shadow-2xs hover:border-emerald-300 transition-all">
+                <div className="relative p-2.5 px-3.5 rounded-2xl bg-white/95 backdrop-blur-md border border-stone-200 shadow-2xs hover:border-emerald-400 transition-all">
                   <div className="flex items-center gap-2">
                     <Droplets size={16} className="text-[#0284C7] shrink-0" />
-                    <div className="flex-1 min-w-0">
+                    <div>
                       <span className="text-[10px] text-stone-400 font-medium block leading-none">
                         Water Access
                       </span>
-                      <span className="text-xs font-bold text-stone-900 truncate block mt-0.5 leading-tight">
+                      <span className="text-xs font-bold text-stone-900 block mt-0.5 leading-tight whitespace-nowrap">
                         {waterAccess}
                       </span>
                     </div>
-                    <ChevronDown size={13} className="text-stone-400 shrink-0 pointer-events-none" />
+                    <ChevronDown size={13} className="text-stone-400 shrink-0 pointer-events-none ml-1" />
                   </div>
                   <select
                     aria-label="Select Irrigation Water Access"
@@ -160,39 +167,11 @@ export default function HomePage() {
               <div>
                 <Link
                   href="/shift"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1E7B48] hover:bg-[#165E36] text-white text-xs sm:text-sm font-bold shadow-sm hover:shadow-md transition-all"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1E7B48] hover:bg-[#165E36] text-white text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all"
                 >
                   <span>Get Recommendations</span>
                   <ArrowRight size={15} />
                 </Link>
-              </div>
-            </div>
-
-            {/* Right Landscape Area (42% width on desktop) */}
-            <div className="relative flex-1 min-h-[220px] lg:min-h-full overflow-hidden bg-stone-100">
-              <div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: `url('/images/hero_landscape.jpg')` }}
-              />
-
-              {/* Smooth transition gradient on the left edge */}
-              <div className="hidden lg:block absolute left-0 inset-y-0 w-20 bg-gradient-to-r from-white via-white/40 to-transparent pointer-events-none" />
-
-              {/* Floating Pin Pointer Badge on Agricultural Fields */}
-              <div className="absolute top-6 right-12 sm:right-20 z-10 flex flex-col items-center pointer-events-none">
-                <div className="px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-stone-200 text-xs font-bold text-stone-900 shadow-md flex items-center gap-1.5">
-                  <MapPin size={13} className="text-[#1E7B48]" />
-                  <span>Godagari, Rajshahi</span>
-                </div>
-                {/* Pin Stem Line */}
-                <div className="w-0.5 h-16 bg-white/90 shadow-sm" />
-                {/* Target Reticle Pin */}
-                <div className="relative flex items-center justify-center">
-                  <div className="w-7 h-7 rounded-full bg-emerald-500/30 animate-ping absolute" />
-                  <div className="w-4 h-4 rounded-full bg-white border-2 border-[#1E7B48] shadow-lg flex items-center justify-center">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#1E7B48]" />
-                  </div>
-                </div>
               </div>
             </div>
           </div>
