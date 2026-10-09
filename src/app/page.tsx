@@ -70,10 +70,10 @@ export default function HomePage() {
             {/* Hero Card Content (Sitting over the full background image) */}
             <div className="relative z-10 p-6 sm:p-8 flex flex-col justify-between h-full space-y-6 max-w-2xl">
               <div>
-                <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight leading-tight">
+                <h1 className="text-[28px] sm:text-[32px] font-bold text-stone-900 tracking-tight leading-tight">
                   Welcome to FieldShift
                 </h1>
-                <p className="text-xs sm:text-sm font-medium text-stone-600 mt-1">
+                <p className="text-sm sm:text-base font-normal text-stone-600 mt-1.5 leading-relaxed">
                   Satellite-powered insights for climate-resilient farming.
                 </p>
               </div>
@@ -88,7 +88,7 @@ export default function HomePage() {
                       <span className="text-xs text-stone-500 font-medium block leading-none">
                         Location
                       </span>
-                      <span className="text-sm font-bold text-stone-900 block mt-0.5 leading-tight whitespace-nowrap">
+                      <span className="text-sm font-semibold text-stone-900 block mt-0.5 leading-tight whitespace-nowrap">
                         {currentZone.nameEn.split(",")[0]}, Rajshahi
                       </span>
                     </div>
@@ -423,16 +423,16 @@ export default function HomePage() {
             {/* Header: Recommended Actions */}
             <div className="flex items-center gap-2">
               <Sprout size={18} className="text-[#1E7B48]" />
-              <h2 className="text-lg font-extrabold text-stone-900">
+              <h2 className="text-lg sm:text-xl font-semibold text-stone-900">
                 What You Can Do
               </h2>
             </div>
 
             {/* Toggle Tabs: Change Crop | Change Planting Date */}
-            <div className="p-1 rounded-full bg-stone-100 flex items-center gap-1 text-sm font-bold">
+            <div className="p-1 rounded-full bg-stone-100 flex items-center gap-1 text-sm font-semibold">
               <button
                 onClick={() => setActiveTab("crop")}
-                className={`flex-1 py-2 rounded-full transition-all text-center ${
+                className={`flex-1 py-2 rounded-full transition-all text-center text-sm font-semibold ${
                   activeTab === "crop"
                     ? "bg-[#1E7B48] text-white shadow-xs"
                     : "text-stone-600 hover:text-stone-900"
@@ -442,7 +442,7 @@ export default function HomePage() {
               </button>
               <button
                 onClick={() => setActiveTab("calendar")}
-                className={`flex-1 py-2 rounded-full transition-all text-center ${
+                className={`flex-1 py-2 rounded-full transition-all text-center text-sm font-semibold ${
                   activeTab === "calendar"
                     ? "bg-[#1E7B48] text-white shadow-xs"
                     : "text-stone-600 hover:text-stone-900"
@@ -456,10 +456,10 @@ export default function HomePage() {
             <div className="p-3.5 rounded-2xl bg-[#FEF2F2] border border-[#FEE2E2] text-sm flex items-start gap-2.5">
               <ShieldAlert size={16} className="text-[#DC2626] shrink-0 mt-0.5" />
               <div>
-                <span className="font-bold text-[#991B1B] leading-tight block">
+                <span className="font-semibold text-[#991B1B] leading-tight block">
                   Boro Rice has 65% failure risk this season.
                 </span>
-                <span className="text-[#B91C1C] text-xs leading-normal block mt-0.5">
+                <span className="text-[#B91C1C] text-sm font-normal leading-normal block mt-0.5">
                   Groundwater pumping cost will eat all profit.
                 </span>
               </div>
@@ -467,7 +467,7 @@ export default function HomePage() {
 
             {/* Recommended Alternatives List Header */}
             <div>
-              <div className="text-sm font-extrabold text-stone-900">
+              <div className="text-lg font-semibold text-stone-900">
                 Better Crops for Your Field
               </div>
               <div className="text-xs text-stone-600 font-medium">
@@ -493,14 +493,14 @@ export default function HomePage() {
                 {/* Details */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-bold text-stone-900 truncate">
+                    <span className="text-lg font-semibold text-stone-900 truncate">
                       BARI Mustard-14
                     </span>
-                    <span className="px-2 py-0.5 rounded-full text-xs font-extrabold bg-[#DCFCE7] text-[#15803D] shrink-0">
+                    <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-[#DCFCE7] text-[#15803D] shrink-0">
                       Best Choice
                     </span>
                   </div>
-                  <ul className="text-xs text-stone-600 font-medium mt-1 space-y-0.5">
+                  <ul className="text-sm text-stone-600 font-normal mt-1 space-y-0.5">
                     <li>• 60% less water needed</li>
                     <li>• Harvests before hot summer</li>
                     <li>• Higher, safer profit</li>
@@ -531,10 +531,10 @@ export default function HomePage() {
 
                 {/* Details */}
                 <div className="flex-1 min-w-0">
-                  <div className="text-sm font-bold text-stone-900 truncate">
+                  <div className="text-lg font-semibold text-stone-900 truncate">
                     Hybrid Maize
                   </div>
-                  <ul className="text-xs text-stone-600 font-medium mt-1 space-y-0.5">
+                  <ul className="text-sm text-stone-600 font-normal mt-1 space-y-0.5">
                     <li>• Handles drought well</li>
                     <li>• Strong against summer heat</li>
                     <li>• High demand in market</li>

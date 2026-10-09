@@ -67,11 +67,11 @@ export default function CalendarPage() {
               </span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-stone-900 tracking-tight leading-tight">
+            <h1 className="text-[28px] sm:text-[32px] font-bold text-stone-900 tracking-tight leading-tight">
               {lang === "en" ? "When to Plant Your Crops" : "ফসল রোপণের সঠিক সময়সূচী"}
             </h1>
 
-            <p className="text-xs sm:text-sm font-medium text-stone-600 leading-relaxed max-w-xl">
+            <p className="text-sm sm:text-base font-normal text-stone-600 leading-relaxed max-w-xl">
               {lang === "en"
                 ? "Planting on the right dates protects your flowers from hot summer heat waves and delayed monsoon rains — using NASA weather forecasts."
                 : "সঠিক সময়ে রোপণ করলে গরম বাতাসে ধান বা ফসলের ফুল ঝরে পড়া রোধ হয় এবং ফলন সুরক্ষিত থাকে।"}
@@ -79,15 +79,15 @@ export default function CalendarPage() {
 
             {/* Field Information Pills */}
             <div className="flex flex-wrap items-center gap-2 pt-1">
-              <div className="px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-stone-200 text-xs font-bold text-stone-800 shadow-2xs flex items-center gap-1.5">
+              <div className="px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-stone-200 text-xs font-medium text-stone-800 shadow-2xs flex items-center gap-1.5">
                 <MapPin size={13} className="text-[#1E7B48]" />
                 <span>{currentZone.nameEn}</span>
               </div>
-              <div className="px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-stone-200 text-xs font-bold text-stone-800 shadow-2xs flex items-center gap-1.5">
+              <div className="px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-stone-200 text-xs font-medium text-stone-800 shadow-2xs flex items-center gap-1.5">
                 <Sprout size={13} className="text-[#1E7B48]" />
                 <span>{lang === "en" ? "Selected:" : "বাছাইকৃত ফসল:"} {currentCrop.nameEn}</span>
               </div>
-              <div className="px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-stone-200 text-xs font-bold text-stone-800 shadow-2xs flex items-center gap-1.5">
+              <div className="px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-stone-200 text-xs font-medium text-stone-800 shadow-2xs flex items-center gap-1.5">
                 <Flame size={13} className="text-[#DC2626]" />
                 <span>{lang === "en" ? "Avoids: Late March 35°C Heat" : "মার্চের ৩৫° সে তাপদাহ এড়িয়ে চলে"}</span>
               </div>
@@ -129,7 +129,7 @@ export default function CalendarPage() {
                   key={c.id}
                   type="button"
                   onClick={() => setCropId(c.id)}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
+                  className={`px-2.5 py-1 rounded-lg text-sm font-semibold transition-all ${
                     currentCrop.id === c.id
                       ? "bg-[#1E7B48] text-white shadow-2xs"
                       : "bg-white text-stone-600 border border-stone-200 hover:bg-stone-50"
@@ -140,7 +140,7 @@ export default function CalendarPage() {
               ))}
             </div>
 
-            <div className="text-xs text-stone-600 font-medium text-center">
+            <div className="text-sm text-stone-600 font-normal text-center">
               {lang === "en"
                 ? "Click any crop to see safe planting dates below."
                 : "যেকোনো ফসলে ক্লিক করে নিরাপদ রোপণের সময় দেখুন।"}
@@ -165,7 +165,7 @@ export default function CalendarPage() {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-stone-400 uppercase tracking-wider">
+                <span className="text-xs font-semibold text-stone-400 uppercase tracking-wider">
                   {lang === "en" ? "Active Evaluation Target" : "বর্তমান নির্বাচিত ফসল"}
                 </span>
                 <span className="text-stone-300">•</span>
@@ -173,7 +173,7 @@ export default function CalendarPage() {
                   {currentCrop.growthDays} {lang === "en" ? "Days to Harvest" : "দিনে ফলন"}
                 </span>
               </div>
-              <h2 className="text-lg sm:text-xl font-extrabold text-stone-900 mt-0.5">
+              <h2 className="text-lg sm:text-[20px] font-semibold text-stone-900 mt-0.5">
                 {lang === "en" ? currentCrop.nameEn : currentCrop.nameBn}
               </h2>
             </div>
@@ -253,7 +253,7 @@ export default function CalendarPage() {
 
         {/* Step-by-Step Practical Field Guide */}
         <div className="pt-2 space-y-3">
-          <h3 className="text-base font-extrabold text-stone-900">
+          <h3 className="text-lg font-semibold text-stone-900">
             {lang === "en" ? "Step-by-Step Planting Instructions:" : "কৃষকের করণীয় ধাপসমূহ:"}
           </h3>
 
@@ -261,15 +261,15 @@ export default function CalendarPage() {
             {/* Step 1 */}
             <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200/80 space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-extrabold text-[#1E7B48] uppercase tracking-wider">
+                <span className="text-xs font-semibold text-[#1E7B48] uppercase tracking-wider">
                   {lang === "en" ? "Step 1 • Seedbed" : "ধাপ ১ • বীজতলা"}
                 </span>
                 <Clock size={14} className="text-stone-400" />
               </div>
-              <div className="text-sm font-extrabold text-stone-900">
+              <div className="text-sm font-semibold text-stone-900">
                 {lang === "en" ? "Prepare Seedbed Later" : "দেরিতে বীজতলা তৈরি"}
               </div>
-              <p className="text-stone-600 text-xs font-medium leading-relaxed">
+              <p className="text-stone-600 text-sm font-normal leading-relaxed">
                 {lang === "en"
                   ? "Sow nursery seeds between Nov 28 – Dec 5. Delaying the seedbed stops seedlings from maturing too early."
                   : "২৮ নভেম্বর থেকে ৫ ডিসেম্বরের মধ্যে বীজতলায় বীজ ফেলুন যাতে চারা অতিরিক্ত আগে না বাড়ে।"}
@@ -279,15 +279,15 @@ export default function CalendarPage() {
             {/* Step 2 */}
             <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200/80 space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-extrabold text-[#1E7B48] uppercase tracking-wider">
+                <span className="text-xs font-semibold text-[#1E7B48] uppercase tracking-wider">
                   {lang === "en" ? "Step 2 • Field Planting" : "ধাপ ২ • চারা রোপণ"}
                 </span>
                 <Sprout size={14} className="text-stone-400" />
               </div>
-              <div className="text-sm font-extrabold text-stone-900">
+              <div className="text-sm font-semibold text-stone-900">
                 {lang === "en" ? "Transplant to Main Field" : "মূল জমিতে চারা রোপণ"}
               </div>
-              <p className="text-stone-600 text-xs font-medium leading-relaxed">
+              <p className="text-stone-600 text-sm font-normal leading-relaxed">
                 {lang === "en"
                   ? "Transplant 25–30 day old seedlings into the prepared muddy field by Dec 18 for best root establishment."
                   : "১৮ ডিসেম্বরের মধ্যে ২৫-৩০ দিনের সুস্থ চারা মূল জমিতে রোপণ সম্পন্ন করুন।"}
@@ -297,15 +297,15 @@ export default function CalendarPage() {
             {/* Step 3 */}
             <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200/80 space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-extrabold text-[#1E7B48] uppercase tracking-wider">
+                <span className="text-xs font-semibold text-[#1E7B48] uppercase tracking-wider">
                   {lang === "en" ? "Step 3 • Flowering Care" : "ধাপ ৩ • পরিচর্যা"}
                 </span>
                 <Droplets size={14} className="text-[#0284C7]" />
               </div>
-              <div className="text-sm font-extrabold text-stone-900">
+              <div className="text-sm font-semibold text-stone-900">
                 {lang === "en" ? "Watering During Flowering" : "ফুল ফোটার সময় সেচ"}
               </div>
-              <p className="text-stone-600 text-xs font-medium leading-relaxed">
+              <p className="text-stone-600 text-sm font-normal leading-relaxed">
                 {lang === "en"
                   ? "Provide light irrigation in the evening when flowers appear in April to keep root zones cool and grains full."
                   : "এপ্রিলে ফুল আসার সময় বিকেলে হালকা সেচ দিন যাতে মাটির তাপমাত্রা সহনশীল থাকে।"}
@@ -321,11 +321,11 @@ export default function CalendarPage() {
       <div className="rounded-3xl bg-white border border-stone-200/90 shadow-[0_2px_10px_rgba(0,0,0,0.03)] p-6 sm:p-7 space-y-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h3 className="text-base sm:text-lg font-extrabold text-stone-900 flex items-center gap-2">
+            <h3 className="text-lg sm:text-xl font-semibold text-stone-900 flex items-center gap-2">
               <Calendar size={18} className="text-[#1E7B48]" />
               <span>{lang === "en" ? "Planting Dates for All Major Crops" : "সকল প্রধান ফসলের রোপণ সময়সূচী"}</span>
             </h3>
-            <p className="text-xs text-stone-500 mt-0.5">
+            <p className="text-sm text-stone-500 font-normal mt-0.5">
               {lang === "en"
                 ? "Click any crop below to load its safe dates into the timeline above"
                 : "যেকোনো ফসলে ক্লিক করে উপরের টাইমলাইনে বিস্তারিত দেখুন"}
@@ -362,11 +362,11 @@ export default function CalendarPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm font-bold text-stone-900 truncate">
+                        <span className="text-lg font-semibold text-stone-900 truncate">
                           {c.nameEn}
                         </span>
                         {isSelected && (
-                          <span className="px-2 py-0.5 rounded-full text-xs font-extrabold bg-[#DCFCE7] text-[#15803D]">
+                          <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-[#DCFCE7] text-[#15803D]">
                             Active
                           </span>
                         )}
@@ -383,23 +383,23 @@ export default function CalendarPage() {
                       <span className="text-stone-500 font-medium">
                         {lang === "en" ? "Recommended:" : "উপযুক্ত সময়:"}
                       </span>
-                      <span className="font-extrabold text-[#1E7B48] font-mono">
+                      <span className="font-bold text-[#1E7B48] font-mono">
                         {safeDates}
                       </span>
                     </div>
-                    <div className="flex items-center justify-between text-xs text-stone-500">
+                    <div className="flex items-center justify-between text-xs text-stone-500 font-medium">
                       <span>{lang === "en" ? "Old Window:" : "পূর্ববর্তী সময়:"}</span>
                       <span className="line-through font-mono">{c.typicalSowing.label}</span>
                     </div>
                   </div>
 
-                  <p className="text-xs text-stone-600 line-clamp-2 leading-relaxed">
+                  <p className="text-sm font-normal text-stone-600 line-clamp-2 leading-relaxed">
                     {lang === "en" ? c.descriptionEn : c.descriptionBn}
                   </p>
                 </div>
 
                 <div className="pt-3 mt-2 border-t border-stone-100 flex items-center justify-between text-xs">
-                  <span className={`font-bold text-xs ${isSelected ? "text-[#1E7B48]" : "text-stone-600"}`}>
+                  <span className={`font-semibold text-xs ${isSelected ? "text-[#1E7B48]" : "text-stone-600"}`}>
                     {isSelected ? "Currently Viewing" : "Click to View Calendar"}
                   </span>
                   <ChevronRight size={14} className={isSelected ? "text-[#1E7B48]" : "text-stone-400"} />
@@ -416,14 +416,14 @@ export default function CalendarPage() {
       <div className="rounded-3xl bg-white border border-stone-200/90 shadow-[0_2px_10px_rgba(0,0,0,0.03)] p-6 sm:p-7 flex flex-col md:flex-row items-center justify-between gap-6">
         <Link
           href="/shift"
-          className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-800 text-sm sm:text-base font-bold transition-all"
+          className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-800 text-sm sm:text-base font-semibold transition-all"
         >
           <ArrowLeft size={16} />
           <span>{lang === "en" ? "Back to Crop Recommendations" : "বিকল্প ফসলের তালিকায় ফিরুন"}</span>
         </Link>
 
         <div className="text-center sm:text-right space-y-0.5">
-          <div className="text-sm font-bold text-stone-900">
+          <div className="text-base font-semibold text-stone-900">
             {lang === "en" ? `Calendar Ready for ${currentCrop.nameEn}` : `${currentCrop.nameBn} এর সময়সূচী প্রস্তুত`}
           </div>
           <div className="text-xs text-stone-600 font-medium">
@@ -433,7 +433,7 @@ export default function CalendarPage() {
 
         <Link
           href="/advisory"
-          className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#1E7B48] hover:bg-[#165E36] text-white text-sm sm:text-base font-bold shadow-md hover:shadow-lg transition-all shrink-0"
+          className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#1E7B48] hover:bg-[#165E36] text-white text-sm sm:text-base font-semibold shadow-md hover:shadow-lg transition-all shrink-0"
         >
           <span>{lang === "en" ? "See Weather Alerts & SMS" : "আবহাওয়া সতর্কতা ও বার্তা"}</span>
           <ArrowRight size={16} />

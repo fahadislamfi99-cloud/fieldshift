@@ -43,7 +43,7 @@ export default function AdvisoryPage() {
             Target: Upazila Agriculture Officers & Smallholder Farmers
           </span>
         </div>
-        <h1 className="text-2xl font-extrabold text-stone-900 mt-1 tracking-tight">
+        <h1 className="text-[28px] sm:text-[32px] font-bold text-stone-900 mt-1 tracking-tight">
           {lang === "en" ? "Farmer Advisory & Delivery Hub" : "কৃষক পরামর্শ ও বার্তা প্রেরণ কেন্দ্র"}
         </h1>
         <p className="text-sm text-stone-600 mt-1 max-w-2xl leading-relaxed">

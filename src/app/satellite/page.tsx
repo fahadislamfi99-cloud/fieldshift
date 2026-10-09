@@ -67,7 +67,7 @@ export default function SatellitePage() {
               NASA Earth Science Division
             </span>
           </div>
-          <h1 className="text-2xl font-extrabold text-stone-900 mt-1 tracking-tight">
+          <h1 className="text-[28px] sm:text-[32px] font-bold text-stone-900 mt-1 tracking-tight">
             {lang === "en" ? "NASA Earth Observation Explorer" : "নাসা উপগ্রহ পর্যবেক্ষণ কেন্দ্র"}
           </h1>
           <p className="text-sm text-stone-600 mt-1 max-w-2xl">

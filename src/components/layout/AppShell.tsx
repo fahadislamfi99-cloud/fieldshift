@@ -19,6 +19,7 @@ import {
   Leaf,
   Map as MapIcon,
   MoreHorizontal,
+  Globe,
 } from "lucide-react";
 
 interface AppShellProps {
@@ -27,7 +28,7 @@ interface AppShellProps {
 
 export const AppShell: React.FC<AppShellProps> = ({ children }) => {
   const pathname = usePathname();
-  const { currentZone, zones, setZoneId } = useApp();
+  const { currentZone, zones, setZoneId, lang, setLang } = useApp();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -193,8 +194,19 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
             </div>
           </div>
 
-          {/* Right Header: Notification Bell & Officer Profile */}
-          <div className="flex items-center gap-3">
+          {/* Right Header: Language Switcher, Notification Bell & Officer Profile */}
+          <div className="flex items-center gap-2.5">
+            {/* Language Switcher Pill */}
+            <button
+              type="button"
+              onClick={() => setLang(lang === "en" ? "bn" : "en")}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-stone-200/90 text-xs font-semibold text-stone-700 hover:text-stone-900 shadow-2xs transition-all hover:border-emerald-400"
+              title="Toggle English / বাংলা"
+            >
+              <Globe size={14} className="text-[#1E7B48]" />
+              <span className="font-semibold">{lang === "en" ? "বাং / BN" : "EN"}</span>
+            </button>
+
             {/* Notification Bell */}
             <button
               type="button"

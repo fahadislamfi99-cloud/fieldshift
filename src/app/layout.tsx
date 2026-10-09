@@ -22,8 +22,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full antialiased" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body
-        className="min-h-full bg-[#F4F6F4] text-stone-900 font-sans selection:bg-emerald-200 selection:text-emerald-950"
+        className="min-h-full bg-[#EFF4EF] text-[#14211A] antialiased selection:bg-emerald-200 selection:text-emerald-950"
         suppressHydrationWarning
       >
         <AppProvider>

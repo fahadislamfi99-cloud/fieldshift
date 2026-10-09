@@ -134,11 +134,11 @@ export default function CropShiftPage() {
               </span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-stone-900 tracking-tight leading-tight">
+            <h1 className="text-[28px] sm:text-[32px] font-bold text-stone-900 tracking-tight leading-tight">
               {lang === "en" ? "Best Crops for Your Farm" : "আপনার জমির জন্য সেরা ফসল"}
             </h1>
 
-            <p className="text-xs sm:text-sm font-medium text-stone-600 leading-relaxed max-w-xl">
+            <p className="text-sm sm:text-base font-normal text-stone-600 leading-relaxed max-w-xl">
               {lang === "en"
                 ? "Find crops that need only 2 to 3 waterings, beat hot summer weather, and save you thousands of Taka on diesel and electricity bills."
                 : "নাসার আবহাওয়া তথ্যের ভিত্তিতে মাত্র ২-৩ সেচে ঘরে তোলা যায় এমন লাভজনক ফসল বেছে নিন।"}
@@ -146,15 +146,15 @@ export default function CropShiftPage() {
 
             {/* Field Information Pills */}
             <div className="flex flex-wrap items-center gap-2 pt-1">
-              <div className="px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-stone-200 text-xs font-bold text-stone-800 shadow-2xs flex items-center gap-1.5">
+              <div className="px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-stone-200 text-xs font-medium text-stone-800 shadow-2xs flex items-center gap-1.5">
                 <MapPin size={13} className="text-[#1E7B48]" />
                 <span>{currentZone.nameEn}</span>
               </div>
-              <div className="px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-stone-200 text-xs font-bold text-stone-800 shadow-2xs flex items-center gap-1.5">
+              <div className="px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-stone-200 text-xs font-medium text-stone-800 shadow-2xs flex items-center gap-1.5">
                 <Sprout size={13} className="text-[#1E7B48]" />
                 <span>{lang === "en" ? "Current:" : "বর্তমান ফসল:"} {currentCrop.nameEn}</span>
               </div>
-              <div className="px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-stone-200 text-xs font-bold text-stone-800 shadow-2xs flex items-center gap-1.5">
+              <div className="px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-stone-200 text-xs font-medium text-stone-800 shadow-2xs flex items-center gap-1.5">
                 <Droplets size={13} className="text-[#0284C7]" />
                 <span>{lang === "en" ? "Tubewell Water: Running Low" : "নলকূপের পানি: সংকটজনক"}</span>
               </div>
@@ -164,11 +164,11 @@ export default function CropShiftPage() {
           {/* Right: Tactile Farm Size Controller */}
           <div className="w-full lg:w-84 p-5 rounded-2xl bg-white/95 backdrop-blur-md border border-stone-200 shadow-md space-y-3.5 shrink-0">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-stone-800 flex items-center gap-1.5">
+              <span className="text-xs font-medium text-stone-800 flex items-center gap-1.5">
                 <Sliders size={14} className="text-[#1E7B48]" />
                 <span>{lang === "en" ? "Your Land Size" : "জমির পরিমাণ"}</span>
               </span>
-              <span className="px-3 py-0.5 rounded-full text-xs font-extrabold bg-[#DCFCE7] text-[#15803D] border border-emerald-200 font-mono shadow-2xs">
+              <span className="px-3 py-0.5 rounded-full text-xs font-semibold bg-[#DCFCE7] text-[#15803D] border border-emerald-200 font-mono shadow-2xs">
                 {farmAcres.toFixed(1)} {lang === "en" ? "Acres" : "একর"}
               </span>
             </div>
@@ -192,7 +192,7 @@ export default function CropShiftPage() {
                   key={val}
                   type="button"
                   onClick={() => setFarmAcres(val)}
-                  className={`flex-1 py-1 rounded-lg text-xs font-bold transition-all ${
+                  className={`flex-1 py-1 rounded-lg text-sm font-semibold transition-all ${
                     farmAcres === val
                       ? "bg-[#1E7B48] text-white shadow-2xs"
                       : "bg-white text-stone-600 border border-stone-200 hover:bg-stone-50"
@@ -203,7 +203,7 @@ export default function CropShiftPage() {
               ))}
             </div>
 
-            <div className="text-xs text-stone-600 font-medium text-center">
+            <div className="text-sm text-stone-600 font-normal text-center">
               {lang === "en"
                 ? "Move slider to see how much water & diesel money you save."
                 : "স্লাইডার নাড়িয়ে দেখুন কত পানি ও জ্বালানি খরচ বাঁচবে।"}
@@ -308,12 +308,12 @@ export default function CropShiftPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-base font-extrabold text-[#166534] leading-tight">
+                  <h2 className="text-lg sm:text-xl font-semibold text-[#166534] leading-tight">
                     {lang === "en"
                       ? `Switch to ${bestAlternative.crop.nameEn}`
                       : `${bestAlternative.crop.nameBn} চাষ করুন`}
                   </h2>
-                  <p className="text-sm text-[#15803D] mt-1 leading-relaxed">
+                  <p className="text-sm font-normal text-[#15803D] mt-1 leading-relaxed">
                     {lang === "en"
                       ? `Harvests in just ${bestAlternative.crop.growthDays} days before summer heat starts. Needs only 2–3 light waterings, cutting irrigation costs by 77%.`
                       : `মাত্র ${bestAlternative.crop.growthDays} দিনে গরম পড়ার আগেই ঘরে তোলা যায়। বোরো ধানের চেয়ে ৭৭% কম সেচ লাগে।`}
@@ -327,10 +327,10 @@ export default function CropShiftPage() {
                 <span className="text-xs text-stone-600 font-medium block">
                   {lang === "en" ? "Water Saved" : "পানি সাশ্রয়"}
                 </span>
-                <span className="text-sm font-extrabold text-[#1E7B48] font-mono mt-0.5 block">
-                  77% Less Water
+                <span className="text-[26px] sm:text-[30px] font-bold text-[#1E7B48] font-mono mt-0.5 block leading-tight">
+                  77% Less
                 </span>
-                <span className="text-xs text-stone-500 block mt-0.5">
+                <span className="text-xs text-stone-500 font-medium block mt-0.5">
                   ~{maxPumpHoursSaved} pump hrs
                 </span>
               </div>
@@ -338,10 +338,10 @@ export default function CropShiftPage() {
                 <span className="text-xs text-stone-600 font-medium block">
                   {lang === "en" ? "Diesel Bill Saved" : "জ্বালানি খরচ সাশ্রয়"}
                 </span>
-                <span className="text-sm font-extrabold text-[#1E7B48] font-mono mt-0.5 block">
+                <span className="text-[26px] sm:text-[30px] font-bold text-[#1E7B48] font-mono mt-0.5 block leading-tight">
                   ৳{maxCostSaved.toLocaleString()}
                 </span>
-                <span className="text-xs text-stone-500 block mt-0.5">
+                <span className="text-xs text-stone-500 font-medium block mt-0.5">
                   In pump fuel/power
                 </span>
               </div>
@@ -349,10 +349,10 @@ export default function CropShiftPage() {
                 <span className="text-xs text-stone-600 font-medium block">
                   {lang === "en" ? "Profit Safety" : "লাভের নিশ্চয়তা"}
                 </span>
-                <span className="text-sm font-extrabold text-[#1E7B48] font-mono mt-0.5 block">
+                <span className="text-lg sm:text-xl font-bold text-[#1E7B48] font-mono mt-0.5 block">
                   {lang === "en" ? "+22% High" : "+২২% বেশি"}
                 </span>
-                <span className="text-xs text-stone-500 block mt-0.5">
+                <span className="text-xs text-stone-500 font-medium block mt-0.5">
                   Stable dry season crop
                 </span>
               </div>
@@ -368,7 +368,7 @@ export default function CropShiftPage() {
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h2 className="text-lg sm:text-xl font-extrabold text-stone-900 flex items-center gap-2">
+            <h2 className="text-lg sm:text-xl font-semibold text-stone-900 flex items-center gap-2">
               <Sprout size={20} className="text-[#1E7B48]" />
               <span>
                 {lang === "en"
@@ -376,7 +376,7 @@ export default function CropShiftPage() {
                   : "আপনার জমির জন্য উপযোগী বিকল্প ফসল"}
               </span>
             </h2>
-            <p className="text-xs text-stone-500 mt-0.5">
+            <p className="text-sm text-stone-500 font-normal mt-0.5">
               {lang === "en"
                 ? "Ranked by least water needed, heat resistance, and highest farmer profit"
                 : "কম পানি, তাপ সহনশীলতা ও বেশি লাভের ভিত্তিতে সাজানো"}
@@ -384,10 +384,10 @@ export default function CropShiftPage() {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-stone-500">
+            <span className="text-xs font-medium text-stone-500">
               {lang === "en" ? "Calculated for:" : "হিসাব করা হয়েছে:"}
             </span>
-            <span className="px-2.5 py-1 rounded-xl bg-white border border-stone-200 text-xs font-extrabold font-mono text-stone-900 shadow-2xs">
+            <span className="px-2.5 py-1 rounded-xl bg-white border border-stone-200 text-xs font-semibold font-mono text-stone-900 shadow-2xs">
               {farmAcres.toFixed(1)} {lang === "en" ? "Acres" : "একর"}
             </span>
           </div>
@@ -446,10 +446,10 @@ export default function CropShiftPage() {
 
                     {/* Crop Name & Days on Photo */}
                     <div className="absolute bottom-3.5 left-3.5 right-3.5">
-                      <h3 className="text-base sm:text-lg font-extrabold text-white leading-tight drop-shadow-sm">
+                      <h3 className="text-lg sm:text-[20px] font-semibold text-white leading-tight drop-shadow-sm">
                         {lang === "en" ? alt.crop.nameEn : alt.crop.nameBn}
                       </h3>
-                      <div className="text-xs text-emerald-300 font-semibold mt-0.5 drop-shadow-sm flex items-center gap-1.5">
+                      <div className="text-xs text-emerald-300 font-medium mt-0.5 drop-shadow-sm flex items-center gap-1.5">
                         <span>{alt.crop.growthDays} {lang === "en" ? "Days to Harvest" : "দিনে ফলন"}</span>
                         <span>•</span>
                         <span>{lang === "en" ? `Saves ${alt.crop.waterSavingsVsRicePercent}% Water` : `${alt.crop.waterSavingsVsRicePercent}% পানি সাশ্রয়`}</span>
@@ -531,7 +531,7 @@ export default function CropShiftPage() {
                           <span>{lang === "en" ? "Water Saved:" : "পানি সাশ্রয়:"}</span>
                         </span>
                         <div className="text-right">
-                          <span className="font-extrabold text-[#0284C7] font-mono text-sm sm:text-base block">
+                          <span className="font-bold text-[#0284C7] font-mono text-base sm:text-lg block">
                             {alt.crop.waterSavingsVsRicePercent}% Less Water
                           </span>
                           <span className="text-xs text-stone-600 font-medium block">
@@ -548,7 +548,7 @@ export default function CropShiftPage() {
                           <span>{lang === "en" ? "Pump Fuel Money Saved:" : "সেচ খরচ সাশ্রয়:"}</span>
                         </span>
                         <div className="text-right">
-                          <span className="font-extrabold text-[#1E7B48] font-mono text-sm sm:text-base block">
+                          <span className="font-bold text-[#1E7B48] font-mono text-base sm:text-lg block">
                             ৳{totalCostSaved.toLocaleString()} BDT
                           </span>
                           <span className="text-xs text-stone-600 font-medium block">
@@ -565,7 +565,7 @@ export default function CropShiftPage() {
                   <button
                     type="button"
                     onClick={() => setCropId(alt.crop.id)}
-                    className={`w-full py-3 rounded-2xl text-sm font-extrabold transition-all flex items-center justify-center gap-2 ${
+                    className={`w-full py-3 rounded-2xl text-sm sm:text-base font-semibold transition-all flex items-center justify-center gap-2 ${
                       isSelected
                         ? "bg-[#1E7B48] text-white shadow-sm"
                         : "bg-stone-100 hover:bg-[#1E7B48] hover:text-white text-stone-800"
@@ -582,7 +582,7 @@ export default function CropShiftPage() {
                   <Link
                     href="/calendar"
                     onClick={() => setCropId(alt.crop.id)}
-                    className="w-full py-2 rounded-xl text-xs font-bold text-stone-600 hover:text-stone-900 flex items-center justify-center gap-1 hover:bg-stone-50 transition-colors"
+                    className="w-full py-2 rounded-xl text-xs font-semibold text-stone-600 hover:text-stone-900 flex items-center justify-center gap-1 hover:bg-stone-50 transition-colors"
                   >
                     <span>{lang === "en" ? "See Planting Dates" : "রোপণের সময়সূচী দেখুন"}</span>
                     <ChevronRight size={13} />
@@ -608,7 +608,7 @@ export default function CropShiftPage() {
               <div className="text-xs text-stone-500 font-medium uppercase tracking-wider">
                 {lang === "en" ? `Water Saved (${farmAcres} Acres)` : `মোট পানি সাশ্রয় (${farmAcres} একর)`}
               </div>
-              <div className="text-lg sm:text-xl font-extrabold text-stone-900 font-mono">
+              <div className="text-[26px] sm:text-[30px] font-bold text-stone-900 font-mono leading-tight">
                 77% Less Water
               </div>
               <div className="text-xs text-stone-600 font-medium">
@@ -630,7 +630,7 @@ export default function CropShiftPage() {
               <div className="text-xs text-stone-500 font-medium uppercase tracking-wider">
                 {lang === "en" ? "Diesel & Pumping Cost Saved" : "ডিজেল ও সেচ খরচ সাশ্রয়"}
               </div>
-              <div className="text-lg sm:text-xl font-extrabold text-[#1E7B48] font-mono">
+              <div className="text-[26px] sm:text-[30px] font-bold text-[#1E7B48] font-mono leading-tight">
                 ৳{maxCostSaved.toLocaleString()} BDT
               </div>
               <div className="text-xs text-stone-600 font-medium">
@@ -650,7 +650,7 @@ export default function CropShiftPage() {
               <div className="text-xs text-stone-500 font-medium uppercase tracking-wider">
                 {lang === "en" ? "Tubewell Protection" : "নলকূপ রক্ষা"}
               </div>
-              <div className="text-lg sm:text-xl font-extrabold text-stone-900 font-mono">
+              <div className="text-lg sm:text-xl font-bold text-stone-900 font-mono">
                 {lang === "en" ? "Wells Protected" : "ভূগর্ভস্থ পানি নিরাপদ"}
               </div>
               <div className="text-xs text-stone-600 font-medium">
@@ -663,7 +663,7 @@ export default function CropShiftPage() {
         {/* Proceed to Dynamic Calendar CTA */}
         <Link
           href="/calendar"
-          className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-stone-900 hover:bg-stone-800 text-white text-sm sm:text-base font-bold shadow-md hover:shadow-lg transition-all shrink-0"
+          className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-stone-900 hover:bg-stone-800 text-white text-sm sm:text-base font-semibold shadow-md hover:shadow-lg transition-all shrink-0"
         >
           <Calendar size={16} />
           <span>{lang === "en" ? "See Planting Calendar" : "রোপণের ক্যালেন্ডার দেখুন"}</span>
