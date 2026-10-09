@@ -1,0 +1,32 @@
+[
+  {
+    "id": "barind_godagari",
+    "nameEn": "Godagari, Barind Tract",
+    "nameBn": "গোদাগাড়ী, বরেন্দ্র অঞ্চল",
+    "districtEn": "Rajshahi",
+    "upazilaEn": "Godagari",
+    "lat": 24.469,
+    "lon": 88.331,
+    "elevationM": 28,
+    "dominantCurrentCropId": "boro_rice",
+    "groundwaterStatus": "critical_depletion",
+    "salinityRiskLevel": "low",
+    "soilPh": 6.4,
+    "primaryClimateVulnerability": "Rapid groundwater table collapse (-0.8m/yr) and acute March flowering heat spikes (>35°C)."
+  },
+  {
+    "id": "coastal_shyamnagar",
+    "nameEn": "Shyamnagar, Coastal Belt",
+    "nameBn": "শ্যামনগর, উপকূলীয় অঞ্চল",
+    "districtEn": "Satkhira",
+    "upazilaEn": "Shyamnagar",
+    "lat": 22.330,
+    "lon": 89.102,
+    "elevationM": 4,
+    "dominantCurrentCropId": "aman_rice",
+    "groundwaterStatus": "moderate",
+    "salinityRiskLevel": "high",
+    "soilPh": 7.6,
+    "primaryClimateVulnerability": "High dry-season salinity ingress (>6 dS/m) and +14 day delayed monsoon onset."
+  }
+]
