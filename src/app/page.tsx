@@ -1,13 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useApp } from "@/context/AppContext";
+import { CustomSelect, SelectOption } from "@/components/CustomSelect";
 import {
   MapPin,
   Sprout,
   Droplets,
-  ChevronDown,
   ArrowRight,
   CheckCircle2,
   Sliders,
@@ -18,7 +18,6 @@ export default function HomePage() {
     currentZone,
     zoneId,
     setZoneId,
-    currentCrop,
     cropId,
     setCropId,
     zones,
@@ -28,10 +27,10 @@ export default function HomePage() {
     setFarmerStatus,
     waterAccess,
     setWaterAccess,
-    hasConfigured,
     saveUserSelection,
-    resetUserSelection,
   } = useApp();
+
+  const [openSelect, setOpenSelect] = useState<"location" | "crop" | "water" | null>(null);
 
   const handleSelectZone = (id: string) => {
     setZoneId(id);
@@ -67,25 +66,63 @@ export default function HomePage() {
 
   const isPlanted = farmerStatus === "already_planted";
 
+  // Location select options
+  const locationOptions: SelectOption[] = zones.map((z) => ({
+    value: z.id,
+    label: z.nameEn.split(",")[0],
+    sublabel: `${z.districtEn} • ${z.primaryClimateVulnerability.split(".")[0]}`,
+    badge: z.groundwaterStatus === "critical_depletion" ? (lang === "en" ? "Low Aquifer" : "সংকটজনক পানি") : undefined,
+  }));
+
+  // Crop select options
+  const cropOptions: SelectOption[] = crops.map((c) => ({
+    value: c.id,
+    label: c.nameEn,
+    sublabel: `${c.waterReqMm} mm water demand • ${c.growthDays} days harvest`,
+    badge: c.waterSavingsVsRicePercent ? `-${c.waterSavingsVsRicePercent}% Water` : undefined,
+  }));
+
+  // Water source select options
+  const waterOptions: SelectOption[] = [
+    {
+      value: "Deep Tubewell",
+      label: "Deep Tubewell",
+      sublabel: lang === "en" ? "Deep groundwater • High electricity/diesel cost" : "ভূগর্ভস্থ পানি • উচ্চ সেচ খরচ",
+      badge: lang === "en" ? "Groundwater" : "ভূগর্ভস্থ",
+    },
+    {
+      value: "Shallow Tubewell",
+      label: "Shallow Tubewell",
+      sublabel: lang === "en" ? "Upper aquifer • Water level drops in dry season" : "অগভীর নলকূপ • খরায় পানি কমে",
+      badge: lang === "en" ? "Seasonal" : "মৌসুমি",
+    },
+    {
+      value: "Canal / Surface",
+      label: "Canal / Surface",
+      sublabel: lang === "en" ? "Rivers & canals • Low pumping cost gravity flow" : "নদী ও খাল • স্বল্প সেচ খরচ",
+      badge: lang === "en" ? "Surface" : "উপরিভাগ",
+    },
+  ];
+
   return (
     <div className="space-y-6" suppressHydrationWarning>
       {/* HERO BANNER CARD */}
-      <div className="relative rounded-3xl overflow-hidden border border-stone-200/90 shadow-[0_4px_24px_rgba(0,0,0,0.04)] min-h-[500px] sm:min-h-[560px] flex flex-col justify-between">
+      <div className="relative rounded-3xl border border-stone-200/90 shadow-[0_4px_24px_rgba(0,0,0,0.04)] min-h-[520px] sm:min-h-[580px] pb-6 flex flex-col justify-between">
         {/* Full Photographic Landscape Background */}
         <div
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute inset-0 bg-cover bg-center rounded-3xl"
           style={{ backgroundImage: `url('/images/hero_landscape.jpg')` }}
         />
 
         {/* Soft Gradient Overlay for Maximum Readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-white/98 via-white/92 sm:via-white/80 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-white/98 via-white/92 sm:via-white/80 to-transparent rounded-3xl pointer-events-none" />
 
         {/* Floating Location Marker on the Landscape Photo (Desktop) */}
         <div className="hidden xl:flex absolute top-12 right-20 z-20 flex-col items-center pointer-events-none">
           <div className="px-4 py-2 rounded-full bg-white/95 backdrop-blur-md border border-stone-200 text-xs font-bold text-stone-900 shadow-md flex items-center gap-1.5">
             <MapPin size={14} className="text-[#1E7B48]" />
             <span>
-              {currentZone
+              {zoneId && currentZone
                 ? `${currentZone.nameEn.split(",")[0]}, Rajshahi`
                 : (lang === "en" ? "Barind Tract, Rajshahi" : "বরেন্দ্র অঞ্চল, রাজশাহী")}
             </span>
@@ -124,7 +161,7 @@ export default function HomePage() {
           </div>
 
           {/* =========================================================================
-              UNIFIED OPTION SELECT CARD (Nothing selected by default)
+              UNIFIED OPTION SELECT CARD (With Polished Custom Dropdowns)
               ========================================================================= */}
           <div className="p-4 sm:p-5 rounded-3xl bg-white/95 backdrop-blur-md border border-stone-200/90 shadow-[0_4px_16px_rgba(0,0,0,0.03)] space-y-4">
             {/* Header: Label */}
@@ -177,181 +214,60 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* STEP 2: The 3 Field Details Tiles (Unselected by default) */}
+            {/* STEP 2: The 3 Field Details Custom Dropdown Tiles */}
             <div className="space-y-1.5">
               <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider block">
                 {lang === "en" ? "2. Field Specifications:" : "২. জমির বিবরণ:"}
               </span>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {/* Tile 1: Location */}
-                <div
-                  className={`group relative p-3 rounded-2xl bg-stone-50/90 hover:bg-white border transition-all flex flex-col justify-between min-h-[88px] ${
-                    zoneId
-                      ? "border-stone-200/90 hover:border-emerald-500/80 hover:shadow-xs focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-500/20"
-                      : "border-stone-300 border-dashed hover:border-emerald-400"
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider flex items-center gap-1.5">
-                      <MapPin size={13} className={zoneId ? "text-[#1E7B48]" : "text-stone-400"} />
-                      <span>{lang === "en" ? "Location" : "এলাকা"}</span>
-                    </span>
-                    <div className="w-5 h-5 rounded-full bg-stone-200/70 group-hover:bg-emerald-100 text-stone-500 group-hover:text-[#1E7B48] flex items-center justify-center transition-colors">
-                      <ChevronDown size={12} />
-                    </div>
-                  </div>
+                {/* Custom Tile 1: Location */}
+                <CustomSelect
+                  label={lang === "en" ? "Location" : "এলাকা"}
+                  value={zoneId}
+                  options={locationOptions}
+                  onChange={handleSelectZone}
+                  placeholder={lang === "en" ? "Select Location..." : "এলাকা নির্বাচন করুন..."}
+                  subtextPlaceholder={lang === "en" ? "Choose Upazila/District" : "উপজেলা বা জেলা"}
+                  icon={<MapPin size={13} className={zoneId ? "text-[#1E7B48]" : "text-stone-400"} />}
+                  isOpen={openSelect === "location"}
+                  onToggle={() => setOpenSelect(openSelect === "location" ? null : "location")}
+                  onClose={() => setOpenSelect(null)}
+                />
 
-                  <div className="mt-1">
-                    <div
-                      className={`text-sm leading-tight ${
-                        currentZone
-                          ? "font-bold text-stone-900 group-hover:text-[#1E7B48]"
-                          : "font-semibold text-stone-400 italic"
-                      }`}
-                    >
-                      {currentZone
-                        ? currentZone.nameEn.split(",")[0]
-                        : (lang === "en" ? "Select Location..." : "এলাকা নির্বাচন করুন...")}
-                    </div>
-                    <div className="text-[11px] font-medium text-stone-500 mt-0.5 leading-tight">
-                      {currentZone
-                        ? `${currentZone.districtEn} • Barind`
-                        : (lang === "en" ? "Choose Upazila/District" : "উপজেলা বা জেলা")}
-                    </div>
-                  </div>
+                {/* Custom Tile 2: Crop */}
+                <CustomSelect
+                  label={
+                    farmerStatus === "already_planted"
+                      ? (lang === "en" ? "Standing Crop" : "চলতি ফসল")
+                      : farmerStatus === "not_planted"
+                      ? (lang === "en" ? "Target Crop" : "পরিকল্পিত ফসল")
+                      : (lang === "en" ? "Crop" : "ফসল")
+                  }
+                  value={cropId}
+                  options={cropOptions}
+                  onChange={handleSelectCrop}
+                  placeholder={lang === "en" ? "Select Crop..." : "ফসল নির্বাচন করুন..."}
+                  subtextPlaceholder={lang === "en" ? "Paddy, mustard, wheat" : "ধান, সরিষা, গম"}
+                  icon={<Sprout size={13} className={cropId ? "text-[#1E7B48]" : "text-stone-400"} />}
+                  isOpen={openSelect === "crop"}
+                  onToggle={() => setOpenSelect(openSelect === "crop" ? null : "crop")}
+                  onClose={() => setOpenSelect(null)}
+                />
 
-                  <select
-                    aria-label="Select Target Location"
-                    value={zoneId}
-                    onChange={(e) => handleSelectZone(e.target.value)}
-                    className="opacity-0 absolute inset-0 w-full h-full cursor-pointer focus:outline-none"
-                  >
-                    <option value="" disabled>
-                      {lang === "en" ? "-- Choose Location --" : "-- এলাকা নির্বাচন করুন --"}
-                    </option>
-                    {zones.map((z) => (
-                      <option key={z.id} value={z.id}>
-                        {z.nameEn}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Tile 2: Crop */}
-                <div
-                  className={`group relative p-3 rounded-2xl bg-stone-50/90 hover:bg-white border transition-all flex flex-col justify-between min-h-[88px] ${
-                    cropId
-                      ? "border-stone-200/90 hover:border-emerald-500/80 hover:shadow-xs focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-500/20"
-                      : "border-stone-300 border-dashed hover:border-emerald-400"
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider flex items-center gap-1.5">
-                      <Sprout size={13} className={cropId ? "text-[#1E7B48]" : "text-stone-400"} />
-                      <span>
-                        {farmerStatus === "already_planted"
-                          ? (lang === "en" ? "Standing Crop" : "চলতি ফসল")
-                          : farmerStatus === "not_planted"
-                          ? (lang === "en" ? "Target Crop" : "পরিকল্পিত ফসল")
-                          : (lang === "en" ? "Crop" : "ফসল")}
-                      </span>
-                    </span>
-                    <div className="w-5 h-5 rounded-full bg-stone-200/70 group-hover:bg-emerald-100 text-stone-500 group-hover:text-[#1E7B48] flex items-center justify-center transition-colors">
-                      <ChevronDown size={12} />
-                    </div>
-                  </div>
-
-                  <div className="mt-1">
-                    <div
-                      className={`text-sm leading-tight ${
-                        currentCrop
-                          ? "font-bold text-stone-900 group-hover:text-[#1E7B48]"
-                          : "font-semibold text-stone-400 italic"
-                      }`}
-                    >
-                      {currentCrop
-                        ? currentCrop.nameEn
-                        : (lang === "en" ? "Select Crop..." : "ফসল নির্বাচন করুন...")}
-                    </div>
-                    <div className="text-[11px] font-medium text-stone-500 mt-0.5 leading-tight">
-                      {currentCrop
-                        ? (farmerStatus === "already_planted"
-                            ? (lang === "en" ? "High Water Need" : "অধিক পানির চাহিদা")
-                            : (lang === "en" ? "Baseline Paddy" : "ভিত্তি ধান"))
-                        : (lang === "en" ? "Paddy, mustard, wheat" : "ধান, সরিষা, গম")}
-                    </div>
-                  </div>
-
-                  <select
-                    aria-label="Select Current Crop"
-                    value={cropId}
-                    onChange={(e) => handleSelectCrop(e.target.value)}
-                    className="opacity-0 absolute inset-0 w-full h-full cursor-pointer focus:outline-none"
-                  >
-                    <option value="" disabled>
-                      {lang === "en" ? "-- Choose Crop --" : "-- ফসল নির্বাচন করুন --"}
-                    </option>
-                    {crops.map((c) => (
-                      <option key={c.id} value={c.id}>
-                        {c.nameEn}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Tile 3: Water Access */}
-                <div
-                  className={`group relative p-3 rounded-2xl bg-stone-50/90 hover:bg-white border transition-all flex flex-col justify-between min-h-[88px] ${
-                    waterAccess
-                      ? "border-stone-200/90 hover:border-emerald-500/80 hover:shadow-xs focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-500/20"
-                      : "border-stone-300 border-dashed hover:border-emerald-400"
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider flex items-center gap-1.5">
-                      <Droplets size={13} className={waterAccess ? "text-[#0284C7]" : "text-stone-400"} />
-                      <span>{lang === "en" ? "Water Source" : "পানির উৎস"}</span>
-                    </span>
-                    <div className="w-5 h-5 rounded-full bg-stone-200/70 group-hover:bg-sky-100 text-stone-500 group-hover:text-[#0284C7] flex items-center justify-center transition-colors">
-                      <ChevronDown size={12} />
-                    </div>
-                  </div>
-
-                  <div className="mt-1">
-                    <div
-                      className={`text-sm leading-tight ${
-                        waterAccess
-                          ? "font-bold text-stone-900 group-hover:text-[#0284C7]"
-                          : "font-semibold text-stone-400 italic"
-                      }`}
-                    >
-                      {waterAccess || (lang === "en" ? "Select Water Source..." : "পানির উৎস নির্বাচন করুন...")}
-                    </div>
-                    <div className="text-[11px] font-medium text-stone-500 mt-0.5 leading-tight">
-                      {waterAccess
-                        ? (waterAccess.includes("Deep")
-                            ? (lang === "en" ? "High Pumping Cost" : "উচ্চ সেচ খরচ")
-                            : waterAccess.includes("Shallow")
-                            ? (lang === "en" ? "Aquifer Vulnerable" : "ঝুঁকিপূর্ণ স্তর")
-                            : (lang === "en" ? "Gravity Flow" : "উপরিভাগের পানি"))
-                        : (lang === "en" ? "Tubewell or canal" : "নলকূপ বা খাল")}
-                    </div>
-                  </div>
-
-                  <select
-                    aria-label="Select Irrigation Water Access"
-                    value={waterAccess}
-                    onChange={(e) => handleSelectWater(e.target.value)}
-                    className="opacity-0 absolute inset-0 w-full h-full cursor-pointer focus:outline-none"
-                  >
-                    <option value="" disabled>
-                      {lang === "en" ? "-- Choose Water Source --" : "-- পানির উৎস নির্বাচন করুন --"}
-                    </option>
-                    <option value="Deep Tubewell">Deep Tubewell</option>
-                    <option value="Shallow Tubewell">Shallow Tubewell</option>
-                    <option value="Canal / Surface">Canal / Surface</option>
-                  </select>
-                </div>
+                {/* Custom Tile 3: Water Access */}
+                <CustomSelect
+                  label={lang === "en" ? "Water Source" : "পানির উৎস"}
+                  value={waterAccess}
+                  options={waterOptions}
+                  onChange={handleSelectWater}
+                  placeholder={lang === "en" ? "Select Water Source..." : "পানির উৎস নির্বাচন করুন..."}
+                  subtextPlaceholder={lang === "en" ? "Tubewell or canal" : "নলকূপ বা খাল"}
+                  icon={<Droplets size={13} className={waterAccess ? "text-[#0284C7]" : "text-stone-400"} />}
+                  isOpen={openSelect === "water"}
+                  onToggle={() => setOpenSelect(openSelect === "water" ? null : "water")}
+                  onClose={() => setOpenSelect(null)}
+                  align="right"
+                />
               </div>
             </div>
 
