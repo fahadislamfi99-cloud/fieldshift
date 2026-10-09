@@ -64,16 +64,18 @@ export async function fetchNASAPowerData(
     const params = data.properties.parameter;
 
     const dates = Object.keys(params.T2M || {});
-    return dates.map((dateStr) => ({
-      date: `${dateStr.slice(0, 4)}-${dateStr.slice(4, 6)}-${dateStr.slice(6, 8)}`,
-      tempMeanC: params.T2M?.[dateStr] ?? 26.0,
-      tempMaxC: params.T2M_MAX?.[dateStr] ?? 32.0,
-      tempMinC: params.T2M_MIN?.[dateStr] ?? 20.0,
-      precipitationMm: params.PRECTOTCORR?.[dateStr] ?? 0.0,
-      humidityPercent: params.RH2M?.[dateStr] ?? 60.0,
-      solarRadiationKwh: params.ALLSKY_SFC_SW_DWN?.[dateStr] ?? 5.0,
-      windSpeedKmh: (params.WS2M?.[dateStr] ?? 2.5) * 3.6, // m/s to km/h
-    }));
+    return dates
+      .filter((dateStr) => (params.T2M?.[dateStr] ?? -999) > -900)
+      .map((dateStr) => ({
+        date: `${dateStr.slice(0, 4)}-${dateStr.slice(4, 6)}-${dateStr.slice(6, 8)}`,
+        tempMeanC: params.T2M?.[dateStr] ?? 26.0,
+        tempMaxC: (params.T2M_MAX?.[dateStr] ?? -999) > -900 ? params.T2M_MAX![dateStr] : 32.0,
+        tempMinC: (params.T2M_MIN?.[dateStr] ?? -999) > -900 ? params.T2M_MIN![dateStr] : 20.0,
+        precipitationMm: Math.max(0, params.PRECTOTCORR?.[dateStr] ?? 0.0),
+        humidityPercent: Math.max(0, params.RH2M?.[dateStr] ?? 60.0),
+        solarRadiationKwh: Math.max(0, params.ALLSKY_SFC_SW_DWN?.[dateStr] ?? 5.0),
+        windSpeedKmh: Math.max(0, (params.WS2M?.[dateStr] ?? 2.5) * 3.6),
+      }));
   } catch (error) {
     console.warn("NASA POWER live query failed, utilizing calibrated fallback telemetry", error);
     return [];
