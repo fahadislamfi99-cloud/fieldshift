@@ -1,26 +1,18 @@
 import type { Metadata, Viewport } from "next";
 import { AppProvider } from "@/context/AppContext";
-import { Navbar } from "@/components/navigation/Navbar";
+import { AppShell } from "@/components/layout/AppShell";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "FieldShift | Adapting Farms with NASA Data",
+  title: "FieldShift | Smarter Farms. Stronger Futures.",
   description:
-    "Prescriptive climate adaptation platform translating NASA Earth Science telemetry into actionable crop and calendar shifts for smallholder farmers.",
-  keywords: [
-    "NASA Space Apps 2026",
-    "Field Shift",
-    "Climate Adaptation",
-    "Bangladesh Agriculture",
-    "SMAP",
-    "NASA POWER",
-  ],
+    "Satellite-powered insights for climate-resilient farming in Bangladesh.",
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#163B2A",
+  themeColor: "#FFFFFF",
 };
 
 export default function RootLayout({
@@ -29,11 +21,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full antialiased">
-      <body className="min-h-full flex flex-col bg-stone-50/60 text-stone-900 font-sans">
+    <html lang="en" className="h-full antialiased" suppressHydrationWarning>
+      <body
+        className="min-h-full bg-[#F4F6F4] text-stone-900 font-sans selection:bg-emerald-200 selection:text-emerald-950"
+        suppressHydrationWarning
+      >
         <AppProvider>
-          <Navbar />
-          <main className="flex-1 w-full">{children}</main>
+          <AppShell>{children}</AppShell>
         </AppProvider>
       </body>
     </html>

@@ -1,364 +1,603 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { useApp } from "@/context/AppContext";
 import {
-  Thermometer,
-  Droplets,
-  AlertTriangle,
-  Calendar,
-  ArrowRight,
-  TrendingUp,
-  ShieldAlert,
+  MapPin,
   Sprout,
-  CheckCircle2,
-  Wind,
-  Sun,
+  Droplets,
+  Thermometer,
+  CloudRain,
+  Leaf,
   Layers,
+  Plus,
+  Minus,
+  ChevronRight,
+  ChevronDown,
+  AlertTriangle,
+  ArrowRight,
+  ShieldAlert,
+  TrendingDown,
+  Gauge,
 } from "lucide-react";
 
-// Safe dynamic import for WebGL Map
-const FieldMap = dynamic(
-  () => import("@/components/map/FieldMap").then((mod) => mod.FieldMap),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="h-[260px] w-full rounded-2xl bg-stone-150 animate-pulse flex items-center justify-center text-xs font-semibold text-stone-500">
-        Loading Satellite Mesh...
-      </div>
-    ),
-  }
-);
-
-export default function DashboardOverview() {
-  const { currentZone, currentCrop, crops, setCropId, metrics, drift, assessment, calendar, lang } =
+export default function HomePage() {
+  const { currentZone, currentCrop, zones, setZoneId, crops, setCropId } =
     useApp();
 
-  const isCritical = assessment.currentSuitability.overallScore < 50;
+  const [mounted, setMounted] = useState(false);
+  const [activeTab, setActiveTab] = useState<"crop" | "calendar">("crop");
+  const [waterAccess, setWaterAccess] = useState("Deep Tubewell");
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="space-y-6" suppressHydrationWarning>
+        <div className="h-[340px] bg-white rounded-3xl border border-stone-200/90 shadow-xs" />
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="h-20 bg-white rounded-2xl border border-stone-200" />
+          <div className="h-20 bg-white rounded-2xl border border-stone-200" />
+          <div className="h-20 bg-white rounded-2xl border border-stone-200" />
+          <div className="h-20 bg-white rounded-2xl border border-stone-200" />
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-      {/* Top Hero Section: Region Context & Mission Alert */}
-      <div className="bg-white rounded-2xl border border-stone-200 p-6 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#E7F6E1] text-[#163B2A] border border-[#C4E6BB]">
-              {currentZone.districtEn} District
-            </span>
-            <span className="text-xs text-stone-500">
-              Coordinates: {currentZone.lat.toFixed(3)}°N, {currentZone.lon.toFixed(3)}°E
-            </span>
-          </div>
-          <h1 className="text-2xl font-extrabold text-stone-900 mt-1 tracking-tight">
-            {lang === "en" ? `${currentZone.nameEn} Adaptation Monitor` : `${currentZone.nameBn} জলবায়ু পর্যবেক্ষণ`}
-          </h1>
-          <p className="text-sm text-stone-600 mt-1 max-w-2xl leading-relaxed">
-            {currentZone.primaryClimateVulnerability}
-          </p>
-        </div>
-
-        {/* Action Link to Full Crop Shift Engine */}
-        <Link
-          href="/shift"
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#163B2A] hover:bg-[#1F513A] text-white text-xs font-bold shadow-xs transition-all active:scale-95 flex-shrink-0"
-        >
-          <span>{lang === "en" ? "Explore Crop Shift Engine" : "ফসল পরিবর্তন ইঞ্জিন দেখুন"}</span>
-          <ArrowRight size={14} className="text-[#65C938]" />
-        </Link>
-      </div>
-
-      {/* 4 Key Agronomic Metric Telemetry Strip */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Metric 1: Temperature & 15-Yr Drift */}
-        <div className="bg-white rounded-2xl border border-stone-200 p-4.5 shadow-xs">
-          <div className="flex items-center justify-between text-xs text-stone-500 font-semibold mb-2">
-            <span>{lang === "en" ? "Thermal Drift" : "তাপমাত্রা বৃদ্ধি"}</span>
-            <Thermometer size={16} className="text-amber-600" />
-          </div>
-          <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold text-stone-900 tabular-nums">
-              {metrics.airTemperatureC.toFixed(1)}°C
-            </span>
-            <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-red-50 text-red-700 border border-red-200">
-              +{drift.tempDriftDeltaC}°C
-            </span>
-          </div>
-          <p className="text-[11px] text-stone-500 mt-1.5">
-            {lang === "en" ? "vs 15-Yr Historical Baseline" : "১৫ বছরের গড় ঐতিহাসিক মাত্রার চেয়ে"}
-          </p>
-        </div>
-
-        {/* Metric 2: Root-Zone Soil Moisture */}
-        <div className="bg-white rounded-2xl border border-stone-200 p-4.5 shadow-xs">
-          <div className="flex items-center justify-between text-xs text-stone-500 font-semibold mb-2">
-            <span>{lang === "en" ? "Root Moisture (0–100cm)" : "মূল অঞ্চলের আর্দ্রতা"}</span>
-            <Droplets size={16} className="text-sky-600" />
-          </div>
-          <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold text-stone-900 tabular-nums">
-              {metrics.rootZoneSoilMoisturePercent}%
-            </span>
-            <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-red-50 text-red-700 border border-red-200">
-              {drift.rootZoneMoistureDeficitPercent}% Deficit
-            </span>
-          </div>
-          <p className="text-[11px] text-stone-500 mt-1.5">
-            NASA SMAP L4 Assimilation
-          </p>
-        </div>
-
-        {/* Metric 3: Planned Crop Viability */}
-        <div className="bg-white rounded-2xl border border-stone-200 p-4.5 shadow-xs">
-          <div className="flex items-center justify-between text-xs text-stone-500 font-semibold mb-2">
-            <span>{lang === "en" ? "Crop Suitability" : "ফসলের উপযোগিতা"}</span>
-            <Sprout size={16} className="text-emerald-700" />
-          </div>
-          <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold text-stone-900 tabular-nums">
-              {assessment.currentSuitability.overallScore}%
-            </span>
-            <span
-              className={`text-xs font-bold px-2 py-0.5 rounded-full ${
-                isCritical
-                  ? "bg-red-50 text-red-700 border border-red-200"
-                  : "bg-emerald-50 text-emerald-800 border border-emerald-200"
-              }`}
-            >
-              {isCritical ? "Critical Risk" : "Viable"}
-            </span>
-          </div>
-          <p className="text-[11px] text-stone-500 mt-1.5 truncate">
-            {currentCrop.nameEn}
-          </p>
-        </div>
-
-        {/* Metric 4: Sowing Calendar Offset */}
-        <div className="bg-white rounded-2xl border border-stone-200 p-4.5 shadow-xs">
-          <div className="flex items-center justify-between text-xs text-stone-500 font-semibold mb-2">
-            <span>{lang === "en" ? "Sowing Shift" : "বপন সময়সূচী পরিবর্তন"}</span>
-            <Calendar size={16} className="text-indigo-600" />
-          </div>
-          <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold text-stone-900 tabular-nums">
-              +{calendar.shiftDeltaDays}d
-            </span>
-            <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
-              {calendar.heatAvoidanceScorePercent}% Safe
-            </span>
-          </div>
-          <p className="text-[11px] text-stone-500 mt-1.5">
-            {lang === "en" ? "Dodges March heat waves" : "মার্চের তাপদাহ এড়াতে স্থানান্তর"}
-          </p>
-        </div>
-      </div>
-
-      {/* Main 2-Column Responsive Dashboard Body */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left Column (5 Cols): Crop Evaluator & Soil Metrics */}
-        <div className="lg:col-span-5 space-y-6">
-          {/* Crop Switcher Card */}
-          <div className="bg-white rounded-2xl border border-stone-200 p-5 shadow-xs">
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="text-sm font-bold text-stone-900">
-                {lang === "en" ? "Select Field Crop" : "জমির ফসল নির্বাচন করুন"}
-              </h2>
-              <span className="text-xs text-stone-500">
-                {crops.length} {lang === "en" ? "Models Available" : "টি মডেল"}
-              </span>
-            </div>
-
-            <div className="grid grid-cols-3 gap-2">
-              {crops.map((crop) => {
-                const isActive = crop.id === currentCrop.id;
-                return (
-                  <button
-                    key={crop.id}
-                    onClick={() => setCropId(crop.id)}
-                    className={`p-2.5 rounded-xl border text-left transition-all active:scale-95 ${
-                      isActive
-                        ? "bg-[#163B2A] text-white border-[#163B2A] shadow-xs"
-                        : "bg-stone-50 hover:bg-stone-100 text-stone-800 border-stone-200"
-                    }`}
-                  >
-                    <p className="text-xs font-bold truncate">
-                      {lang === "en" ? crop.nameEn.split("(")[0] : crop.nameBn.split("(")[0]}
-                    </p>
-                    <p className={`text-[10px] mt-0.5 ${isActive ? "text-[#65C938]" : "text-stone-500"}`}>
-                      {crop.growthDays}d • {crop.waterReqMm}mm
-                    </p>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Current Crop Vulnerability Assessment */}
-          <div className="bg-white rounded-2xl border border-stone-200 p-5 shadow-xs space-y-4">
-            <div className="flex items-start justify-between">
+    <div className="space-y-6" suppressHydrationWarning>
+      {/* =========================================================================
+          TOP SECTION: 2-COLUMN GRID (Left: Hero + KPIs + Maps, Right: Recommended Actions)
+          ========================================================================= */}
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+        {/* =======================================================================
+            LEFT COLUMN (8 cols): Hero Banner + 4 KPIs + Satellite Field & Diagnostics
+            ======================================================================= */}
+        <div className="xl:col-span-8 space-y-6">
+          {/* HERO BANNER CARD (Split: White left section + Sunny valley landscape right section) */}
+          <div className="relative rounded-3xl overflow-hidden bg-white border border-stone-200/90 shadow-[0_2px_12px_rgba(0,0,0,0.03)] flex flex-col lg:flex-row items-stretch min-h-[330px]">
+            {/* Left Content Area (61% width on desktop) */}
+            <div className="p-6 sm:p-8 flex flex-col justify-between space-y-6 lg:w-[61%] z-10 bg-white">
               <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500">
-                  {lang === "en" ? "Agronomic Diagnostics" : "কৃষিগত মূল্যায়ন"}
-                </span>
-                <h3 className="text-base font-bold text-stone-900 mt-0.5">
-                  {currentCrop.nameEn}
-                </h3>
+                <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight leading-tight">
+                  Welcome to FieldShift
+                </h1>
+                <p className="text-xs sm:text-sm font-medium text-stone-500 mt-1">
+                  Satellite-powered insights for climate-resilient farming.
+                </p>
               </div>
-              <span
-                className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 ${
-                  isCritical
-                    ? "bg-red-100 text-red-800"
-                    : "bg-emerald-100 text-emerald-800"
+
+              {/* 3 Distinct Filter Boxes (Location, Current Crop, Water Access) */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                {/* Box 1: Location */}
+                <div className="relative p-2.5 rounded-2xl bg-white border border-stone-200/90 shadow-2xs hover:border-emerald-300 transition-all">
+                  <div className="flex items-center gap-2">
+                    <MapPin size={16} className="text-[#1E7B48] shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <span className="text-[10px] text-stone-400 font-medium block leading-none">
+                        Location
+                      </span>
+                      <span className="text-[11px] xl:text-xs font-bold text-stone-900 block mt-0.5 leading-tight whitespace-nowrap">
+                        {currentZone.nameEn.split(",")[0]}, Rajshahi
+                      </span>
+                    </div>
+                    <ChevronDown size={13} className="text-stone-400 shrink-0 pointer-events-none" />
+                  </div>
+                  <select
+                    aria-label="Select Target Location"
+                    value={currentZone.id}
+                    onChange={(e) => setZoneId(e.target.value)}
+                    className="opacity-0 absolute inset-0 w-full h-full cursor-pointer"
+                  >
+                    {zones.map((z) => (
+                      <option key={z.id} value={z.id}>
+                        {z.nameEn}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Box 2: Current Crop */}
+                <div className="relative p-2.5 rounded-2xl bg-white border border-stone-200/90 shadow-2xs hover:border-emerald-300 transition-all">
+                  <div className="flex items-center gap-2">
+                    <Sprout size={16} className="text-[#1E7B48] shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <span className="text-[10px] text-stone-400 font-medium block leading-none">
+                        Current Crop
+                      </span>
+                      <span className="text-xs font-bold text-stone-900 truncate block mt-0.5 leading-tight">
+                        {currentCrop.nameEn.split(" ")[0]} Rice
+                      </span>
+                    </div>
+                    <ChevronDown size={13} className="text-stone-400 shrink-0 pointer-events-none" />
+                  </div>
+                  <select
+                    aria-label="Select Current Crop"
+                    value={currentCrop.id}
+                    onChange={(e) => setCropId(e.target.value)}
+                    className="opacity-0 absolute inset-0 w-full h-full cursor-pointer"
+                  >
+                    {crops.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.nameEn}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Box 3: Water Access */}
+                <div className="relative p-2.5 rounded-2xl bg-white border border-stone-200/90 shadow-2xs hover:border-emerald-300 transition-all">
+                  <div className="flex items-center gap-2">
+                    <Droplets size={16} className="text-[#0284C7] shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <span className="text-[10px] text-stone-400 font-medium block leading-none">
+                        Water Access
+                      </span>
+                      <span className="text-xs font-bold text-stone-900 truncate block mt-0.5 leading-tight">
+                        {waterAccess}
+                      </span>
+                    </div>
+                    <ChevronDown size={13} className="text-stone-400 shrink-0 pointer-events-none" />
+                  </div>
+                  <select
+                    aria-label="Select Irrigation Water Access"
+                    value={waterAccess}
+                    onChange={(e) => setWaterAccess(e.target.value)}
+                    className="opacity-0 absolute inset-0 w-full h-full cursor-pointer"
+                  >
+                    <option value="Deep Tubewell">Deep Tubewell</option>
+                    <option value="Shallow Tubewell">Shallow Tubewell</option>
+                    <option value="Canal / Surface">Canal / Surface</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Get Recommendations CTA Button */}
+              <div>
+                <Link
+                  href="/shift"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1E7B48] hover:bg-[#165E36] text-white text-xs sm:text-sm font-bold shadow-sm hover:shadow-md transition-all"
+                >
+                  <span>Get Recommendations</span>
+                  <ArrowRight size={15} />
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Landscape Area (42% width on desktop) */}
+            <div className="relative flex-1 min-h-[220px] lg:min-h-full overflow-hidden bg-stone-100">
+              <div
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: `url('/images/hero_landscape.jpg')` }}
+              />
+
+              {/* Smooth transition gradient on the left edge */}
+              <div className="hidden lg:block absolute left-0 inset-y-0 w-20 bg-gradient-to-r from-white via-white/40 to-transparent pointer-events-none" />
+
+              {/* Floating Pin Pointer Badge on Agricultural Fields */}
+              <div className="absolute top-6 right-12 sm:right-20 z-10 flex flex-col items-center pointer-events-none">
+                <div className="px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-stone-200 text-xs font-bold text-stone-900 shadow-md flex items-center gap-1.5">
+                  <MapPin size={13} className="text-[#1E7B48]" />
+                  <span>Godagari, Rajshahi</span>
+                </div>
+                {/* Pin Stem Line */}
+                <div className="w-0.5 h-16 bg-white/90 shadow-sm" />
+                {/* Target Reticle Pin */}
+                <div className="relative flex items-center justify-center">
+                  <div className="w-7 h-7 rounded-full bg-emerald-500/30 animate-ping absolute" />
+                  <div className="w-4 h-4 rounded-full bg-white border-2 border-[#1E7B48] shadow-lg flex items-center justify-center">
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#1E7B48]" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 4 KPI METRIC CARDS (Exact match to mockup) */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {/* Card 1: Temperature Shift */}
+            <div className="p-4 rounded-2xl bg-white border border-stone-200/90 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex items-center gap-3.5">
+              <div className="w-10 h-10 rounded-full bg-[#FEE2E2] text-[#DC2626] flex items-center justify-center shrink-0">
+                <Thermometer size={18} />
+              </div>
+              <div>
+                <div className="text-base sm:text-lg font-extrabold text-stone-900 leading-tight">
+                  +1.4°C
+                </div>
+                <div className="text-xs font-bold text-stone-800 mt-0.5 leading-tight">
+                  Temperature Shift
+                </div>
+                <div className="text-[10px] text-stone-500 leading-tight">
+                  (15 years, LST)
+                </div>
+              </div>
+            </div>
+
+            {/* Card 2: Soil Moisture Decline */}
+            <div className="p-4 rounded-2xl bg-white border border-stone-200/90 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex items-center gap-3.5">
+              <div className="w-10 h-10 rounded-full bg-[#E0F2FE] text-[#0284C7] flex items-center justify-center shrink-0">
+                <Droplets size={18} />
+              </div>
+              <div>
+                <div className="text-base sm:text-lg font-extrabold text-stone-900 leading-tight">
+                  -28%
+                </div>
+                <div className="text-xs font-bold text-stone-800 mt-0.5 leading-tight">
+                  Soil Moisture Decline
+                </div>
+                <div className="text-[10px] text-stone-500 leading-tight">
+                  (vs 10-yr average)
+                </div>
+              </div>
+            </div>
+
+            {/* Card 3: Monsoon Onset Shift */}
+            <div className="p-4 rounded-2xl bg-white border border-stone-200/90 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex items-center gap-3.5">
+              <div className="w-10 h-10 rounded-full bg-[#F3E8FF] text-[#9333EA] flex items-center justify-center shrink-0">
+                <CloudRain size={18} />
+              </div>
+              <div>
+                <div className="text-base sm:text-lg font-extrabold text-stone-900 leading-tight">
+                  +12 days
+                </div>
+                <div className="text-xs font-bold text-stone-800 mt-0.5 leading-tight">
+                  Monsoon Onset Shift
+                </div>
+                <div className="text-[10px] text-stone-500 leading-tight">
+                  (vs historical)
+                </div>
+              </div>
+            </div>
+
+            {/* Card 4: Crop Suitability */}
+            <div className="p-4 rounded-2xl bg-white border border-stone-200/90 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex items-center gap-3.5">
+              <div className="w-10 h-10 rounded-full bg-[#DCFCE7] text-[#16A34A] flex items-center justify-center shrink-0">
+                <Leaf size={18} />
+              </div>
+              <div>
+                <div className="text-base sm:text-lg font-extrabold text-stone-900 leading-tight">
+                  42%
+                </div>
+                <div className="text-xs font-bold text-stone-800 mt-0.5 leading-tight">
+                  Boro Rice Suitability
+                </div>
+                <div className="text-[10px] text-stone-500 leading-tight">
+                  (by 2032)
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* BOTTOM ROW (Left: Selected Field Map, Right: Climate Drift Diagnostic) */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+            {/* Field Map Card (6 cols) */}
+            <div className="md:col-span-6 rounded-3xl overflow-hidden bg-white border border-stone-200/90 shadow-[0_2px_8px_rgba(0,0,0,0.02)] relative h-[340px]">
+              {/* Satellite Parcel Aerial Image */}
+              <div
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: `url('/images/satellite_parcel.jpg')` }}
+              />
+
+              {/* SVG Polygon Parcel Boundary Highlight */}
+              <svg className="absolute inset-0 w-full h-full pointer-events-none">
+                <polygon
+                  points="140,80 260,95 240,230 110,210"
+                  fill="rgba(163, 230, 53, 0.22)"
+                  stroke="#A3E635"
+                  strokeWidth="2.5"
+                  strokeDasharray="4 2"
+                />
+              </svg>
+
+              {/* Glowing Pin Marker inside the Parcel */}
+              <div className="absolute top-[145px] left-[175px] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-full bg-emerald-500/30 animate-ping absolute" />
+                <div className="w-8 h-8 rounded-full bg-white shadow-lg border border-stone-200 flex items-center justify-center text-[#1E7B48]">
+                  <MapPin size={16} />
+                </div>
+              </div>
+
+              {/* Top-Left Pill: Selected Field */}
+              <div className="absolute top-4 left-4 z-10 px-3.5 py-2 rounded-xl bg-white/95 backdrop-blur-md border border-stone-200/90 shadow-sm flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-[#16A34A]" />
+                <div>
+                  <div className="text-xs font-extrabold text-stone-900 leading-tight">
+                    Selected Field
+                  </div>
+                  <div className="text-[10px] text-stone-500 font-medium leading-tight">
+                    2.0 acres
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom-Left Pill: NASA MODIS Land Cover */}
+              <div className="absolute bottom-4 left-4 z-10 px-3.5 py-2 rounded-xl bg-white/95 backdrop-blur-md border border-stone-200/90 text-[11px] font-bold text-stone-900 shadow-sm flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-[#16A34A]" />
+                <span>NASA MODIS Land Cover: Agriculture</span>
+              </div>
+
+              {/* Bottom-Right Controls: Layers Button & Zoom */}
+              <div className="absolute bottom-4 right-4 z-10 flex items-center gap-1.5">
+                <button
+                  type="button"
+                  aria-label="Map Layers"
+                  className="px-3 py-1.5 rounded-xl bg-white/95 backdrop-blur-md border border-stone-200/90 text-xs font-bold text-stone-800 shadow-sm flex items-center gap-1.5 hover:bg-stone-50"
+                >
+                  <Layers size={13} />
+                  <span>Layers</span>
+                </button>
+                <div className="flex flex-col bg-white/95 backdrop-blur-md rounded-xl border border-stone-200/90 shadow-sm overflow-hidden">
+                  <button
+                    type="button"
+                    aria-label="Zoom in"
+                    className="p-1.5 hover:bg-stone-100 text-stone-700 border-b border-stone-100"
+                  >
+                    <Plus size={13} />
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Zoom out"
+                    className="p-1.5 hover:bg-stone-100 text-stone-700"
+                  >
+                    <Minus size={13} />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Climate Drift Diagnostic Card (6 cols) */}
+            <div className="md:col-span-6 rounded-3xl bg-white border border-stone-200/90 shadow-[0_2px_8px_rgba(0,0,0,0.02)] p-6 flex flex-col justify-between space-y-4">
+              {/* Header */}
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-[#0B3D91] text-white flex items-center justify-center font-black text-[10px] tracking-wider shrink-0 shadow-2xs">
+                  NASA
+                </div>
+                <div>
+                  <h2 className="text-sm font-extrabold text-stone-900">
+                    Climate Drift Diagnostic
+                  </h2>
+                  <p className="text-[11px] text-stone-500 font-medium">
+                    Based on NASA Earth Science Data
+                  </p>
+                </div>
+              </div>
+
+              {/* 3 Telemetry List Rows */}
+              <div className="space-y-2.5 divide-y divide-stone-100 text-xs">
+                {/* Row 1: Temperature Shift */}
+                <div className="pt-2 flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-7 h-7 rounded-full bg-[#FEE2E2] text-[#DC2626] flex items-center justify-center shrink-0">
+                      <Thermometer size={14} />
+                    </div>
+                    <div>
+                      <div className="font-bold text-stone-900">Temperature Shift</div>
+                      <div className="text-[10px] text-stone-500">Daytime LST rise (15 years)</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-[#DC2626] font-mono">+1.4°C</span>
+                    <ChevronRight size={14} className="text-stone-400" />
+                  </div>
+                </div>
+
+                {/* Row 2: Moisture Deficit */}
+                <div className="pt-2 flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-7 h-7 rounded-full bg-[#E0F2FE] text-[#0284C7] flex items-center justify-center shrink-0">
+                      <Droplets size={14} />
+                    </div>
+                    <div>
+                      <div className="font-bold text-stone-900">Moisture Deficit</div>
+                      <div className="text-[10px] text-stone-500">Root-zone soil moisture (SMAP)</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-[#7C3AED] font-mono">-28%</span>
+                    <ChevronRight size={14} className="text-stone-400" />
+                  </div>
+                </div>
+
+                {/* Row 3: Rain Drift */}
+                <div className="pt-2 flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-7 h-7 rounded-full bg-[#F3E8FF] text-[#9333EA] flex items-center justify-center shrink-0">
+                      <CloudRain size={14} />
+                    </div>
+                    <div>
+                      <div className="font-bold text-stone-900">Rain Drift</div>
+                      <div className="text-[10px] text-stone-500">Monsoon onset shift (GPM)</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-[#2563EB] font-mono">+12 days</span>
+                    <ChevronRight size={14} className="text-stone-400" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Status Quo Unsustainable Warning Banner */}
+              <div className="p-3.5 rounded-2xl bg-[#FFFBEB] border border-[#FDE68A] text-xs flex items-start gap-2.5">
+                <AlertTriangle size={16} className="text-[#D97706] shrink-0 mt-0.5" />
+                <div>
+                  <span className="font-extrabold text-[#92400E] block">
+                    Status Quo Unsustainable
+                  </span>
+                  <span className="text-[#B45309] text-[11px] leading-tight block mt-0.5">
+                    Boro Rice suitability drops from 65% to 42% by 2032.
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* =======================================================================
+            RIGHT COLUMN (4 cols): Recommended Actions (Exact match to Mockup)
+            ======================================================================= */}
+        <div className="xl:col-span-4">
+          <div className="rounded-3xl bg-white border border-stone-200/90 shadow-[0_2px_8px_rgba(0,0,0,0.02)] p-6 space-y-5">
+            {/* Header: Recommended Actions */}
+            <div className="flex items-center gap-2">
+              <Sprout size={18} className="text-[#1E7B48]" />
+              <h2 className="text-base font-extrabold text-stone-900">
+                Recommended Actions
+              </h2>
+            </div>
+
+            {/* Toggle Tabs: Crop Shift | Calendar Shift */}
+            <div className="p-1 rounded-full bg-stone-100 flex items-center gap-1 text-xs font-bold">
+              <button
+                onClick={() => setActiveTab("crop")}
+                className={`flex-1 py-2 rounded-full transition-all text-center ${
+                  activeTab === "crop"
+                    ? "bg-[#1E7B48] text-white shadow-xs"
+                    : "text-stone-600 hover:text-stone-900"
                 }`}
               >
-                {isCritical ? <AlertTriangle size={12} /> : <CheckCircle2 size={12} />}
-                {isCritical ? "Shift Recommended" : "Suitable"}
-              </span>
-            </div>
-
-            {/* Sub-Scores (Thermal, Moisture, Salinity) */}
-            <div className="space-y-2.5 pt-2 border-t border-stone-100">
-              <div>
-                <div className="flex justify-between text-xs font-semibold text-stone-700 mb-1">
-                  <span>{lang === "en" ? "Thermal Compatibility" : "তাপমাত্রা সহনশীলতা"}</span>
-                  <span className="tabular-nums">{assessment.currentSuitability.thermalScore}%</span>
-                </div>
-                <div className="h-2 w-full bg-stone-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-amber-500 rounded-full"
-                    style={{ width: `${assessment.currentSuitability.thermalScore}%` }}
-                  />
-                </div>
-              </div>
-
-              <div>
-                <div className="flex justify-between text-xs font-semibold text-stone-700 mb-1">
-                  <span>{lang === "en" ? "Root Moisture Compatibility" : "পানির সহজলভ্যতা"}</span>
-                  <span className="tabular-nums">{assessment.currentSuitability.moistureScore}%</span>
-                </div>
-                <div className="h-2 w-full bg-stone-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-sky-500 rounded-full"
-                    style={{ width: `${assessment.currentSuitability.moistureScore}%` }}
-                  />
-                </div>
-              </div>
-
-              <div>
-                <div className="flex justify-between text-xs font-semibold text-stone-700 mb-1">
-                  <span>{lang === "en" ? "Salinity Resilience" : "লবণাক্ততা সহনশীলতা"}</span>
-                  <span className="tabular-nums">{assessment.currentSuitability.salinityScore}%</span>
-                </div>
-                <div className="h-2 w-full bg-stone-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-emerald-600 rounded-full"
-                    style={{ width: `${assessment.currentSuitability.salinityScore}%` }}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Primary Risk Callout */}
-            <div className="p-3 bg-stone-50 rounded-xl border border-stone-200 text-xs text-stone-700 leading-relaxed">
-              <span className="font-bold text-stone-900">{lang === "en" ? "Agronomic Verdict: " : "সিদ্ধান্ত: "}</span>
-              {assessment.currentSuitability.primaryRiskReason}
-            </div>
-          </div>
-        </div>
-
-        {/* Right Column (7 Cols): Satellite Map & Double Shift Quick Engine */}
-        <div className="lg:col-span-7 space-y-6">
-          {/* Interactive WebGL Satellite Map */}
-          <div className="bg-white rounded-2xl border border-stone-200 p-5 shadow-xs">
-            <div className="flex items-center justify-between mb-3">
-              <div>
-                <h3 className="text-sm font-bold text-stone-900">
-                  {lang === "en" ? "Geospatial Observation Mesh" : "উপগ্রহ ভিত্তিক ভূ-স্থানিক মানচিত্র"}
-                </h3>
-                <p className="text-xs text-stone-500">
-                  MapLibre WebGL • {currentZone.upazilaEn}, {currentZone.districtEn}
-                </p>
-              </div>
-
-              <Link
-                href="/satellite"
-                className="text-xs font-bold text-[#163B2A] hover:underline flex items-center gap-1"
+                Crop Shift
+              </button>
+              <button
+                onClick={() => setActiveTab("calendar")}
+                className={`flex-1 py-2 rounded-full transition-all text-center ${
+                  activeTab === "calendar"
+                    ? "bg-[#1E7B48] text-white shadow-xs"
+                    : "text-stone-600 hover:text-stone-900"
+                }`}
               >
-                <span>{lang === "en" ? "Full-Screen Telemetry" : "পূর্ণাঙ্গ ডেটা"}</span>
-                <ArrowRight size={12} />
-              </Link>
+                Calendar Shift
+              </button>
             </div>
 
-            <div className="rounded-xl overflow-hidden border border-stone-200">
-              <FieldMap
-                zone={currentZone}
-                moisturePercent={metrics.rootZoneSoilMoisturePercent}
-                lang={lang}
-              />
-            </div>
-          </div>
-
-          {/* Quick Double Shift Recommendation Teaser */}
-          <div className="bg-white rounded-2xl border border-stone-200 p-5 shadow-xs space-y-4">
-            <div className="flex items-center justify-between">
+            {/* Failure Risk Alert Banner */}
+            <div className="p-3.5 rounded-2xl bg-[#FEF2F2] border border-[#FEE2E2] text-xs flex items-start gap-2.5">
+              <ShieldAlert size={16} className="text-[#DC2626] shrink-0 mt-0.5" />
               <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500">
-                  {lang === "en" ? "Prescriptive Shift Strategy" : "নির্ধারিত স্থানান্তর কৌশল"}
+                <span className="font-bold text-[#991B1B] leading-tight block">
+                  Boro Rice has 65% failure risk this season.
                 </span>
-                <h3 className="text-base font-bold text-stone-900">
-                  {lang === "en" ? "The Double Shift Decision" : "দ্বৈত পরিবর্তন সিদ্ধান্ত"}
-                </h3>
+                <span className="text-[#B91C1C] text-[11px] leading-tight block mt-0.5">
+                  Groundwater cost will eat all profit.
+                </span>
               </div>
-
-              <Link
-                href="/shift"
-                className="px-3 py-1.5 rounded-lg bg-[#E7F6E1] text-[#163B2A] hover:bg-[#D4ECCB] text-xs font-bold transition-colors"
-              >
-                {lang === "en" ? "Open Full Matrix" : "ম্যাট্রিক্স খুলুন"}
-              </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {/* Option 1: The Crop Shift */}
-              <div className="p-4 rounded-xl border border-stone-200 bg-stone-50/70 hover:bg-white transition-colors">
-                <div className="flex items-center gap-2 text-[#163B2A] font-bold text-xs mb-1.5">
-                  <Sprout size={16} />
-                  <span>1. {lang === "en" ? "The Crop Shift" : "ফসল পরিবর্তন"}</span>
+            {/* Recommended Alternatives List Header */}
+            <div>
+              <div className="text-xs font-extrabold text-stone-900">
+                Recommended Alternatives
+              </div>
+              <div className="text-[11px] text-stone-500">
+                Top 2 options for your field
+              </div>
+            </div>
+
+            {/* Alternative 1: BARI Mustard-14 */}
+            <Link
+              href="/shift"
+              className="group block p-3 rounded-2xl border border-stone-200/90 hover:border-emerald-500 hover:shadow-xs transition-all bg-white"
+            >
+              <div className="flex items-center gap-3.5">
+                {/* Photo Thumbnail */}
+                <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-stone-100">
+                  <img
+                    src="/images/mustard_crop.jpg"
+                    alt="BARI Mustard-14"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                  />
                 </div>
-                <p className="text-xs text-stone-600 leading-relaxed mb-3">
-                  {lang === "en"
-                    ? `Swap out ${currentCrop.nameEn.split("(")[0]} for ${assessment.recommendedAlternatives[0]?.crop.nameEn.split("(")[0]}.`
-                    : `${currentCrop.nameBn.split("(")[0]} এর বদলে ${assessment.recommendedAlternatives[0]?.crop.nameBn.split("(")[0]} চাষ করুন।`}
-                </p>
-                <div className="flex items-center justify-between text-xs font-bold pt-2 border-t border-stone-200/80">
-                  <span className="text-emerald-700">
-                    +{assessment.recommendedAlternatives[0]?.crop.waterSavingsVsRicePercent}% Water Saved
-                  </span>
-                  <Link href="/shift" className="text-stone-900 hover:underline">
-                    Details →
-                  </Link>
+
+                {/* Details */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-stone-900 truncate">
+                      BARI Mustard-14
+                    </span>
+                    <span className="px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-[#DCFCE7] text-[#15803D] shrink-0">
+                      Best Choice
+                    </span>
+                  </div>
+                  <ul className="text-[11px] text-stone-500 mt-1 space-y-0.5">
+                    <li>• 60% less water</li>
+                    <li>• Matches dry season</li>
+                    <li>• 22% higher profit stability</li>
+                  </ul>
+                </div>
+
+                <ChevronRight
+                  size={16}
+                  className="text-stone-400 group-hover:text-[#1E7B48] transition-colors shrink-0"
+                />
+              </div>
+            </Link>
+
+            {/* Alternative 2: Hybrid Maize */}
+            <Link
+              href="/shift"
+              className="group block p-3 rounded-2xl border border-stone-200/90 hover:border-emerald-500 hover:shadow-xs transition-all bg-white"
+            >
+              <div className="flex items-center gap-3.5">
+                {/* Photo Thumbnail */}
+                <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-stone-100">
+                  <img
+                    src="/images/maize_crop.jpg"
+                    alt="Hybrid Maize"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                  />
+                </div>
+
+                {/* Details */}
+                <div className="flex-1 min-w-0">
+                  <div className="text-xs font-bold text-stone-900 truncate">
+                    Hybrid Maize
+                  </div>
+                  <ul className="text-[11px] text-stone-500 mt-1 space-y-0.5">
+                    <li>• Drought tolerant</li>
+                    <li>• Heat-resilient flowering</li>
+                    <li>• Good market demand</li>
+                  </ul>
+                </div>
+
+                <ChevronRight
+                  size={16}
+                  className="text-stone-400 group-hover:text-[#1E7B48] transition-colors shrink-0"
+                />
+              </div>
+            </Link>
+
+            {/* Bottom 3-Metric Summary Tags */}
+            <div className="pt-2 grid grid-cols-3 gap-2 border-t border-stone-100 text-center">
+              <div className="p-2 rounded-xl bg-white border border-stone-200/80">
+                <div className="flex items-center justify-center gap-1 text-[10px] font-medium text-stone-500">
+                  <Droplets size={11} className="text-[#0284C7]" />
+                  <span>Water Saved</span>
+                </div>
+                <div className="text-xs font-extrabold text-stone-900 mt-0.5 font-mono">
+                  1,200 m³
                 </div>
               </div>
 
-              {/* Option 2: The Calendar Shift */}
-              <div className="p-4 rounded-xl border border-stone-200 bg-stone-50/70 hover:bg-white transition-colors">
-                <div className="flex items-center gap-2 text-indigo-700 font-bold text-xs mb-1.5">
-                  <Calendar size={16} />
-                  <span>2. {lang === "en" ? "The Calendar Shift" : "সময় পরিবর্তন"}</span>
+              <div className="p-2 rounded-xl bg-white border border-stone-200/80">
+                <div className="flex items-center justify-center gap-1 text-[10px] font-medium text-stone-500">
+                  <TrendingDown size={11} className="text-[#16A34A]" />
+                  <span>Cost Delta</span>
                 </div>
-                <p className="text-xs text-stone-600 leading-relaxed mb-3">
-                  {lang === "en"
-                    ? `If growing ${currentCrop.nameEn.split("(")[0]}, delay sowing to ${calendar.nasaAdjustedWindow}.`
-                    : `একই ফসল রাখতে চাইলে বীজ বপন ${calendar.nasaAdjustedWindow} পর্যন্ত পিছিয়ে দিন।`}
-                </p>
-                <div className="flex items-center justify-between text-xs font-bold pt-2 border-t border-stone-200/80">
-                  <span className="text-indigo-700">
-                    +{calendar.shiftDeltaDays} Days Offset
-                  </span>
-                  <Link href="/calendar" className="text-stone-900 hover:underline">
-                    View Sowing →
-                  </Link>
+                <div className="text-xs font-extrabold text-[#16A34A] mt-0.5 font-mono">
+                  -35%
+                </div>
+              </div>
+
+              <div className="p-2 rounded-xl bg-white border border-stone-200/80">
+                <div className="flex items-center justify-center gap-1 text-[10px] font-medium text-stone-500">
+                  <Gauge size={11} className="text-[#16A34A]" />
+                  <span>Climate Risk Score</span>
+                </div>
+                <div className="text-xs font-extrabold text-stone-900 mt-0.5 font-mono">
+                  32/100
                 </div>
               </div>
             </div>

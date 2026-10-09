@@ -1,0 +1,304 @@
+"use client";
+
+import React, { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useApp } from "@/context/AppContext";
+import {
+  Home,
+  MapPin,
+  Sparkles,
+  Calendar,
+  Bell,
+  BookOpen,
+  Search,
+  ChevronDown,
+  ChevronRight,
+  Menu,
+  X,
+  Sprout,
+  Leaf,
+  Map as MapIcon,
+  MoreHorizontal,
+} from "lucide-react";
+
+interface AppShellProps {
+  children: React.ReactNode;
+}
+
+export const AppShell: React.FC<AppShellProps> = ({ children }) => {
+  const pathname = usePathname();
+  const { currentZone, zones, setZoneId } = useApp();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const navItems = [
+    { href: "/", label: "Home", icon: Home },
+    { href: "/satellite", label: "Map", icon: MapPin },
+    { href: "/shift", label: "Recommendations", icon: Sparkles },
+    { href: "/calendar", label: "Calendar", icon: Calendar },
+    { href: "/advisory", label: "Alerts", icon: Bell },
+    { href: "/satellite", label: "Resources", icon: BookOpen },
+  ];
+
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname.startsWith(href);
+  };
+
+  return (
+    <div className="min-h-screen flex bg-[#F4F6F8] text-stone-900 font-sans antialiased">
+      {/* =========================================================================
+          DESKTOP SIDEBAR (Exact match to target design)
+          ========================================================================= */}
+      <aside className="hidden lg:flex flex-col w-64 bg-white border-r border-stone-200/90 p-5 justify-between shrink-0 sticky top-0 h-screen overflow-y-auto z-40 shadow-[1px_0_4px_rgba(0,0,0,0.02)]">
+        <div className="space-y-6">
+          {/* Logo & Subtitle */}
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div className="w-10 h-10 rounded-xl bg-[#236B43] flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform shrink-0">
+              <Leaf size={22} className="fill-white" />
+            </div>
+            <div>
+              <h1 className="text-xl font-extrabold text-[#163B2A] tracking-tight leading-none">
+                FieldShift
+              </h1>
+              <p className="text-[11px] font-medium text-stone-500 mt-1">
+                Smarter Farms. Stronger Futures.
+              </p>
+            </div>
+          </Link>
+
+          {/* Navigation Items */}
+          <nav className="space-y-1.5 pt-2">
+            {navItems.map((item) => {
+              const active = isActive(item.href);
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+                    active
+                      ? "bg-[#E8F5E9] text-[#1B5E20] font-bold"
+                      : "text-stone-600 hover:text-stone-900 hover:bg-stone-50"
+                  }`}
+                >
+                  <Icon
+                    size={18}
+                    className={active ? "text-[#2E7D32]" : "text-stone-500"}
+                  />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
+
+        {/* Bottom Sidebar Cards (Exact match to target mockup) */}
+        <div className="space-y-3 pt-6 pb-2 border-t border-stone-100">
+          {/* Bangladesh Region Selector Card */}
+          <div className="relative p-3 rounded-2xl bg-white border border-stone-200/90 shadow-2xs hover:border-emerald-300 transition-all cursor-pointer">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                {/* Bangladesh Flag Badge (Green with red circle) */}
+                <div className="w-7 h-5 rounded bg-[#006A4E] relative overflow-hidden flex items-center justify-center shadow-2xs shrink-0">
+                  <div className="w-3 h-3 rounded-full bg-[#F42A41]" />
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-stone-900 leading-tight">
+                    Bangladesh
+                  </div>
+                  <div className="text-[10px] text-stone-500 font-medium">
+                    Barind Tract & Coastal Belt
+                  </div>
+                </div>
+              </div>
+              <select
+                aria-label="Select Agricultural Region"
+                value={currentZone.id}
+                onChange={(e) => setZoneId(e.target.value)}
+                className="opacity-0 absolute inset-0 w-full h-full cursor-pointer"
+              >
+                {zones.map((z) => (
+                  <option key={z.id} value={z.id}>
+                    {z.nameEn}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown size={14} className="text-stone-500 shrink-0 pointer-events-none" />
+            </div>
+          </div>
+
+          {/* NASA Earth Data Brand Card with Arrow */}
+          <Link
+            href="/satellite"
+            className="p-3.5 rounded-2xl bg-[#F6FAF6] border border-emerald-100/80 flex items-center justify-between hover:bg-emerald-50/60 transition-colors group"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-xl bg-white text-emerald-700 flex items-center justify-center shadow-2xs shrink-0 border border-emerald-100">
+                <Sprout size={18} />
+              </div>
+              <div>
+                <div className="text-xs font-bold text-[#163B2A] leading-tight">
+                  NASA Earth Data
+                </div>
+                <div className="text-[10px] text-stone-500 mt-0.5">
+                  Real Climate Insights. Better Farm Decisions.
+                </div>
+              </div>
+            </div>
+            <ChevronRight
+              size={14}
+              className="text-stone-400 group-hover:text-emerald-700 transition-colors shrink-0"
+            />
+          </Link>
+        </div>
+      </aside>
+
+      {/* =========================================================================
+          MAIN APPLICATION VIEWPORT
+          ========================================================================= */}
+      <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
+        {/* Top Header Bar */}
+        <header className="sticky top-0 z-30 bg-[#F4F6F8]/95 backdrop-blur-md px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between border-b border-stone-200/70">
+          {/* Mobile Menu Toggle & Brand */}
+          <div className="flex items-center gap-3 lg:hidden">
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 rounded-xl bg-white border border-stone-200 text-stone-700 shadow-2xs"
+            >
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-[#236B43] flex items-center justify-center text-white">
+                <Leaf size={16} />
+              </div>
+              <span className="font-extrabold text-stone-900 text-lg">FieldShift</span>
+            </div>
+          </div>
+
+          {/* Search Bar (Matches Mockup with pill shape) */}
+          <div className="hidden sm:flex items-center flex-1 max-w-md mx-2 lg:mx-0">
+            <div className="relative w-full">
+              <Search
+                size={16}
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400"
+              />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search location, upazila, or coordinates..."
+                className="w-full pl-9 pr-4 py-2 rounded-full bg-white border border-stone-200/90 text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent shadow-2xs transition-all"
+              />
+            </div>
+          </div>
+
+          {/* Right Header: Notification Bell & Officer Profile */}
+          <div className="flex items-center gap-3">
+            {/* Notification Bell */}
+            <button
+              type="button"
+              aria-label="Notifications"
+              className="w-9 h-9 rounded-full bg-white border border-stone-200/90 flex items-center justify-center text-stone-600 hover:text-stone-900 shadow-2xs transition-colors relative"
+            >
+              <Bell size={17} />
+              <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-red-500 ring-2 ring-white" />
+            </button>
+
+            {/* Field Officer Profile Card */}
+            <div className="flex items-center gap-2.5 pl-2 py-1 pr-3 rounded-full bg-white border border-stone-200/90 shadow-2xs">
+              <div className="w-8 h-8 rounded-full overflow-hidden bg-stone-100 shrink-0 border border-stone-200">
+                <img
+                  src="/images/officer_avatar.jpg"
+                  alt="Farmer Support Officer"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="hidden md:block text-left">
+                <div className="text-xs font-bold text-stone-900 leading-tight">
+                  Farmer Support
+                </div>
+                <div className="text-[10px] text-stone-500">Field Officer</div>
+              </div>
+              <ChevronDown size={14} className="text-stone-500 hidden md:block" />
+            </div>
+          </div>
+        </header>
+
+        {/* Mobile Slideout Navigation */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden bg-white border-b border-stone-200 px-4 py-3 space-y-2 shadow-md">
+            {navItems.map((item) => {
+              const active = isActive(item.href);
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-semibold ${
+                    active
+                      ? "bg-[#E8F5E9] text-[#1B5E20] font-bold"
+                      : "text-stone-600 hover:bg-stone-50"
+                  }`}
+                >
+                  <Icon size={18} />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Page Main Content */}
+        <main className="p-4 sm:p-6 lg:p-7 max-w-[1560px] mx-auto w-full pb-24 lg:pb-8">
+          {children}
+        </main>
+
+        {/* =====================================================================
+            MOBILE BOTTOM NAVIGATION DOCK (Matches phone mockup at right of design)
+            ===================================================================== */}
+        <div className="lg:hidden fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-stone-200 py-2.5 px-6 flex justify-around items-center z-50 shadow-lg">
+          <Link
+            href="/"
+            className={`flex flex-col items-center gap-1 text-[10px] font-bold ${
+              isActive("/") ? "text-emerald-700 font-extrabold" : "text-stone-500"
+            }`}
+          >
+            <Home size={18} />
+            <span>Home</span>
+          </Link>
+
+          <Link
+            href="/satellite"
+            className={`flex flex-col items-center gap-1 text-[10px] font-bold ${
+              isActive("/satellite") ? "text-emerald-700 font-extrabold" : "text-stone-500"
+            }`}
+          >
+            <MapIcon size={18} />
+            <span>Map</span>
+          </Link>
+
+          <Link
+            href="/advisory"
+            className={`flex flex-col items-center gap-1 text-[10px] font-bold ${
+              isActive("/advisory") ? "text-emerald-700 font-extrabold" : "text-stone-500"
+            }`}
+          >
+            <Bell size={18} />
+            <span>Alerts</span>
+          </Link>
+
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="flex flex-col items-center gap-1 text-[10px] font-bold text-stone-500"
+          >
+            <MoreHorizontal size={18} />
+            <span>More</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
