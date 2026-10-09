@@ -15,7 +15,6 @@ import {
   Menu,
   X,
   Radio,
-  Orbit,
 } from "lucide-react";
 
 export const Navbar: React.FC = () => {
@@ -26,68 +25,68 @@ export const Navbar: React.FC = () => {
   const navLinks = [
     {
       href: "/",
-      labelEn: "Mission HUD",
-      labelBn: "মিশন কন্ট্রোল",
+      labelEn: "Overview",
+      labelBn: "ড্যাশবোর্ড",
       icon: LayoutDashboard,
     },
     {
       href: "/shift",
-      labelEn: "The Crop Shift",
-      labelBn: "ফসল রূপান্তর",
+      labelEn: "Crop Shift",
+      labelBn: "ফসল পরিবর্তন",
       icon: Sprout,
     },
     {
       href: "/calendar",
       labelEn: "Dynamic Calendar",
-      labelBn: "সময়সূচী পরিবর্তন",
+      labelBn: "সময়সূচী",
       icon: Calendar,
     },
     {
       href: "/satellite",
-      labelEn: "NASA Telemetry",
-      labelBn: "উপগ্রহ উপাত্ত",
+      labelEn: "Satellite Data",
+      labelBn: "উপগ্রহ ডেটা",
       icon: Satellite,
     },
     {
       href: "/advisory",
-      labelEn: "Field Directives",
-      labelBn: "কৃষক বার্তা",
+      labelEn: "Farmer Advisory",
+      labelBn: "পরামর্শ",
       icon: BookOpen,
     },
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-[#080D0B]/85 backdrop-blur-xl border-b border-emerald-500/15 shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-stone-200 shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Left: Brand Identity */}
           <div className="flex items-center gap-3">
-            <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500/20 to-emerald-950/60 border border-emerald-400/30 flex items-center justify-center text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.3)] group-hover:scale-105 transition-all">
-                <Orbit size={20} className="animate-spin-slow" />
+            <Link href="/" className="flex items-center gap-2 group">
+              <div className="w-9 h-9 rounded-xl bg-[#163B2A] flex items-center justify-center text-[#65C938] shadow-xs group-hover:scale-105 transition-transform">
+                <Sprout size={20} />
               </div>
               <div className="flex flex-col">
-                <span className="text-base font-extrabold text-white tracking-tight flex items-center gap-1.5">
+                <span className="text-base font-extrabold text-stone-900 tracking-tight flex items-center gap-1.5">
                   FieldShift
-                  <span className="text-[9px] px-1.5 py-0.2 rounded-md bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 font-mono font-bold uppercase tracking-wider">
+                  <span className="text-[10px] px-1.5 py-0.2 rounded-md bg-stone-100 border border-stone-200 text-stone-600 font-semibold uppercase">
                     NASA Space Apps
                   </span>
                 </span>
-                <span className="text-[10px] text-stone-400 font-mono hidden sm:inline">
-                  Adapting Farms with Earth Science
+                <span className="text-[10px] text-stone-500 font-medium hidden sm:inline">
+                  Adapting Farms with NASA Data
                 </span>
               </div>
             </Link>
 
             {/* Live Telemetry Pulse Badge */}
-            <div className="hidden lg:flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-950/50 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono font-bold shadow-[0_0_15px_rgba(16,185,129,0.15)]">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>ORBITAL LINK ACTIVE • NASA POWER</span>
+            <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-semibold">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>NASA POWER LIVE</span>
             </div>
           </div>
 
           {/* Center: Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1 bg-stone-900/60 p-1 rounded-xl border border-emerald-500/15">
+          <nav className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => {
               const Icon = link.icon;
               const isActive = pathname === link.href;
@@ -98,11 +97,11 @@ export const Navbar: React.FC = () => {
                   href={link.href}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                     isActive
-                      ? "bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.2)] font-bold"
-                      : "text-stone-400 hover:text-white hover:bg-stone-800/50"
+                      ? "bg-[#163B2A] text-white shadow-xs"
+                      : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
                   }`}
                 >
-                  <Icon size={14} className={isActive ? "text-emerald-400" : "text-stone-500"} />
+                  <Icon size={14} className={isActive ? "text-[#65C938]" : "text-stone-400"} />
                   <span>{lang === "en" ? link.labelEn : link.labelBn}</span>
                 </Link>
               );
@@ -116,32 +115,32 @@ export const Navbar: React.FC = () => {
               <select
                 value={currentZone.id}
                 onChange={(e) => setZoneId(e.target.value)}
-                className="appearance-none pl-7 pr-7 py-1.5 rounded-xl bg-stone-900/80 hover:bg-stone-850 border border-emerald-500/20 text-xs font-mono font-bold text-stone-200 cursor-pointer focus:outline-none focus:border-emerald-400/50 transition-all"
-                title="Select Region"
+                className="appearance-none pl-7 pr-7 py-1.5 rounded-lg bg-stone-100 hover:bg-stone-150 border border-stone-200 text-xs font-semibold text-stone-800 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#163B2A]/20 transition-all"
+                title="Select Agricultural Region"
               >
                 {zones.map((z) => (
-                  <option key={z.id} value={z.id} className="bg-stone-950 text-white">
+                  <option key={z.id} value={z.id}>
                     {lang === "en" ? z.nameEn : z.nameBn}
                   </option>
                 ))}
               </select>
-              <MapPin size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-emerald-400 pointer-events-none" />
+              <MapPin size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-stone-500 pointer-events-none" />
             </div>
 
             {/* Language Toggle */}
             <button
               onClick={() => setLang(lang === "en" ? "bn" : "en")}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-stone-900/80 hover:bg-stone-850 border border-emerald-500/20 text-xs font-mono font-bold text-emerald-400 transition-colors"
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-stone-100 hover:bg-stone-200 border border-stone-200 text-xs font-bold text-stone-700 transition-colors"
               title="Toggle Language"
             >
-              <Globe2 size={13} />
+              <Globe2 size={13} className="text-stone-500" />
               <span>{lang === "en" ? "বাংলা" : "EN"}</span>
             </button>
 
-            {/* Mobile Hamburger Toggle */}
+            {/* Mobile Menu Hamburger Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-1.5 rounded-lg text-stone-400 hover:text-white hover:bg-stone-900"
+              className="md:hidden p-1.5 rounded-lg text-stone-600 hover:text-stone-900 hover:bg-stone-100"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -150,9 +149,9 @@ export const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Dropdown Menu Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-emerald-500/20 bg-stone-950/95 px-4 pt-2 pb-4 space-y-1 shadow-2xl">
+        <div className="md:hidden border-t border-stone-200 bg-white px-4 pt-2 pb-4 space-y-1 shadow-lg">
           {navLinks.map((link) => {
             const Icon = link.icon;
             const isActive = pathname === link.href;
@@ -162,13 +161,13 @@ export const Navbar: React.FC = () => {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-semibold ${
+                className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-semibold ${
                   isActive
-                    ? "bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 font-bold"
-                    : "text-stone-300 hover:bg-stone-900"
+                    ? "bg-[#163B2A] text-white"
+                    : "text-stone-700 hover:bg-stone-100"
                 }`}
               >
-                <Icon size={16} className={isActive ? "text-emerald-400" : "text-stone-500"} />
+                <Icon size={16} className={isActive ? "text-[#65C938]" : "text-stone-500"} />
                 <span>{lang === "en" ? link.labelEn : link.labelBn}</span>
               </Link>
             );
