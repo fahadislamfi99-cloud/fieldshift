@@ -40,7 +40,7 @@ export const EmptyStatePrompt: React.FC<EmptyStatePromptProps> = ({ pageType, la
   return (
     <div className="space-y-6" suppressHydrationWarning>
       {/* HERO BANNER CARD */}
-      <div className="relative rounded-3xl border border-stone-200/90 shadow-[0_4px_20px_rgba(0,0,0,0.03)] min-h-[380px] sm:min-h-[420px] flex flex-col justify-between">
+      <div className="relative rounded-3xl border border-stone-200/90 shadow-[0_4px_20px_rgba(0,0,0,0.03)] min-h-0 sm:min-h-[380px] flex flex-col justify-between">
         {/* Full Photographic Landscape Background */}
         <div
           className="absolute inset-0 bg-cover bg-center rounded-3xl"
@@ -51,10 +51,10 @@ export const EmptyStatePrompt: React.FC<EmptyStatePromptProps> = ({ pageType, la
         <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/90 sm:via-white/80 to-transparent rounded-3xl pointer-events-none" />
 
         {/* Content Container */}
-        <div className="relative z-10 p-6 sm:p-10 lg:p-12 flex flex-col justify-between h-full space-y-6 max-w-2xl">
-          <div className="space-y-4">
+        <div className="relative z-10 p-4 sm:p-8 lg:p-12 flex flex-col justify-between h-full space-y-5 sm:space-y-6 max-w-2xl">
+          <div className="space-y-3 sm:space-y-4">
             {/* Tag Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[#1E7B48] text-xs font-bold border border-emerald-200/80 shadow-2xs">
+            <div className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[#1E7B48] text-[11px] sm:text-xs font-bold border border-emerald-200/80 shadow-2xs">
               {isShift ? (
                 <Sprout size={14} className="text-[#1E7B48]" />
               ) : (
@@ -69,7 +69,7 @@ export const EmptyStatePrompt: React.FC<EmptyStatePromptProps> = ({ pageType, la
               </span>
             </div>
 
-            <h1 className="text-[28px] sm:text-[34px] font-bold text-stone-900 tracking-tight leading-tight">
+            <h1 className="text-[24px] sm:text-[30px] lg:text-[34px] font-bold text-stone-900 tracking-tight leading-tight">
               {isShift
                 ? (lang === "en"
                     ? "Configure Your Field to Unlock Crop Recommendations"
@@ -79,7 +79,7 @@ export const EmptyStatePrompt: React.FC<EmptyStatePromptProps> = ({ pageType, la
                     : "জরুরি মাঠপর্যায়ের পরামর্শ দেখতে আপনার জমির তথ্য দিন")}
             </h1>
 
-            <p className="text-sm sm:text-base font-normal text-stone-600 leading-relaxed max-w-xl">
+            <p className="text-xs sm:text-sm lg:text-base font-normal text-stone-600 leading-relaxed max-w-xl">
               {isShift
                 ? (lang === "en"
                     ? "You haven't set up your farm profile yet. Choose your field location, planned crop, and irrigation source on the Home portal to generate tailored NASA-backed crop shift models, water savings, and profit projections."
@@ -91,10 +91,10 @@ export const EmptyStatePrompt: React.FC<EmptyStatePromptProps> = ({ pageType, la
           </div>
 
           {/* Action CTAs */}
-          <div className="flex flex-wrap items-center gap-3 pt-2">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 pt-2">
             <Link
               href="/"
-              className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-[#1E7B48] hover:bg-[#165E36] text-white text-sm sm:text-base font-semibold shadow-md hover:shadow-lg transition-all"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 sm:px-7 py-3 sm:py-3.5 rounded-2xl sm:rounded-full bg-[#1E7B48] hover:bg-[#165E36] text-white text-sm sm:text-base font-semibold shadow-md hover:shadow-lg transition-all text-center"
             >
               <span>{lang === "en" ? "Configure Field on Home Page" : "হোম পেজে যান এবং তথ্য দিন"}</span>
               <ArrowRight size={17} />
@@ -103,7 +103,7 @@ export const EmptyStatePrompt: React.FC<EmptyStatePromptProps> = ({ pageType, la
             <button
               type="button"
               onClick={handleQuickDemo}
-              className="inline-flex items-center gap-2 px-5 py-3.5 rounded-full bg-white/90 hover:bg-white text-stone-800 text-xs sm:text-sm font-semibold border border-stone-200/90 shadow-2xs hover:shadow-xs transition-all"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 sm:py-3.5 rounded-2xl sm:rounded-full bg-white/90 hover:bg-white text-stone-800 text-xs sm:text-sm font-semibold border border-stone-200/90 shadow-2xs hover:shadow-xs transition-all text-center"
             >
               <MapPin size={14} className="text-[#1E7B48]" />
               <span>{lang === "en" ? "Load Sample (Tanore, Rajshahi)" : "নমুনা তথ্য লোড করুন (তানোর)"}</span>

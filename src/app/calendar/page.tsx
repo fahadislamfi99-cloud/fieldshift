@@ -103,12 +103,12 @@ export default function CalendarPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 sm:via-white/70 to-transparent rounded-3xl pointer-events-none" />
 
         {/* Content Container */}
-        <div className="relative z-10 p-6 sm:p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 h-full">
+        <div className="relative z-10 p-4 sm:p-6 xl:p-8 flex flex-col xl:flex-row items-start xl:items-center justify-between gap-6 h-full">
           {/* Left Title & Plain Explanation */}
           <div className="space-y-3 max-w-2xl">
             {/* Tag & Farmer Status Switcher Pill */}
-            <div className="flex flex-wrap items-center gap-2">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[#1E7B48] text-xs font-bold border border-emerald-200/80 shadow-2xs">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+              <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[#1E7B48] text-[11px] sm:text-xs font-bold border border-emerald-200/80 shadow-2xs">
                 <Calendar size={13} className="text-[#1E7B48]" />
                 <span>
                   {lang === "en" ? "SMART PLANTING CALENDAR" : "সহজ রোপণ ক্যালেন্ডার"}
@@ -120,35 +120,35 @@ export default function CalendarPage() {
               </div>
 
               {/* Status Switcher */}
-              <div className="inline-flex items-center gap-1 p-0.5 rounded-full bg-white/95 backdrop-blur-md border border-stone-200 shadow-2xs text-xs font-semibold">
+              <div className="inline-flex items-center gap-1 p-0.5 rounded-full bg-white/95 backdrop-blur-md border border-stone-200 shadow-2xs text-[11px] sm:text-xs font-semibold">
                 <button
                   type="button"
                   onClick={() => setFarmerStatus("not_planted")}
-                  className={`px-3 py-1 rounded-full transition-all flex items-center gap-1.5 ${
+                  className={`px-2.5 sm:px-3 py-1 rounded-full transition-all flex items-center gap-1 sm:gap-1.5 ${
                     farmerStatus === "not_planted"
                       ? "bg-[#1E7B48] text-white shadow-2xs font-bold"
                       : "text-stone-600 hover:text-stone-900"
                   }`}
                 >
-                  <Sprout size={13} />
+                  <Sprout size={12} />
                   <span>{lang === "en" ? "Not Planted (Plan)" : "ফসল লাগাইনি"}</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setFarmerStatus("already_planted")}
-                  className={`px-3 py-1 rounded-full transition-all flex items-center gap-1.5 ${
+                  className={`px-2.5 sm:px-3 py-1 rounded-full transition-all flex items-center gap-1 sm:gap-1.5 ${
                     farmerStatus === "already_planted"
                       ? "bg-[#1E7B48] text-white shadow-2xs font-bold"
                       : "text-stone-600 hover:text-stone-900"
                   }`}
                 >
-                  <CheckCircle2 size={13} />
+                  <CheckCircle2 size={12} />
                   <span>{lang === "en" ? "Already Planted" : "ইতিমধ্যে রোপণকৃত"}</span>
                 </button>
               </div>
             </div>
 
-            <h1 className="text-[28px] sm:text-[32px] font-bold text-stone-900 tracking-tight leading-tight">
+            <h1 className="text-[24px] sm:text-[28px] lg:text-[32px] font-bold text-stone-900 tracking-tight leading-tight">
               {farmerStatus === "already_planted"
                 ? (lang === "en"
                     ? "In-Season Timeline & Heatwave Watch"
@@ -158,7 +158,7 @@ export default function CalendarPage() {
                     : "ফসল রোপণের সঠিক সময়সূচী")}
             </h1>
 
-            <p className="text-sm sm:text-base font-normal text-stone-600 leading-relaxed max-w-xl">
+            <p className="text-xs sm:text-sm lg:text-base font-normal text-stone-600 leading-relaxed max-w-xl">
               {farmerStatus === "already_planted"
                 ? (lang === "en"
                     ? "Your crop is already planted. Track your in-season AWD irrigation cycles, March 15–28 pollination heatwave danger window, and harvest relay prep."
@@ -169,7 +169,7 @@ export default function CalendarPage() {
             </p>
 
             {/* Field Information Pills */}
-            <div className="flex flex-wrap items-center gap-2 pt-1">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 pt-1">
               <div className="px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-stone-200 text-xs font-medium text-stone-800 shadow-2xs flex items-center gap-1.5">
                 <MapPin size={13} className="text-[#1E7B48]" />
                 <span>{currentZone.nameEn}</span>
@@ -190,7 +190,7 @@ export default function CalendarPage() {
           </div>
 
           {/* Right: Quick Crop Switcher Widget */}
-          <div className="w-full lg:w-84 p-5 rounded-2xl bg-white/95 backdrop-blur-md border border-stone-200 shadow-md space-y-3.5 shrink-0">
+          <div className="w-full xl:w-84 p-4 sm:p-5 rounded-2xl bg-white/95 backdrop-blur-md border border-stone-200 shadow-md space-y-3.5 shrink-0">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-stone-800 flex items-center gap-1.5">
                 <Sprout size={14} className="text-[#1E7B48]" />
@@ -221,13 +221,13 @@ export default function CalendarPage() {
             </div>
 
             {/* Quick Pills for 4 Popular Crops */}
-            <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+            <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 pt-0.5">
               {crops.slice(0, 4).map((c) => (
                 <button
                   key={c.id}
                   type="button"
                   onClick={() => handleSelectCrop(c.id)}
-                  className={`px-2.5 py-1 rounded-lg text-sm font-semibold transition-all ${
+                  className={`px-2 sm:px-2.5 py-1 rounded-lg text-xs sm:text-sm font-semibold transition-all ${
                     currentCrop.id === c.id
                       ? "bg-[#1E7B48] text-white shadow-2xs"
                       : "bg-white text-stone-600 border border-stone-200 hover:bg-stone-50"
@@ -238,7 +238,7 @@ export default function CalendarPage() {
               ))}
             </div>
 
-            <div className="text-sm text-stone-600 font-normal text-center">
+            <div className="text-xs sm:text-sm text-stone-600 font-normal text-center">
               {lang === "en"
                 ? "Click any crop to see safe planting dates below."
                 : "যেকোনো ফসলে ক্লিক করে নিরাপদ রোপণের সময় দেখুন।"}
@@ -269,7 +269,7 @@ export default function CalendarPage() {
           </div>
           <Link
             href="/advisory"
-            className="px-4 py-2 rounded-xl bg-stone-900 hover:bg-stone-800 text-white text-xs sm:text-sm font-semibold transition-all shrink-0 flex items-center gap-1.5 shadow-2xs"
+            className="w-full sm:w-auto px-4 py-2 rounded-xl bg-stone-900 hover:bg-stone-800 text-white text-xs sm:text-sm font-semibold transition-all shrink-0 flex items-center justify-center gap-1.5 shadow-2xs text-center"
           >
             <span>{lang === "en" ? "Open Field Advisory" : "জরুরি পরামর্শ দেখুন"}</span>
             <ArrowRight size={14} />
@@ -387,7 +387,7 @@ export default function CalendarPage() {
               : `${currentCrop.nameBn} এর করণীয় ধাপসমূহ:`}
           </h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-sm">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3.5 text-sm">
             {(calendar.steps && calendar.steps.length > 0
               ? calendar.steps
               : [
@@ -484,7 +484,7 @@ export default function CalendarPage() {
         </div>
 
         {/* 6 Crops Interactive Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {crops.map((c) => {
             const isSelected = currentCrop.id === c.id;
             const cropCalendar = optimizeSowingCalendar(c, currentZone, metrics);
@@ -565,17 +565,17 @@ export default function CalendarPage() {
       {/* =========================================================================
           BOTTOM NAVIGATION & NEXT STEP CTA
           ========================================================================= */}
-      <div className="rounded-3xl bg-white border border-stone-200/90 shadow-[0_2px_10px_rgba(0,0,0,0.03)] p-6 sm:p-7 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div className="rounded-3xl bg-white border border-stone-200/90 shadow-[0_2px_10px_rgba(0,0,0,0.03)] p-4 sm:p-6 lg:p-7 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 sm:gap-6">
         <Link
           href="/shift"
-          className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-800 text-sm sm:text-base font-semibold transition-all"
+          className="w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-800 text-sm sm:text-base font-semibold transition-all text-center"
         >
           <ArrowLeft size={16} />
           <span>{lang === "en" ? "Back to Crop Recommendations" : "বিকল্প ফসলের তালিকায় ফিরুন"}</span>
         </Link>
 
-        <div className="text-center sm:text-right space-y-0.5">
-          <div className="text-base font-semibold text-stone-900">
+        <div className="text-center md:text-right space-y-0.5">
+          <div className="text-sm sm:text-base font-semibold text-stone-900">
             {lang === "en" ? `Calendar Ready for ${currentCrop.nameEn}` : `${currentCrop.nameBn} এর সময়সূচী প্রস্তুত`}
           </div>
           <div className="text-xs text-stone-600 font-medium">
@@ -585,7 +585,7 @@ export default function CalendarPage() {
 
         <Link
           href="/advisory"
-          className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#1E7B48] hover:bg-[#165E36] text-white text-sm sm:text-base font-semibold shadow-md hover:shadow-lg transition-all shrink-0"
+          className="w-full md:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#1E7B48] hover:bg-[#165E36] text-white text-sm sm:text-base font-semibold shadow-md hover:shadow-lg transition-all shrink-0 text-center"
         >
           <span>{lang === "en" ? "See Weather & Climate Alerts" : "আবহাওয়া ও জলবায়ু সতর্কতা"}</span>
           <ArrowRight size={16} />

@@ -54,9 +54,9 @@ export default function SatellitePage() {
   }, [currentZone.id]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    <div className="space-y-5 sm:space-y-6">
       {/* Header Banner */}
-      <div className="bg-white rounded-2xl border border-stone-200 p-6 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="bg-white rounded-3xl border border-stone-200/90 p-4 sm:p-6 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
             <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-1.5">
@@ -67,25 +67,25 @@ export default function SatellitePage() {
               NASA Earth Science Division
             </span>
           </div>
-          <h1 className="text-[28px] sm:text-[32px] font-bold text-stone-900 mt-1 tracking-tight">
+          <h1 className="text-[24px] sm:text-[28px] lg:text-[32px] font-bold text-stone-900 mt-1 tracking-tight">
             {lang === "en" ? "NASA Earth Observation Explorer" : "নাসা উপগ্রহ পর্যবেক্ষণ কেন্দ্র"}
           </h1>
-          <p className="text-sm text-stone-600 mt-1 max-w-2xl">
+          <p className="text-xs sm:text-sm text-stone-600 mt-1 max-w-2xl">
             {lang === "en"
               ? "Live orbital measurements combining NASA POWER, SMAP L4 root-zone moisture, and MODIS 15-year thermal baselines."
               : "নাসার একাধিক উপগ্রহ মিশনের উপাত্ত সমন্বয়ে রিয়েল-টাইম কৃষি-আবহাওয়া বিশ্লেষণ।"}
           </p>
         </div>
 
-        <div className="flex items-center gap-2 text-xs font-bold text-stone-700 bg-stone-50 p-3 rounded-xl border border-stone-200">
+        <div className="w-full md:w-auto flex items-center justify-center gap-2 text-xs font-bold text-stone-700 bg-stone-50 p-3 rounded-xl border border-stone-200">
           <Satellite size={16} className="text-[#163B2A]" />
           <span>Point Target: {currentZone.lat.toFixed(4)}°N, {currentZone.lon.toFixed(4)}°E</span>
         </div>
       </div>
 
       {/* Large Satellite Map View */}
-      <div className="bg-white rounded-2xl border border-stone-200 p-5 shadow-xs space-y-3">
-        <div className="flex items-center justify-between">
+      <div className="bg-white rounded-3xl border border-stone-200/90 p-4 sm:p-5 shadow-xs space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
           <div className="flex items-center gap-2">
             <Layers size={18} className="text-[#163B2A]" />
             <h2 className="text-base font-bold text-stone-900">
@@ -97,7 +97,7 @@ export default function SatellitePage() {
           </span>
         </div>
 
-        <div className="rounded-xl overflow-hidden border border-stone-200 h-[320px]">
+        <div className="rounded-2xl overflow-hidden border border-stone-200 h-[260px] sm:h-[340px] lg:h-[400px]">
           <FieldMap
             zone={currentZone}
             moisturePercent={metrics.rootZoneSoilMoisturePercent}

@@ -152,7 +152,7 @@ export default function CropShiftPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 sm:via-white/70 to-transparent rounded-3xl pointer-events-none" />
 
         {/* Content Container */}
-        <div className="relative z-10 p-6 sm:p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 h-full">
+        <div className="relative z-10 p-4 sm:p-6 xl:p-8 flex flex-col xl:flex-row items-start xl:items-center justify-between gap-6 h-full">
           {/* Left Title & Simple Explanations */}
           <div className="space-y-3 max-w-2xl">
             {/* Tag */}
@@ -167,18 +167,18 @@ export default function CropShiftPage() {
               </span>
             </div>
 
-            <h1 className="text-[28px] sm:text-[32px] font-bold text-stone-900 tracking-tight leading-tight">
+            <h1 className="text-[24px] sm:text-[28px] lg:text-[32px] font-bold text-stone-900 tracking-tight leading-tight">
               {lang === "en" ? "Best Crops for Your Farm" : "আপনার জমির জন্য সেরা ফসল"}
             </h1>
 
-            <p className="text-sm sm:text-base font-normal text-stone-600 leading-relaxed max-w-xl">
+            <p className="text-xs sm:text-sm lg:text-base font-normal text-stone-600 leading-relaxed max-w-xl">
               {lang === "en"
                 ? "Find crops that need only 2 to 3 waterings, beat hot summer weather, and save you thousands of Taka on diesel and electricity bills."
                 : "নাসার আবহাওয়া তথ্যের ভিত্তিতে মাত্র ২-৩ সেচে ঘরে তোলা যায় এমন লাভজনক ফসল বেছে নিন।"}
             </p>
 
             {/* Field Information Pills */}
-            <div className="flex flex-wrap items-center gap-2 pt-1">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 pt-1">
               <div className="px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-stone-200 text-xs font-medium text-stone-800 shadow-2xs flex items-center gap-1.5">
                 <MapPin size={13} className="text-[#1E7B48]" />
                 <span>{currentZone.nameEn}</span>
@@ -202,7 +202,7 @@ export default function CropShiftPage() {
           </div>
 
           {/* Right: Tactile Farm Size Controller */}
-          <div className="w-full lg:w-84 p-5 rounded-2xl bg-white/95 backdrop-blur-md border border-stone-200 shadow-md space-y-3.5 shrink-0">
+          <div className="w-full xl:w-84 p-4 sm:p-5 rounded-2xl bg-white/95 backdrop-blur-md border border-stone-200 shadow-md space-y-3.5 shrink-0">
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium text-stone-800 flex items-center gap-1.5">
                 <Sliders size={14} className="text-[#1E7B48]" />
@@ -226,13 +226,13 @@ export default function CropShiftPage() {
             />
 
             {/* Quick Preset Buttons */}
-            <div className="flex items-center justify-between gap-1.5 pt-0.5">
+            <div className="flex items-center justify-between gap-1 sm:gap-1.5 pt-0.5">
               {[1.0, 2.0, 5.0, 10.0].map((val) => (
                 <button
                   key={val}
                   type="button"
                   onClick={() => setFarmAcres(val)}
-                  className={`flex-1 py-1 rounded-lg text-sm font-semibold transition-all ${
+                  className={`flex-1 py-1 rounded-lg text-xs sm:text-sm font-semibold transition-all ${
                     farmAcres === val
                       ? "bg-[#1E7B48] text-white shadow-2xs"
                       : "bg-white text-stone-600 border border-stone-200 hover:bg-stone-50"
@@ -243,7 +243,7 @@ export default function CropShiftPage() {
               ))}
             </div>
 
-            <div className="text-sm text-stone-600 font-normal text-center">
+            <div className="text-xs sm:text-sm text-stone-600 font-normal text-center">
               {lang === "en"
                 ? "Move slider to see how much water & diesel money you save."
                 : "স্লাইডার নাড়িয়ে দেখুন কত পানি ও জ্বালানি খরচ বাঁচবে।"}
@@ -274,7 +274,7 @@ export default function CropShiftPage() {
           </div>
           <Link
             href="/advisory"
-            className="px-4 py-2 rounded-xl bg-stone-900 hover:bg-stone-800 text-white text-xs sm:text-sm font-semibold transition-all shrink-0 flex items-center gap-1.5 shadow-2xs"
+            className="w-full sm:w-auto px-4 py-2 rounded-xl bg-stone-900 hover:bg-stone-800 text-white text-xs sm:text-sm font-semibold transition-all shrink-0 flex items-center justify-center gap-1.5 shadow-2xs text-center"
           >
             <span>{lang === "en" ? "Open Field Advisory" : "মাঠপর্যায়ের পরামর্শ দেখুন"}</span>
             <ArrowRight size={14} />
@@ -285,9 +285,9 @@ export default function CropShiftPage() {
       {/* =========================================================================
           PROBLEM VS SOLUTION (Clear terms anyone understands)
           ========================================================================= */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-stretch">
         {/* Left: Problem With Current Crop */}
-        <div className="md:col-span-6 rounded-3xl bg-[#FEF2F2] border border-[#FEE2E2] p-6 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex flex-col justify-between space-y-4">
+        <div className="rounded-3xl bg-[#FEF2F2] border border-[#FEE2E2] p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex flex-col justify-between space-y-4">
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-red-100 text-red-700 text-xs font-bold uppercase tracking-wider">
@@ -362,7 +362,7 @@ export default function CropShiftPage() {
 
         {/* Right: Best Alternative Solution */}
         {bestAlternative && (
-          <div className="md:col-span-6 rounded-3xl bg-[#F0FDF4] border border-[#BBF7D0] p-6 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex flex-col justify-between space-y-4">
+          <div className="rounded-3xl bg-[#F0FDF4] border border-[#BBF7D0] p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex flex-col justify-between space-y-4">
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-100 text-[#15803D] text-xs font-bold uppercase tracking-wider">
@@ -399,36 +399,36 @@ export default function CropShiftPage() {
             </div>
 
             <div className="pt-3 border-t border-emerald-200/70 grid grid-cols-3 gap-2 text-center text-sm">
-              <div className="p-2 rounded-xl bg-white/80 border border-emerald-100">
-                <span className="text-xs text-stone-600 font-medium block">
+              <div className="p-2 rounded-xl bg-white/80 border border-emerald-100 min-w-0">
+                <span className="text-xs text-stone-600 font-medium block truncate">
                   {lang === "en" ? "Water Saved" : "পানি সাশ্রয়"}
                 </span>
-                <span className="text-[26px] sm:text-[30px] font-bold text-[#1E7B48] font-mono mt-0.5 block leading-tight">
+                <span className="text-xl sm:text-2xl xl:text-[28px] font-bold text-[#1E7B48] font-mono mt-0.5 block leading-tight truncate">
                   {lang === "en" ? "77% Less" : "৭৭% কম"}
                 </span>
-                <span className="text-xs text-stone-500 font-medium block mt-0.5">
+                <span className="text-xs text-stone-500 font-medium block mt-0.5 truncate">
                   {lang === "en" ? `~${maxPumpHoursSaved} pump hrs` : `~${maxPumpHoursSaved} ঘণ্টা পাম্প`}
                 </span>
               </div>
-              <div className="p-2 rounded-xl bg-white/80 border border-emerald-100">
-                <span className="text-xs text-stone-600 font-medium block">
+              <div className="p-2 rounded-xl bg-white/80 border border-emerald-100 min-w-0">
+                <span className="text-xs text-stone-600 font-medium block truncate">
                   {lang === "en" ? "Diesel Bill Saved" : "জ্বালানি খরচ সাশ্রয়"}
                 </span>
-                <span className="text-[26px] sm:text-[30px] font-bold text-[#1E7B48] font-mono mt-0.5 block leading-tight">
+                <span className="text-xl sm:text-2xl xl:text-[28px] font-bold text-[#1E7B48] font-mono mt-0.5 block leading-tight truncate">
                   ৳{maxCostSaved.toLocaleString()}
                 </span>
-                <span className="text-xs text-stone-500 font-medium block mt-0.5">
+                <span className="text-xs text-stone-500 font-medium block mt-0.5 truncate">
                   {lang === "en" ? "In pump fuel/power" : "সেচ ও বিদ্যুৎ বিলে"}
                 </span>
               </div>
-              <div className="p-2 rounded-xl bg-white/80 border border-emerald-100">
-                <span className="text-xs text-stone-600 font-medium block">
+              <div className="p-2 rounded-xl bg-white/80 border border-emerald-100 min-w-0">
+                <span className="text-xs text-stone-600 font-medium block truncate">
                   {lang === "en" ? "Profit Safety" : "লাভের নিশ্চয়তা"}
                 </span>
-                <span className="text-lg sm:text-xl font-bold text-[#1E7B48] font-mono mt-0.5 block">
+                <span className="text-base sm:text-lg xl:text-xl font-bold text-[#1E7B48] font-mono mt-0.5 block truncate">
                   {lang === "en" ? "+22% High" : "+২২% বেশি"}
                 </span>
-                <span className="text-xs text-stone-500 font-medium block mt-0.5">
+                <span className="text-xs text-stone-500 font-medium block mt-0.5 truncate">
                   {lang === "en" ? "Stable dry season crop" : "নিরাপদ রবি ফসল"}
                 </span>
               </div>
@@ -470,7 +470,7 @@ export default function CropShiftPage() {
         </div>
 
         {/* 3 Crop Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {assessment.recommendedAlternatives.map((alt, idx) => {
             const isFirst = idx === 0;
             const isSelected = currentCrop.id === alt.crop.id;
@@ -656,8 +656,8 @@ export default function CropShiftPage() {
       {/* =========================================================================
           BOTTOM IMPACT BAR & PROCEED CTA (Clear metrics for any user)
           ========================================================================= */}
-      <div className="rounded-3xl bg-white border border-stone-200/90 shadow-[0_2px_10px_rgba(0,0,0,0.03)] p-6 sm:p-7 flex flex-col md:flex-row items-center justify-between gap-6">
-        <div className="flex flex-wrap items-center gap-6 sm:gap-8">
+      <div className="rounded-3xl bg-white border border-stone-200/90 shadow-[0_2px_10px_rgba(0,0,0,0.03)] p-4 sm:p-6 xl:p-7 flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-5 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 flex-1">
           {/* Water Saved */}
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-2xl bg-[#E0F2FE] text-[#0284C7] flex items-center justify-center shrink-0">
@@ -667,7 +667,7 @@ export default function CropShiftPage() {
               <div className="text-xs text-stone-500 font-medium uppercase tracking-wider">
                 {lang === "en" ? `Water Saved (${farmAcres} Acres)` : `মোট পানি সাশ্রয় (${farmAcres} একর)`}
               </div>
-              <div className="text-[26px] sm:text-[30px] font-bold text-stone-900 font-mono leading-tight">
+              <div className="text-xl sm:text-2xl lg:text-[28px] font-bold text-stone-900 font-mono leading-tight">
                 {lang === "en" ? "77% Less Water" : "৭৭% কম পানি"}
               </div>
               <div className="text-xs text-stone-600 font-medium">
@@ -678,8 +678,6 @@ export default function CropShiftPage() {
             </div>
           </div>
 
-          <div className="h-10 w-px bg-stone-200 hidden sm:block" />
-
           {/* Cost Saved */}
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-2xl bg-[#DCFCE7] text-[#15803D] flex items-center justify-center shrink-0">
@@ -689,7 +687,7 @@ export default function CropShiftPage() {
               <div className="text-xs text-stone-500 font-medium uppercase tracking-wider">
                 {lang === "en" ? "Diesel & Pumping Cost Saved" : "ডিজেল ও সেচ খরচ সাশ্রয়"}
               </div>
-              <div className="text-[26px] sm:text-[30px] font-bold text-[#1E7B48] font-mono leading-tight">
+              <div className="text-xl sm:text-2xl lg:text-[28px] font-bold text-[#1E7B48] font-mono leading-tight">
                 ৳{maxCostSaved.toLocaleString()} BDT
               </div>
               <div className="text-xs text-stone-600 font-medium">
@@ -697,8 +695,6 @@ export default function CropShiftPage() {
               </div>
             </div>
           </div>
-
-          <div className="h-10 w-px bg-stone-200 hidden sm:block" />
 
           {/* Groundwater Saved */}
           <div className="flex items-center gap-3">
@@ -722,7 +718,7 @@ export default function CropShiftPage() {
         {/* Proceed to Dynamic Calendar CTA */}
         <Link
           href="/calendar"
-          className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-stone-900 hover:bg-stone-800 text-white text-sm sm:text-base font-semibold shadow-md hover:shadow-lg transition-all shrink-0"
+          className="w-full xl:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl sm:rounded-full bg-stone-900 hover:bg-stone-800 text-white text-sm sm:text-base font-semibold shadow-md hover:shadow-lg transition-all shrink-0 text-center"
         >
           <Calendar size={16} />
           <span>{lang === "en" ? "See Planting Calendar" : "রোপণের ক্যালেন্ডার দেখুন"}</span>

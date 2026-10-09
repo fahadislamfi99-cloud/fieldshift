@@ -107,7 +107,7 @@ export default function HomePage() {
   return (
     <div className="space-y-6" suppressHydrationWarning>
       {/* HERO BANNER CARD */}
-      <div className="relative rounded-3xl border border-stone-200/90 shadow-[0_4px_24px_rgba(0,0,0,0.04)] min-h-[520px] sm:min-h-[580px] pb-6 flex flex-col justify-between">
+      <div className="relative rounded-3xl border border-stone-200/90 shadow-[0_4px_24px_rgba(0,0,0,0.04)] min-h-0 sm:min-h-[520px] pb-6 flex flex-col justify-between">
         {/* Full Photographic Landscape Background */}
         <div
           className="absolute inset-0 bg-cover bg-center rounded-3xl"
@@ -139,21 +139,21 @@ export default function HomePage() {
         </div>
 
         {/* Hero Card Content Container */}
-        <div className="relative z-10 p-6 sm:p-10 lg:p-12 flex flex-col justify-between h-full space-y-6 max-w-3xl">
+        <div className="relative z-10 p-4 sm:p-8 lg:p-10 flex flex-col justify-between h-full space-y-5 sm:space-y-6 max-w-3xl">
           {/* Hero Header Text */}
-          <div className="space-y-2.5">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[#1E7B48] text-xs font-bold border border-emerald-200/80 shadow-2xs">
+          <div className="space-y-2 sm:space-y-2.5">
+            <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[#1E7B48] text-xs font-bold border border-emerald-200/80 shadow-2xs">
               <Sprout size={13} className="text-[#1E7B48]" />
               <span>{lang === "en" ? "FieldShift • Barind Earth Observation" : "ফিল্ডশিফট • বরেন্দ্র কৃষি পর্যবেক্ষণ"}</span>
             </div>
 
-            <h1 className="text-[28px] sm:text-[34px] font-bold text-stone-900 tracking-tight leading-tight">
+            <h1 className="text-[24px] sm:text-[30px] lg:text-[34px] font-bold text-stone-900 tracking-tight leading-tight">
               {lang === "en"
                 ? "Climate-Smart Farm Planning & Crop Protection"
                 : "জলবায়ু-সহনশীল ফসলের স্মার্ট পরিকল্পনা ও সুরক্ষা"}
             </h1>
 
-            <p className="text-sm sm:text-base font-normal text-stone-600 leading-relaxed max-w-xl">
+            <p className="text-xs sm:text-sm lg:text-base font-normal text-stone-600 leading-relaxed max-w-xl">
               {lang === "en"
                 ? "Select your farming situation and field parameters below to calculate low-water crop shifts, AWD pumping schedules, and thermal heatwave defense using live NASA Earth data."
                 : "নাসা উপগ্রহের আবহাওয়া তথ্যের ভিত্তিতে কম সেচের লাভজনক বিকল্প ফসল, পর্যায়ক্রমিক সেচ (AWD) এবং তাপদাহ থেকে সুরক্ষার নির্দেশনা পেতে নিচের তথ্যগুলো নির্ধারণ করুন।"}
@@ -163,7 +163,7 @@ export default function HomePage() {
           {/* =========================================================================
               UNIFIED OPTION SELECT CARD (With Polished Custom Dropdowns)
               ========================================================================= */}
-          <div className="p-4 sm:p-5 rounded-3xl bg-white/95 backdrop-blur-md border border-stone-200/90 shadow-[0_4px_16px_rgba(0,0,0,0.03)] space-y-4">
+          <div className="p-3.5 sm:p-5 rounded-3xl bg-white/95 backdrop-blur-md border border-stone-200/90 shadow-[0_4px_16px_rgba(0,0,0,0.03)] space-y-3.5 sm:space-y-4">
             {/* Header: Label */}
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 rounded-lg bg-emerald-100/80 text-[#1E7B48] flex items-center justify-center">
@@ -219,7 +219,7 @@ export default function HomePage() {
               <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider block">
                 {lang === "en" ? "2. Field Specifications:" : "২. জমির বিবরণ:"}
               </span>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
                 {/* Custom Tile 1: Location */}
                 <CustomSelect
                   label={lang === "en" ? "Location" : "এলাকা"}
@@ -278,7 +278,7 @@ export default function HomePage() {
                   <Link
                     href="/advisory"
                     onClick={handleProceed}
-                    className="inline-flex items-center justify-center gap-2.5 px-7 py-3 rounded-2xl bg-[#1E7B48] hover:bg-[#165E36] text-white text-sm sm:text-base font-semibold shadow-md hover:shadow-lg transition-all"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 sm:px-7 py-3 rounded-2xl bg-[#1E7B48] hover:bg-[#165E36] text-white text-sm sm:text-base font-semibold shadow-md hover:shadow-lg transition-all text-center"
                   >
                     <span>{lang === "en" ? "Open In-Season Field Advisory" : "জমির জরুরি কৃষি পরামর্শ দেখুন"}</span>
                     <ArrowRight size={16} />
@@ -287,7 +287,7 @@ export default function HomePage() {
                   <Link
                     href="/shift"
                     onClick={handleProceed}
-                    className="inline-flex items-center justify-center gap-2.5 px-7 py-3 rounded-2xl bg-[#1E7B48] hover:bg-[#165E36] text-white text-sm sm:text-base font-semibold shadow-md hover:shadow-lg transition-all"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 sm:px-7 py-3 rounded-2xl bg-[#1E7B48] hover:bg-[#165E36] text-white text-sm sm:text-base font-semibold shadow-md hover:shadow-lg transition-all text-center"
                   >
                     <span>{lang === "en" ? "Get Crop Shift Recommendations" : "বিকল্প ফসলের তালিকা দেখুন"}</span>
                     <ArrowRight size={16} />
@@ -297,13 +297,13 @@ export default function HomePage() {
                 <button
                   type="button"
                   disabled
-                  className="inline-flex items-center justify-center gap-2 px-7 py-3 rounded-2xl bg-stone-200/90 text-stone-400 text-sm sm:text-base font-semibold cursor-not-allowed shadow-none"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 rounded-2xl bg-stone-200/90 text-stone-400 text-sm sm:text-base font-semibold cursor-not-allowed shadow-none text-center"
                 >
                   <span>{lang === "en" ? "Select All Options to Continue" : "উপরের সবগুলো তথ্য নির্বাচন করুন"}</span>
                 </button>
               )}
 
-              <span className="text-xs text-stone-500 font-medium">
+              <span className="text-xs text-stone-500 font-medium text-center sm:text-right">
                 {isConfiguredReady
                   ? (isPlanted
                       ? (lang === "en" ? "AWD water-saving schedule & flower heat guard" : "পর্যায়ক্রমিক সেচ ও ফুল ঝরা রোধের নির্দেশনা")

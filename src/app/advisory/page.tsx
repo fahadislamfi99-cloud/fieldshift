@@ -57,7 +57,7 @@ export default function AdvisoryPage() {
       {/* =========================================================================
           HERO BANNER (Matching the premium aesthetics of Crop Shift page)
           ========================================================================= */}
-      <div className="relative rounded-3xl border border-stone-200/90 shadow-[0_2px_12px_rgba(0,0,0,0.03)] min-h-[320px] flex flex-col justify-between">
+      <div className="relative rounded-3xl border border-stone-200/90 shadow-[0_2px_12px_rgba(0,0,0,0.03)] min-h-[260px] sm:min-h-[300px] flex flex-col justify-between">
         {/* Full Photographic Landscape Background */}
         <div
           className="absolute inset-0 bg-cover bg-center rounded-3xl"
@@ -68,11 +68,11 @@ export default function AdvisoryPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 sm:via-white/70 to-transparent rounded-3xl pointer-events-none" />
 
         {/* Content Container */}
-        <div className="relative z-10 p-6 sm:p-8 flex items-center justify-between gap-6 h-full">
+        <div className="relative z-10 p-4 sm:p-6 lg:p-8 flex items-center justify-between gap-6 h-full">
           {/* Left Title & Simple Explanations */}
           <div className="space-y-3 max-w-3xl">
             {/* Tag Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[#1E7B48] text-xs font-bold border border-emerald-200/80 shadow-2xs">
+            <div className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[#1E7B48] text-[11px] sm:text-xs font-bold border border-emerald-200/80 shadow-2xs">
               <ShieldCheck size={13} className="text-[#1E7B48]" />
               <span>
                 {isPlanted
@@ -85,7 +85,7 @@ export default function AdvisoryPage() {
               </span>
             </div>
 
-            <h1 className="text-[28px] sm:text-[32px] font-bold text-stone-900 tracking-tight leading-tight">
+            <h1 className="text-[24px] sm:text-[28px] lg:text-[32px] font-bold text-stone-900 tracking-tight leading-tight">
               {isPlanted
                 ? (lang === "en"
                     ? "In-Season Field Guidance & Rescue"
@@ -95,7 +95,7 @@ export default function AdvisoryPage() {
                     : "মৌসুমের প্রস্তুতি ও ফসল নির্বাচন পরামর্শ")}
             </h1>
 
-            <p className="text-sm sm:text-base font-normal text-stone-600 leading-relaxed max-w-xl">
+            <p className="text-xs sm:text-sm lg:text-base font-normal text-stone-600 leading-relaxed max-w-xl">
               {isPlanted
                 ? (lang === "en"
                     ? "Directives for standing crops: AWD water-saving schedule, flower heatwave protection, and deep tubewell pump defense based on NASA Earth telemetry."
@@ -106,7 +106,7 @@ export default function AdvisoryPage() {
             </p>
 
             {/* Field Information Pills */}
-            <div className="flex flex-wrap items-center gap-2 pt-1">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 pt-1">
               <div className="px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-stone-200 text-xs font-medium text-stone-800 shadow-2xs flex items-center gap-1.5">
                 <MapPin size={13} className="text-[#1E7B48]" />
                 <span>{currentZone.nameEn}</span>
@@ -139,22 +139,22 @@ export default function AdvisoryPage() {
       {/* =========================================================================
           KEY IMPACT METRIC STRIP (Matches the polished visual style of Crop Shift)
           ========================================================================= */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         {/* Metric 1 */}
-        <div className="p-4 rounded-2xl bg-white border border-stone-200/90 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex items-center gap-3.5">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-stone-200/90 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex items-center gap-3.5">
           <div className="w-11 h-11 rounded-2xl bg-[#E0F2FE] text-[#0284C7] flex items-center justify-center shrink-0 border border-sky-100">
             <Droplets size={20} />
           </div>
           <div>
-            <div className="text-lg sm:text-xl font-extrabold text-stone-900 leading-tight font-mono">
+            <div className="text-base sm:text-lg lg:text-xl font-extrabold text-stone-900 leading-tight font-mono">
               {isPlanted ? "28% Less" : "77% Less"}
             </div>
-            <div className="text-sm font-bold text-stone-800 mt-0.5 leading-tight">
+            <div className="text-xs sm:text-sm font-bold text-stone-800 mt-0.5 leading-tight">
               {isPlanted
                 ? (lang === "en" ? "Irrigation Fuel Saved" : "সেচের জ্বালানি সাশ্রয়")
                 : (lang === "en" ? "Water Volume Saved" : "পানির পরিমাণ সাশ্রয়")}
             </div>
-            <div className="text-xs text-stone-500 leading-tight mt-0.5">
+            <div className="text-[11px] sm:text-xs text-stone-500 leading-tight mt-0.5">
               {isPlanted
                 ? (lang === "en" ? "via AWD dry-down cycles" : "AWD পর্যায়ক্রমিক সেচের মাধ্যমে")
                 : (lang === "en" ? "vs traditional flooded Boro" : "ঐতিহ্যবাহী বোরো ধানের চেয়ে")}
@@ -163,36 +163,36 @@ export default function AdvisoryPage() {
         </div>
 
         {/* Metric 2 */}
-        <div className="p-4 rounded-2xl bg-white border border-stone-200/90 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex items-center gap-3.5">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-stone-200/90 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex items-center gap-3.5">
           <div className="w-11 h-11 rounded-2xl bg-[#DCFCE7] text-[#16A34A] flex items-center justify-center shrink-0 border border-emerald-100">
             <Banknote size={20} />
           </div>
           <div>
-            <div className="text-lg sm:text-xl font-extrabold text-stone-900 leading-tight font-mono">
+            <div className="text-base sm:text-lg lg:text-xl font-extrabold text-stone-900 leading-tight font-mono">
               ~৳8,500 – ৳14,000
             </div>
-            <div className="text-sm font-bold text-stone-800 mt-0.5 leading-tight">
+            <div className="text-xs sm:text-sm font-bold text-stone-800 mt-0.5 leading-tight">
               {lang === "en" ? "Direct Money Saved / Acre" : "একরে নগদ টাকা সাশ্রয়"}
             </div>
-            <div className="text-xs text-stone-500 leading-tight mt-0.5">
+            <div className="text-[11px] sm:text-xs text-stone-500 leading-tight mt-0.5">
               {lang === "en" ? "Preserves farmer profit margin" : "কৃষকের উৎপাদন খরচ কমায়"}
             </div>
           </div>
         </div>
 
         {/* Metric 3 */}
-        <div className="p-4 rounded-2xl bg-white border border-stone-200/90 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex items-center gap-3.5">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-stone-200/90 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex items-center gap-3.5">
           <div className="w-11 h-11 rounded-2xl bg-[#FEF3C7] text-[#D97706] flex items-center justify-center shrink-0 border border-amber-100">
             <Flame size={20} />
           </div>
           <div>
-            <div className="text-lg sm:text-xl font-extrabold text-stone-900 leading-tight font-mono">
+            <div className="text-base sm:text-lg lg:text-xl font-extrabold text-stone-900 leading-tight font-mono">
               85% Protection
             </div>
-            <div className="text-sm font-bold text-stone-800 mt-0.5 leading-tight">
+            <div className="text-xs sm:text-sm font-bold text-stone-800 mt-0.5 leading-tight">
               {lang === "en" ? "Heat Sterility Evasion" : "চিটা ধান ও ফুল ঝরা রোধ"}
             </div>
-            <div className="text-xs text-stone-500 leading-tight mt-0.5">
+            <div className="text-[11px] sm:text-xs text-stone-500 leading-tight mt-0.5">
               {lang === "en" ? "Shields late March anthesis" : "মার্চের তাপদাহ থেকে ফুল রক্ষা"}
             </div>
           </div>
@@ -202,14 +202,14 @@ export default function AdvisoryPage() {
       {/* =========================================================================
           POLISHED ACTION DIRECTIVES (With rich photography & telemetry data)
           ========================================================================= */}
-      <div className="space-y-5">
+      <div className="space-y-4 sm:space-y-5">
         {isPlanted ? (
           /* =====================================================================
              FLOW 1: STANDING CROP DIRECTIVES (Already Planted)
              ===================================================================== */
           <>
             {/* Directive 1: AWD Intermittent Irrigation */}
-            <div className="bg-white rounded-3xl border border-stone-200/90 p-6 sm:p-7 shadow-[0_2px_10px_rgba(0,0,0,0.02)] space-y-4">
+            <div className="bg-white rounded-3xl border border-stone-200/90 p-4 sm:p-6 lg:p-7 shadow-[0_2px_10px_rgba(0,0,0,0.02)] space-y-4">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-2.5">
                   <div className="w-9 h-9 rounded-xl bg-emerald-100 text-[#1E7B48] flex items-center justify-center shrink-0">
