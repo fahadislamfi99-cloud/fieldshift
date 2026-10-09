@@ -13,6 +13,8 @@ import { getFallbackZoneMetrics } from "@/services/nasa-power";
 const ZONES = zonesData as ZoneProfile[];
 const CROPS = cropsData as CropProfile[];
 
+export type FarmerStatus = "not_planted" | "already_planted";
+
 interface AppContextType {
   zones: ZoneProfile[];
   crops: CropProfile[];
@@ -22,6 +24,10 @@ interface AppContextType {
   setCropId: (id: string) => void;
   lang: "en" | "bn";
   setLang: (lang: "en" | "bn") => void;
+  farmerStatus: FarmerStatus;
+  setFarmerStatus: (status: FarmerStatus) => void;
+  waterAccess: string;
+  setWaterAccess: (access: string) => void;
   metrics: CurrentClimateMetrics;
   drift: ClimateDriftSummary;
   assessment: CropShiftAssessment;
@@ -34,6 +40,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [zoneId, setZoneId] = useState<string>("barind_godagari");
   const [cropId, setCropId] = useState<string>("boro_rice");
   const [lang, setLang] = useState<"en" | "bn">("en");
+  const [farmerStatus, setFarmerStatus] = useState<FarmerStatus>("not_planted");
+  const [waterAccess, setWaterAccess] = useState<string>("Deep Tubewell");
 
   const currentZone = useMemo(() => {
     return ZONES.find((z) => z.id === zoneId) || ZONES[0];
@@ -78,6 +86,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setCropId,
         lang,
         setLang,
+        farmerStatus,
+        setFarmerStatus,
+        waterAccess,
+        setWaterAccess,
         metrics,
         drift,
         assessment,
