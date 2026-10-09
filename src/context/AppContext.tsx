@@ -15,12 +15,12 @@ const CROPS = cropsData as CropProfile[];
 
 export type FarmerStatus = "not_planted" | "already_planted";
 
-const LOCAL_STORAGE_KEY = "fieldshift_user_options";
+const LOCAL_STORAGE_KEY = "fieldshift_farmer_config_v2";
 
 export interface SavedUserOptions {
   zoneId: string;
   cropId: string;
-  farmerStatus: FarmerStatus;
+  farmerStatus: FarmerStatus | null;
   waterAccess: string;
   farmAcres?: number;
   lang?: "en" | "bn";
@@ -30,14 +30,16 @@ export interface SavedUserOptions {
 interface AppContextType {
   zones: ZoneProfile[];
   crops: CropProfile[];
+  zoneId: string;
   currentZone: ZoneProfile;
   setZoneId: (id: string) => void;
+  cropId: string;
   currentCrop: CropProfile;
   setCropId: (id: string) => void;
   lang: "en" | "bn";
   setLang: (lang: "en" | "bn") => void;
-  farmerStatus: FarmerStatus;
-  setFarmerStatus: (status: FarmerStatus) => void;
+  farmerStatus: FarmerStatus | null;
+  setFarmerStatus: (status: FarmerStatus | null) => void;
   waterAccess: string;
   setWaterAccess: (access: string) => void;
   farmAcres: number;
@@ -56,11 +58,12 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | null>(null);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [zoneId, setZoneId] = useState<string>("barind_tanore");
-  const [cropId, setCropId] = useState<string>("boro_rice");
+  // Empty by default (nothing selected)
+  const [zoneId, setZoneId] = useState<string>("");
+  const [cropId, setCropId] = useState<string>("");
   const [lang, setLang] = useState<"en" | "bn">("en");
-  const [farmerStatus, setFarmerStatus] = useState<FarmerStatus>("not_planted");
-  const [waterAccess, setWaterAccess] = useState<string>("Deep Tubewell");
+  const [farmerStatus, setFarmerStatus] = useState<FarmerStatus | null>(null);
+  const [waterAccess, setWaterAccess] = useState<string>("");
   const [farmAcres, setFarmAcres] = useState<number>(2.0);
   const [hasConfigured, setHasConfigured] = useState<boolean>(false);
   const [isHydrated, setIsHydrated] = useState<boolean>(false);
@@ -73,26 +76,26 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         if (saved) {
           const parsed = JSON.parse(saved);
           if (parsed && typeof parsed === "object") {
-            if (typeof parsed.hasConfigured === "boolean") {
-              setHasConfigured(parsed.hasConfigured);
-            }
-            if (parsed.zoneId && ZONES.some((z) => z.id === parsed.zoneId)) {
-              setZoneId(parsed.zoneId);
-            }
-            if (parsed.cropId && CROPS.some((c) => c.id === parsed.cropId)) {
-              setCropId(parsed.cropId);
-            }
-            if (parsed.farmerStatus === "not_planted" || parsed.farmerStatus === "already_planted") {
-              setFarmerStatus(parsed.farmerStatus);
-            }
-            if (parsed.waterAccess && typeof parsed.waterAccess === "string") {
-              setWaterAccess(parsed.waterAccess);
-            }
-            if (typeof parsed.farmAcres === "number" && !isNaN(parsed.farmAcres)) {
-              setFarmAcres(parsed.farmAcres);
-            }
-            if (parsed.lang === "en" || parsed.lang === "bn") {
-              setLang(parsed.lang);
+            if (typeof parsed.hasConfigured === "boolean" && parsed.hasConfigured) {
+              setHasConfigured(true);
+              if (parsed.zoneId && ZONES.some((z) => z.id === parsed.zoneId)) {
+                setZoneId(parsed.zoneId);
+              }
+              if (parsed.cropId && CROPS.some((c) => c.id === parsed.cropId)) {
+                setCropId(parsed.cropId);
+              }
+              if (parsed.farmerStatus === "not_planted" || parsed.farmerStatus === "already_planted") {
+                setFarmerStatus(parsed.farmerStatus);
+              }
+              if (parsed.waterAccess && typeof parsed.waterAccess === "string") {
+                setWaterAccess(parsed.waterAccess);
+              }
+              if (typeof parsed.farmAcres === "number" && !isNaN(parsed.farmAcres)) {
+                setFarmAcres(parsed.farmAcres);
+              }
+              if (parsed.lang === "en" || parsed.lang === "bn") {
+                setLang(parsed.lang);
+              }
             }
           }
         }
@@ -126,10 +129,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }, [zoneId, cropId, farmerStatus, waterAccess, farmAcres, lang, hasConfigured, isHydrated]);
 
   const currentZone = useMemo(() => {
+    if (!zoneId) return ZONES[0];
     return ZONES.find((z) => z.id === zoneId) || ZONES[0];
   }, [zoneId]);
 
   const currentCrop = useMemo(() => {
+    if (!cropId) return CROPS[0];
     return CROPS.find((c) => c.id === cropId) || CROPS[0];
   }, [cropId]);
 
@@ -151,27 +156,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const handleSetZoneId = (id: string) => {
     setZoneId(id);
-    const matchedZone = ZONES.find((z) => z.id === id);
-    if (matchedZone) {
-      setCropId(matchedZone.dominantCurrentCropId);
-    }
   };
 
   const saveUserSelection = (options?: Partial<SavedUserOptions>) => {
-    const nextZoneId = options?.zoneId ?? zoneId;
-    const nextCropId = options?.cropId ?? cropId;
-    const nextStatus = options?.farmerStatus ?? farmerStatus;
-    const nextWater = options?.waterAccess ?? waterAccess;
-    const nextAcres = options?.farmAcres ?? farmAcres;
-    const nextLang = options?.lang ?? lang;
+    const nextZoneId = options?.zoneId !== undefined ? options.zoneId : zoneId;
+    const nextCropId = options?.cropId !== undefined ? options.cropId : cropId;
+    const nextStatus = options?.farmerStatus !== undefined ? options.farmerStatus : farmerStatus;
+    const nextWater = options?.waterAccess !== undefined ? options.waterAccess : waterAccess;
+    const nextAcres = options?.farmAcres !== undefined ? options.farmAcres : farmAcres;
+    const nextLang = options?.lang !== undefined ? options.lang : lang;
     const nextConfigured = options?.hasConfigured !== undefined ? options.hasConfigured : true;
 
-    if (options?.zoneId) setZoneId(options.zoneId);
-    if (options?.cropId) setCropId(options.cropId);
-    if (options?.farmerStatus) setFarmerStatus(options.farmerStatus);
-    if (options?.waterAccess) setWaterAccess(options.waterAccess);
+    if (options?.zoneId !== undefined) setZoneId(options.zoneId);
+    if (options?.cropId !== undefined) setCropId(options.cropId);
+    if (options?.farmerStatus !== undefined) setFarmerStatus(options.farmerStatus);
+    if (options?.waterAccess !== undefined) setWaterAccess(options.waterAccess);
     if (options?.farmAcres !== undefined) setFarmAcres(options.farmAcres);
-    if (options?.lang) setLang(options.lang);
+    if (options?.lang !== undefined) setLang(options.lang);
     setHasConfigured(nextConfigured);
 
     try {
@@ -194,6 +195,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const resetUserSelection = () => {
     setHasConfigured(false);
+    setZoneId("");
+    setCropId("");
+    setFarmerStatus(null);
+    setWaterAccess("");
     try {
       if (typeof window !== "undefined") {
         localStorage.removeItem(LOCAL_STORAGE_KEY);
@@ -208,8 +213,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       value={{
         zones: ZONES,
         crops: CROPS,
+        zoneId,
         currentZone,
         setZoneId: handleSetZoneId,
+        cropId,
         currentCrop,
         setCropId,
         lang,
