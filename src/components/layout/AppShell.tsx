@@ -7,7 +7,6 @@ import { useApp } from "@/context/AppContext";
 import {
   Home,
   MapPin,
-  Sparkles,
   Calendar,
   Bell,
   BookOpen,
@@ -35,7 +34,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
   const navItems = [
     { href: "/", label: "Home", icon: Home },
     { href: "/satellite", label: "Map", icon: MapPin },
-    { href: "/shift", label: "Recommendations", icon: Sparkles },
+    { href: "/shift", label: "Recommendations", icon: Sprout },
     { href: "/calendar", label: "Calendar", icon: Calendar },
     { href: "/advisory", label: "Alerts", icon: Bell },
     { href: "/satellite", label: "Resources", icon: BookOpen },
@@ -62,7 +61,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
               <h1 className="text-xl font-extrabold text-[#163B2A] tracking-tight leading-none">
                 FieldShift
               </h1>
-              <p className="text-[11px] font-medium text-stone-500 mt-1">
+              <p className="text-xs font-medium text-stone-600 mt-1">
                 Smarter Farms. Stronger Futures.
               </p>
             </div>
@@ -105,10 +104,10 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
                   <div className="w-3 h-3 rounded-full bg-[#F42A41]" />
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-stone-900 leading-tight">
+                  <div className="text-sm font-bold text-stone-900 leading-tight">
                     Bangladesh
                   </div>
-                  <div className="text-[10px] text-stone-500 font-medium">
+                  <div className="text-xs text-stone-600 font-medium">
                     Barind Tract & Coastal Belt
                   </div>
                 </div>
@@ -139,10 +138,10 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
                 <Sprout size={18} />
               </div>
               <div>
-                <div className="text-xs font-bold text-[#163B2A] leading-tight">
+                <div className="text-sm font-bold text-[#163B2A] leading-tight">
                   NASA Earth Data
                 </div>
-                <div className="text-[10px] text-stone-500 mt-0.5">
+                <div className="text-xs text-stone-600 mt-0.5 font-medium">
                   Real Climate Insights. Better Farm Decisions.
                 </div>
               </div>
@@ -216,10 +215,10 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
                 />
               </div>
               <div className="hidden md:block text-left">
-                <div className="text-xs font-bold text-stone-900 leading-tight">
+                <div className="text-sm font-bold text-stone-900 leading-tight">
                   Farmer Support
                 </div>
-                <div className="text-[10px] text-stone-500">Field Officer</div>
+                <div className="text-xs text-stone-600 font-medium">Field Officer</div>
               </div>
               <ChevronDown size={14} className="text-stone-500 hidden md:block" />
             </div>
@@ -262,8 +261,8 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
         <div className="lg:hidden fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-stone-200 py-2.5 px-6 flex justify-around items-center z-50 shadow-lg">
           <Link
             href="/"
-            className={`flex flex-col items-center gap-1 text-[10px] font-bold ${
-              isActive("/") ? "text-emerald-700 font-extrabold" : "text-stone-500"
+            className={`flex flex-col items-center gap-1 text-xs font-bold ${
+              isActive("/") ? "text-emerald-700 font-extrabold" : "text-stone-600"
             }`}
           >
             <Home size={18} />
@@ -272,8 +271,8 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
 
           <Link
             href="/satellite"
-            className={`flex flex-col items-center gap-1 text-[10px] font-bold ${
-              isActive("/satellite") ? "text-emerald-700 font-extrabold" : "text-stone-500"
+            className={`flex flex-col items-center gap-1 text-xs font-bold ${
+              isActive("/satellite") ? "text-emerald-700 font-extrabold" : "text-stone-600"
             }`}
           >
             <MapIcon size={18} />
@@ -282,8 +281,8 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
 
           <Link
             href="/advisory"
-            className={`flex flex-col items-center gap-1 text-[10px] font-bold ${
-              isActive("/advisory") ? "text-emerald-700 font-extrabold" : "text-stone-500"
+            className={`flex flex-col items-center gap-1 text-xs font-bold ${
+              isActive("/advisory") ? "text-emerald-700 font-extrabold" : "text-stone-600"
             }`}
           >
             <Bell size={18} />
@@ -292,7 +291,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="flex flex-col items-center gap-1 text-[10px] font-bold text-stone-500"
+            className="flex flex-col items-center gap-1 text-xs font-bold text-stone-600"
           >
             <MoreHorizontal size={18} />
             <span>More</span>

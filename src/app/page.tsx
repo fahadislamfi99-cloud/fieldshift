@@ -85,10 +85,10 @@ export default function HomePage() {
                   <div className="flex items-center gap-2">
                     <MapPin size={16} className="text-[#1E7B48] shrink-0" />
                     <div>
-                      <span className="text-[10px] text-stone-400 font-medium block leading-none">
+                      <span className="text-xs text-stone-500 font-medium block leading-none">
                         Location
                       </span>
-                      <span className="text-xs font-bold text-stone-900 block mt-0.5 leading-tight whitespace-nowrap">
+                      <span className="text-sm font-bold text-stone-900 block mt-0.5 leading-tight whitespace-nowrap">
                         {currentZone.nameEn.split(",")[0]}, Rajshahi
                       </span>
                     </div>
@@ -113,10 +113,10 @@ export default function HomePage() {
                   <div className="flex items-center gap-2">
                     <Sprout size={16} className="text-[#1E7B48] shrink-0" />
                     <div>
-                      <span className="text-[10px] text-stone-400 font-medium block leading-none">
+                      <span className="text-xs text-stone-500 font-medium block leading-none">
                         Current Crop
                       </span>
-                      <span className="text-xs font-bold text-stone-900 block mt-0.5 leading-tight whitespace-nowrap">
+                      <span className="text-sm font-bold text-stone-900 block mt-0.5 leading-tight whitespace-nowrap">
                         {currentCrop.nameEn.split(" ")[0]} Rice
                       </span>
                     </div>
@@ -141,10 +141,10 @@ export default function HomePage() {
                   <div className="flex items-center gap-2">
                     <Droplets size={16} className="text-[#0284C7] shrink-0" />
                     <div>
-                      <span className="text-[10px] text-stone-400 font-medium block leading-none">
+                      <span className="text-xs text-stone-500 font-medium block leading-none">
                         Water Access
                       </span>
-                      <span className="text-xs font-bold text-stone-900 block mt-0.5 leading-tight whitespace-nowrap">
+                      <span className="text-sm font-bold text-stone-900 block mt-0.5 leading-tight whitespace-nowrap">
                         {waterAccess}
                       </span>
                     </div>
@@ -167,7 +167,7 @@ export default function HomePage() {
               <div>
                 <Link
                   href="/shift"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1E7B48] hover:bg-[#165E36] text-white text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1E7B48] hover:bg-[#165E36] text-white text-sm sm:text-base font-bold shadow-md hover:shadow-lg transition-all"
                 >
                   <span>Get Recommendations</span>
                   <ArrowRight size={15} />
@@ -184,13 +184,13 @@ export default function HomePage() {
                 <Thermometer size={18} />
               </div>
               <div>
-                <div className="text-base sm:text-lg font-extrabold text-stone-900 leading-tight">
+                <div className="text-lg sm:text-xl font-extrabold text-stone-900 leading-tight">
                   +1.4°C
                 </div>
-                <div className="text-xs font-bold text-stone-800 mt-0.5 leading-tight">
+                <div className="text-sm font-bold text-stone-800 mt-0.5 leading-tight">
                   Temperature Shift
                 </div>
-                <div className="text-[10px] text-stone-500 leading-tight">
+                <div className="text-xs text-stone-500 leading-tight">
                   (15 years, LST)
                 </div>
               </div>
@@ -202,13 +202,13 @@ export default function HomePage() {
                 <Droplets size={18} />
               </div>
               <div>
-                <div className="text-base sm:text-lg font-extrabold text-stone-900 leading-tight">
+                <div className="text-lg sm:text-xl font-extrabold text-stone-900 leading-tight">
                   -28%
                 </div>
-                <div className="text-xs font-bold text-stone-800 mt-0.5 leading-tight">
+                <div className="text-sm font-bold text-stone-800 mt-0.5 leading-tight">
                   Soil Moisture Decline
                 </div>
-                <div className="text-[10px] text-stone-500 leading-tight">
+                <div className="text-xs text-stone-500 leading-tight">
                   (vs 10-yr average)
                 </div>
               </div>
@@ -220,13 +220,13 @@ export default function HomePage() {
                 <CloudRain size={18} />
               </div>
               <div>
-                <div className="text-base sm:text-lg font-extrabold text-stone-900 leading-tight">
+                <div className="text-lg sm:text-xl font-extrabold text-stone-900 leading-tight">
                   +12 days
                 </div>
-                <div className="text-xs font-bold text-stone-800 mt-0.5 leading-tight">
+                <div className="text-sm font-bold text-stone-800 mt-0.5 leading-tight">
                   Monsoon Onset Shift
                 </div>
-                <div className="text-[10px] text-stone-500 leading-tight">
+                <div className="text-xs text-stone-500 leading-tight">
                   (vs historical)
                 </div>
               </div>
@@ -238,13 +238,13 @@ export default function HomePage() {
                 <Leaf size={18} />
               </div>
               <div>
-                <div className="text-base sm:text-lg font-extrabold text-stone-900 leading-tight">
+                <div className="text-lg sm:text-xl font-extrabold text-stone-900 leading-tight">
                   42%
                 </div>
-                <div className="text-xs font-bold text-stone-800 mt-0.5 leading-tight">
+                <div className="text-sm font-bold text-stone-800 mt-0.5 leading-tight">
                   Boro Rice Suitability
                 </div>
-                <div className="text-[10px] text-stone-500 leading-tight">
+                <div className="text-xs text-stone-500 leading-tight">
                   (by 2032)
                 </div>
               </div>
@@ -284,17 +284,17 @@ export default function HomePage() {
               <div className="absolute top-4 left-4 z-10 px-3.5 py-2 rounded-xl bg-white/95 backdrop-blur-md border border-stone-200/90 shadow-sm flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-[#16A34A]" />
                 <div>
-                  <div className="text-xs font-extrabold text-stone-900 leading-tight">
+                  <div className="text-sm font-extrabold text-stone-900 leading-tight">
                     Selected Field
                   </div>
-                  <div className="text-[10px] text-stone-500 font-medium leading-tight">
+                  <div className="text-xs text-stone-500 font-medium leading-tight">
                     2.0 acres
                   </div>
                 </div>
               </div>
 
               {/* Bottom-Left Pill: NASA MODIS Land Cover */}
-              <div className="absolute bottom-4 left-4 z-10 px-3.5 py-2 rounded-xl bg-white/95 backdrop-blur-md border border-stone-200/90 text-[11px] font-bold text-stone-900 shadow-sm flex items-center gap-2">
+              <div className="absolute bottom-4 left-4 z-10 px-3.5 py-2 rounded-xl bg-white/95 backdrop-blur-md border border-stone-200/90 text-xs font-bold text-stone-900 shadow-sm flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-[#16A34A]" />
                 <span>NASA MODIS Land Cover: Agriculture</span>
               </div>
@@ -332,21 +332,21 @@ export default function HomePage() {
             <div className="md:col-span-6 rounded-3xl bg-white border border-stone-200/90 shadow-[0_2px_8px_rgba(0,0,0,0.02)] p-6 flex flex-col justify-between space-y-4">
               {/* Header */}
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#0B3D91] text-white flex items-center justify-center font-black text-[10px] tracking-wider shrink-0 shadow-2xs">
+                <div className="w-8 h-8 rounded-full bg-[#0B3D91] text-white flex items-center justify-center font-black text-xs tracking-wider shrink-0 shadow-2xs">
                   NASA
                 </div>
                 <div>
-                  <h2 className="text-sm font-extrabold text-stone-900">
+                  <h2 className="text-base font-extrabold text-stone-900">
                     Weather & Climate Warnings
                   </h2>
-                  <p className="text-[11px] text-stone-500 font-medium">
+                  <p className="text-xs text-stone-600 font-medium">
                     From NASA Satellite Weather Data
                   </p>
                 </div>
               </div>
 
               {/* 3 Telemetry List Rows */}
-              <div className="space-y-2.5 divide-y divide-stone-100 text-xs">
+              <div className="space-y-2.5 divide-y divide-stone-100 text-sm">
                 {/* Row 1: Temperature Rise */}
                 <div className="pt-2 flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
@@ -354,12 +354,12 @@ export default function HomePage() {
                       <Thermometer size={14} />
                     </div>
                     <div>
-                      <div className="font-bold text-stone-900">Temperature Rise</div>
-                      <div className="text-[10px] text-stone-500">Daytime heat rising (15-yr trend)</div>
+                      <div className="text-sm font-bold text-stone-900">Temperature Rise</div>
+                      <div className="text-xs text-stone-600">Daytime heat rising (15-yr trend)</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-[#DC2626] font-mono">+1.4°C</span>
+                    <span className="text-sm font-bold text-[#DC2626] font-mono">+1.4°C</span>
                     <ChevronRight size={14} className="text-stone-400" />
                   </div>
                 </div>
@@ -371,12 +371,12 @@ export default function HomePage() {
                       <Droplets size={14} />
                     </div>
                     <div>
-                      <div className="font-bold text-stone-900">Dry Underground Soil</div>
-                      <div className="text-[10px] text-stone-500">Low root-zone moisture (NASA SMAP)</div>
+                      <div className="text-sm font-bold text-stone-900">Dry Underground Soil</div>
+                      <div className="text-xs text-stone-600">Low root-zone moisture (NASA SMAP)</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-[#7C3AED] font-mono">-28%</span>
+                    <span className="text-sm font-bold text-[#7C3AED] font-mono">-28%</span>
                     <ChevronRight size={14} className="text-stone-400" />
                   </div>
                 </div>
@@ -388,25 +388,25 @@ export default function HomePage() {
                       <CloudRain size={14} />
                     </div>
                     <div>
-                      <div className="font-bold text-stone-900">Rain Season Delayed</div>
-                      <div className="text-[10px] text-stone-500">Monsoon arriving 12 days late</div>
+                      <div className="text-sm font-bold text-stone-900">Rain Season Delayed</div>
+                      <div className="text-xs text-stone-600">Monsoon arriving 12 days late</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-[#2563EB] font-mono">+12 days</span>
+                    <span className="text-sm font-bold text-[#2563EB] font-mono">+12 days</span>
                     <ChevronRight size={14} className="text-stone-400" />
                   </div>
                 </div>
               </div>
 
               {/* Status Quo Unsustainable Warning Banner */}
-              <div className="p-3.5 rounded-2xl bg-[#FFFBEB] border border-[#FDE68A] text-xs flex items-start gap-2.5">
+              <div className="p-3.5 rounded-2xl bg-[#FFFBEB] border border-[#FDE68A] text-sm flex items-start gap-2.5">
                 <AlertTriangle size={16} className="text-[#D97706] shrink-0 mt-0.5" />
                 <div>
                   <span className="font-extrabold text-[#92400E] block">
                     High Risk for Boro Rice
                   </span>
-                  <span className="text-[#B45309] text-[11px] leading-tight block mt-0.5">
+                  <span className="text-[#B45309] text-xs leading-normal block mt-0.5">
                     Rice harvest drops due to severe heat and water shortages.
                   </span>
                 </div>
@@ -423,13 +423,13 @@ export default function HomePage() {
             {/* Header: Recommended Actions */}
             <div className="flex items-center gap-2">
               <Sprout size={18} className="text-[#1E7B48]" />
-              <h2 className="text-base font-extrabold text-stone-900">
+              <h2 className="text-lg font-extrabold text-stone-900">
                 What You Can Do
               </h2>
             </div>
 
             {/* Toggle Tabs: Change Crop | Change Planting Date */}
-            <div className="p-1 rounded-full bg-stone-100 flex items-center gap-1 text-xs font-bold">
+            <div className="p-1 rounded-full bg-stone-100 flex items-center gap-1 text-sm font-bold">
               <button
                 onClick={() => setActiveTab("crop")}
                 className={`flex-1 py-2 rounded-full transition-all text-center ${
@@ -453,13 +453,13 @@ export default function HomePage() {
             </div>
 
             {/* Failure Risk Alert Banner */}
-            <div className="p-3.5 rounded-2xl bg-[#FEF2F2] border border-[#FEE2E2] text-xs flex items-start gap-2.5">
+            <div className="p-3.5 rounded-2xl bg-[#FEF2F2] border border-[#FEE2E2] text-sm flex items-start gap-2.5">
               <ShieldAlert size={16} className="text-[#DC2626] shrink-0 mt-0.5" />
               <div>
                 <span className="font-bold text-[#991B1B] leading-tight block">
                   Boro Rice has 65% failure risk this season.
                 </span>
-                <span className="text-[#B91C1C] text-[11px] leading-tight block mt-0.5">
+                <span className="text-[#B91C1C] text-xs leading-normal block mt-0.5">
                   Groundwater pumping cost will eat all profit.
                 </span>
               </div>
@@ -467,10 +467,10 @@ export default function HomePage() {
 
             {/* Recommended Alternatives List Header */}
             <div>
-              <div className="text-xs font-extrabold text-stone-900">
+              <div className="text-sm font-extrabold text-stone-900">
                 Better Crops for Your Field
               </div>
-              <div className="text-[11px] text-stone-500">
+              <div className="text-xs text-stone-600 font-medium">
                 Top 2 safer options for this land
               </div>
             </div>
@@ -493,14 +493,14 @@ export default function HomePage() {
                 {/* Details */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-stone-900 truncate">
+                    <span className="text-sm font-bold text-stone-900 truncate">
                       BARI Mustard-14
                     </span>
-                    <span className="px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-[#DCFCE7] text-[#15803D] shrink-0">
+                    <span className="px-2 py-0.5 rounded-full text-xs font-extrabold bg-[#DCFCE7] text-[#15803D] shrink-0">
                       Best Choice
                     </span>
                   </div>
-                  <ul className="text-[11px] text-stone-500 mt-1 space-y-0.5">
+                  <ul className="text-xs text-stone-600 font-medium mt-1 space-y-0.5">
                     <li>• 60% less water needed</li>
                     <li>• Harvests before hot summer</li>
                     <li>• Higher, safer profit</li>
@@ -531,10 +531,10 @@ export default function HomePage() {
 
                 {/* Details */}
                 <div className="flex-1 min-w-0">
-                  <div className="text-xs font-bold text-stone-900 truncate">
+                  <div className="text-sm font-bold text-stone-900 truncate">
                     Hybrid Maize
                   </div>
-                  <ul className="text-[11px] text-stone-500 mt-1 space-y-0.5">
+                  <ul className="text-xs text-stone-600 font-medium mt-1 space-y-0.5">
                     <li>• Handles drought well</li>
                     <li>• Strong against summer heat</li>
                     <li>• High demand in market</li>
@@ -551,31 +551,31 @@ export default function HomePage() {
             {/* Bottom 3-Metric Summary Tags */}
             <div className="pt-2 grid grid-cols-3 gap-2 border-t border-stone-100 text-center">
               <div className="p-2 rounded-xl bg-white border border-stone-200/80">
-                <div className="flex items-center justify-center gap-1 text-[10px] font-medium text-stone-500">
-                  <Droplets size={11} className="text-[#0284C7]" />
+                <div className="flex items-center justify-center gap-1 text-xs font-medium text-stone-600">
+                  <Droplets size={12} className="text-[#0284C7]" />
                   <span>Water Saved</span>
                 </div>
-                <div className="text-xs font-extrabold text-[#0284C7] mt-0.5 font-mono">
+                <div className="text-sm font-extrabold text-[#0284C7] mt-0.5 font-mono">
                   60% Saved
                 </div>
               </div>
 
               <div className="p-2 rounded-xl bg-white border border-stone-200/80">
-                <div className="flex items-center justify-center gap-1 text-[10px] font-medium text-stone-500">
-                  <TrendingDown size={11} className="text-[#16A34A]" />
+                <div className="flex items-center justify-center gap-1 text-xs font-medium text-stone-600">
+                  <TrendingDown size={12} className="text-[#16A34A]" />
                   <span>Cost Saved</span>
                 </div>
-                <div className="text-xs font-extrabold text-[#16A34A] mt-0.5 font-mono">
+                <div className="text-sm font-extrabold text-[#16A34A] mt-0.5 font-mono">
                   -35%
                 </div>
               </div>
 
               <div className="p-2 rounded-xl bg-white border border-stone-200/80">
-                <div className="flex items-center justify-center gap-1 text-[10px] font-medium text-stone-500">
-                  <Gauge size={11} className="text-[#16A34A]" />
+                <div className="flex items-center justify-center gap-1 text-xs font-medium text-stone-600">
+                  <Gauge size={12} className="text-[#16A34A]" />
                   <span>Safety Score</span>
                 </div>
-                <div className="text-xs font-extrabold text-stone-900 mt-0.5 font-mono">
+                <div className="text-sm font-extrabold text-stone-900 mt-0.5 font-mono">
                   Safe (32/100)
                 </div>
               </div>

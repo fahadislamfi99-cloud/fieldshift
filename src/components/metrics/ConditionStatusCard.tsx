@@ -24,11 +24,11 @@ export const ConditionStatusCard: React.FC<ConditionStatusCardProps> = ({ zone, 
           <div className="w-7 h-7 rounded-lg bg-[#E7F6E1] flex items-center justify-center text-[#1F513A]">
             <Layers size={15} />
           </div>
-          <h2 className="text-sm font-bold text-[#14211A]">
+          <h2 className="text-base font-bold text-[#14211A]">
             {lang === "en" ? "Soil & Stress Status" : "মাটি ও পরিবেশগত অবস্থা"}
           </h2>
         </div>
-        <span className="text-[11px] font-semibold text-[#576B5F]">
+        <span className="text-xs font-semibold text-[#576B5F]">
           {lang === "en" ? "Real-Time Ingest" : "সরাসরি উপগ্রহ ডেটা"}
         </span>
       </div>
@@ -37,7 +37,7 @@ export const ConditionStatusCard: React.FC<ConditionStatusCardProps> = ({ zone, 
       <div className="grid grid-cols-3 gap-2">
         {/* Capsule 1: Groundwater */}
         <div className="bg-[#F8FAF8] rounded-xl p-2.5 border border-[#E2ECE3] flex flex-col justify-between">
-          <span className="text-[10px] text-[#576B5F] font-semibold">
+          <span className="text-xs text-[#576B5F] font-semibold">
             {lang === "en" ? "Groundwater" : "ভূগর্ভস্থ পানি"}
           </span>
           <div className="my-1.5 h-1 w-full bg-[#E2ECE3] rounded-full overflow-hidden">
@@ -48,7 +48,7 @@ export const ConditionStatusCard: React.FC<ConditionStatusCardProps> = ({ zone, 
             />
           </div>
           <span
-            className={`text-[11px] font-bold ${
+            className={`text-xs font-bold ${
               groundwaterLevel === "Critical" ? "text-[#DC2626]" : "text-[#D97706]"
             }`}
           >
@@ -58,7 +58,7 @@ export const ConditionStatusCard: React.FC<ConditionStatusCardProps> = ({ zone, 
 
         {/* Capsule 2: Heat Wave */}
         <div className="bg-[#F8FAF8] rounded-xl p-2.5 border border-[#E2ECE3] flex flex-col justify-between">
-          <span className="text-[10px] text-[#576B5F] font-semibold">
+          <span className="text-xs text-[#576B5F] font-semibold">
             {lang === "en" ? "Heat Stress" : "তাপদাহ"}
           </span>
           <div className="my-1.5 h-1 w-full bg-[#E2ECE3] rounded-full overflow-hidden">
@@ -69,7 +69,7 @@ export const ConditionStatusCard: React.FC<ConditionStatusCardProps> = ({ zone, 
             />
           </div>
           <span
-            className={`text-[11px] font-bold ${
+            className={`text-xs font-bold ${
               heatStressLevel === "Elevated" ? "text-[#D97706]" : "text-[#163B2A]"
             }`}
           >
@@ -79,7 +79,7 @@ export const ConditionStatusCard: React.FC<ConditionStatusCardProps> = ({ zone, 
 
         {/* Capsule 3: Salinity */}
         <div className="bg-[#F8FAF8] rounded-xl p-2.5 border border-[#E2ECE3] flex flex-col justify-between">
-          <span className="text-[10px] text-[#576B5F] font-semibold">
+          <span className="text-xs text-[#576B5F] font-semibold">
             {lang === "en" ? "Salinity" : "লবণাক্ততা"}
           </span>
           <div className="my-1.5 h-1 w-full bg-[#E2ECE3] rounded-full overflow-hidden">
@@ -90,7 +90,7 @@ export const ConditionStatusCard: React.FC<ConditionStatusCardProps> = ({ zone, 
             />
           </div>
           <span
-            className={`text-[11px] font-bold ${
+            className={`text-xs font-bold ${
               salinityLevel === "High" ? "text-[#DC2626]" : "text-[#163B2A]"
             }`}
           >

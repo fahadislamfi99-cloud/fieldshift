@@ -106,7 +106,7 @@ export const FieldMap: React.FC<FieldMapProps> = ({
 
       {/* Floating Center Plot Tooltip Badge (Direct from Reference Design) */}
       <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 max-w-[90%] px-3 py-1.5 rounded-xl bg-white/95 backdrop-blur-md border border-[#E2ECE3] shadow-md text-center pointer-events-none">
-        <p className="text-[11px] font-bold text-[#14211A] whitespace-nowrap">
+        <p className="text-xs font-bold text-[#14211A] whitespace-nowrap">
           {lang === "en"
             ? `Plot #12: Root Moisture ${moisturePercent}% | Shift Recommended`
             : `প্লট #১২: আর্দ্রতা ${moisturePercent}% | ফসল পরিবর্তন আবশ্যক`}

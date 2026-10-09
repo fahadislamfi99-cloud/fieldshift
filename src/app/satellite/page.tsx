@@ -110,56 +110,56 @@ export default function SatellitePage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Sensor 1 */}
         <div className="bg-white p-4.5 rounded-2xl border border-stone-200 shadow-xs space-y-2">
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-stone-100 text-stone-700">
+          <span className="text-xs font-bold px-2 py-0.5 rounded-md bg-stone-100 text-stone-700">
             REST Point API
           </span>
-          <h3 className="text-sm font-bold text-stone-900">NASA POWER</h3>
-          <p className="text-xs text-stone-600 leading-relaxed">
+          <h3 className="text-base font-bold text-stone-900">NASA POWER</h3>
+          <p className="text-sm text-stone-600 leading-relaxed">
             Daily agroclimatology (T2M, Radiation, Rain). Zero-token open REST endpoint queried live.
           </p>
-          <div className="text-[11px] font-bold text-[#163B2A] pt-2 border-t border-stone-100">
+          <div className="text-xs font-bold text-[#163B2A] pt-2 border-t border-stone-100">
             Resolution: 0.5° x 0.5°
           </div>
         </div>
 
         {/* Sensor 2 */}
         <div className="bg-white p-4.5 rounded-2xl border border-stone-200 shadow-xs space-y-2">
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-stone-100 text-stone-700">
+          <span className="text-xs font-bold px-2 py-0.5 rounded-md bg-stone-100 text-stone-700">
             Microwave Radar/Radiometer
           </span>
-          <h3 className="text-sm font-bold text-stone-900">SMAP L4 (SPL4SMAU)</h3>
-          <p className="text-xs text-stone-600 leading-relaxed">
+          <h3 className="text-base font-bold text-stone-900">SMAP L4 (SPL4SMAU)</h3>
+          <p className="text-sm text-stone-600 leading-relaxed">
             Assimilates 0–100 cm root-zone soil moisture, bypassing deceptive surface crust drying.
           </p>
-          <div className="text-[11px] font-bold text-[#163B2A] pt-2 border-t border-stone-100">
+          <div className="text-xs font-bold text-[#163B2A] pt-2 border-t border-stone-100">
             Resolution: 9 km Assimilated
           </div>
         </div>
 
         {/* Sensor 3 */}
         <div className="bg-white p-4.5 rounded-2xl border border-stone-200 shadow-xs space-y-2">
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-stone-100 text-stone-700">
+          <span className="text-xs font-bold px-2 py-0.5 rounded-md bg-stone-100 text-stone-700">
             ISS Thermal Infrared
           </span>
-          <h3 className="text-sm font-bold text-stone-900">ECOSTRESS (ISS)</h3>
-          <p className="text-xs text-stone-600 leading-relaxed">
+          <h3 className="text-base font-bold text-stone-900">ECOSTRESS (ISS)</h3>
+          <p className="text-sm text-stone-600 leading-relaxed">
             Measures Evapotranspiration (ET) and plant canopy stress up to 7 days before physical wilting.
           </p>
-          <div className="text-[11px] font-bold text-[#163B2A] pt-2 border-t border-stone-100">
+          <div className="text-xs font-bold text-[#163B2A] pt-2 border-t border-stone-100">
             Resolution: 70m Thermal
           </div>
         </div>
 
         {/* Sensor 4 */}
         <div className="bg-white p-4.5 rounded-2xl border border-stone-200 shadow-xs space-y-2">
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-stone-100 text-stone-700">
+          <span className="text-xs font-bold px-2 py-0.5 rounded-md bg-stone-100 text-stone-700">
             Spectroradiometer
           </span>
-          <h3 className="text-sm font-bold text-stone-900">MODIS / Landsat</h3>
-          <p className="text-xs text-stone-600 leading-relaxed">
+          <h3 className="text-base font-bold text-stone-900">MODIS / Landsat</h3>
+          <p className="text-sm text-stone-600 leading-relaxed">
             15-year thermal baseline (2010–2025) establishing the multi-decadal Climate Drift Index ($\Delta T$).
           </p>
-          <div className="text-[11px] font-bold text-[#163B2A] pt-2 border-t border-stone-100">
+          <div className="text-xs font-bold text-[#163B2A] pt-2 border-t border-stone-100">
             Resolution: 250m - 1km
           </div>
         </div>

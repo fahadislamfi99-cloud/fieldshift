@@ -82,7 +82,7 @@ export const HeroHeader: React.FC<HeroHeaderProps> = ({
                 +{drift.tempDriftDeltaC}°C Drift
               </span>
             </div>
-            <p className="text-white/70 text-[11px] mt-0.5">
+            <p className="text-white/80 text-xs mt-0.5">
               {lang === "en" ? "15-Yr NASA Trend vs Baseline" : "১৫ বছরের গড় তাপমাত্রা বৃদ্ধি"}
             </p>
           </div>
@@ -92,7 +92,7 @@ export const HeroHeader: React.FC<HeroHeaderProps> = ({
               <Sun size={15} className="text-amber-300" />
               <span>{lang === "en" ? "Sunny Day" : "রৌদ্রোজ্জ্বল দিন"}</span>
             </div>
-            <p className="text-white/70 text-[11px] mt-0.5">
+            <p className="text-white/80 text-xs mt-0.5">
               {metrics.observationDate}
             </p>
           </div>
@@ -103,10 +103,10 @@ export const HeroHeader: React.FC<HeroHeaderProps> = ({
           {/* Chip 1: Thermal Anomaly */}
           <div className="bg-white/20 backdrop-blur-md border border-white/30 rounded-xl p-2.5 flex flex-col items-center justify-center text-center">
             <Thermometer size={16} className="text-amber-300 mb-1" />
-            <span className="text-[10px] text-white/80 font-medium">
+            <span className="text-xs text-white/80 font-medium">
               {lang === "en" ? "Max Temp" : "সর্বোচ্চ"}
             </span>
-            <span className="text-xs font-bold text-white mt-0.5 tabular-nums">
+            <span className="text-sm font-bold text-white mt-0.5 tabular-nums">
               {metrics.maxTemperatureC}°C
             </span>
           </div>
@@ -114,10 +114,10 @@ export const HeroHeader: React.FC<HeroHeaderProps> = ({
           {/* Chip 2: Wind */}
           <div className="bg-white/20 backdrop-blur-md border border-white/30 rounded-xl p-2.5 flex flex-col items-center justify-center text-center">
             <Wind size={16} className="text-emerald-300 mb-1" />
-            <span className="text-[10px] text-white/80 font-medium">
+            <span className="text-xs text-white/80 font-medium">
               {lang === "en" ? "Wind Speed" : "বাতাস"}
             </span>
-            <span className="text-xs font-bold text-white mt-0.5 tabular-nums">
+            <span className="text-sm font-bold text-white mt-0.5 tabular-nums">
               {metrics.windSpeedKmh} km/h
             </span>
           </div>
@@ -125,10 +125,10 @@ export const HeroHeader: React.FC<HeroHeaderProps> = ({
           {/* Chip 3: Rain Forecast */}
           <div className="bg-white/20 backdrop-blur-md border border-white/30 rounded-xl p-2.5 flex flex-col items-center justify-center text-center">
             <CloudRain size={16} className="text-sky-300 mb-1" />
-            <span className="text-[10px] text-white/80 font-medium">
+            <span className="text-xs text-white/80 font-medium">
               {lang === "en" ? "Precipitation" : "বৃষ্টিপাত"}
             </span>
-            <span className="text-xs font-bold text-white mt-0.5 tabular-nums">
+            <span className="text-sm font-bold text-white mt-0.5 tabular-nums">
               {metrics.precipitationMm} mm
             </span>
           </div>

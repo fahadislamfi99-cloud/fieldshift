@@ -68,18 +68,18 @@ export const Navbar: React.FC = () => {
               <div className="flex flex-col">
                 <span className="text-base font-extrabold text-stone-900 tracking-tight flex items-center gap-1.5">
                   FieldShift
-                  <span className="text-[10px] px-1.5 py-0.2 rounded-md bg-stone-100 border border-stone-200 text-stone-600 font-semibold uppercase">
+                  <span className="text-xs px-2 py-0.5 rounded-md bg-stone-100 border border-stone-200 text-stone-600 font-semibold uppercase">
                     NASA Space Apps
                   </span>
                 </span>
-                <span className="text-[10px] text-stone-500 font-medium hidden sm:inline">
+                <span className="text-xs text-stone-500 font-medium hidden sm:inline">
                   Adapting Farms with NASA Data
                 </span>
               </div>
             </Link>
 
             {/* Live Telemetry Pulse Badge */}
-            <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-semibold">
+            <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>NASA POWER LIVE</span>
             </div>
@@ -95,13 +95,13 @@ export const Navbar: React.FC = () => {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold transition-all ${
                     isActive
                       ? "bg-[#163B2A] text-white shadow-xs"
                       : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
                   }`}
                 >
-                  <Icon size={14} className={isActive ? "text-[#65C938]" : "text-stone-400"} />
+                  <Icon size={15} className={isActive ? "text-[#65C938]" : "text-stone-400"} />
                   <span>{lang === "en" ? link.labelEn : link.labelBn}</span>
                 </Link>
               );
@@ -115,7 +115,7 @@ export const Navbar: React.FC = () => {
               <select
                 value={currentZone.id}
                 onChange={(e) => setZoneId(e.target.value)}
-                className="appearance-none pl-7 pr-7 py-1.5 rounded-lg bg-stone-100 hover:bg-stone-150 border border-stone-200 text-xs font-semibold text-stone-800 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#163B2A]/20 transition-all"
+                className="appearance-none pl-7 pr-7 py-1.5 rounded-lg bg-stone-100 hover:bg-stone-150 border border-stone-200 text-sm font-semibold text-stone-800 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#163B2A]/20 transition-all"
                 title="Select Agricultural Region"
               >
                 {zones.map((z) => (
@@ -130,7 +130,7 @@ export const Navbar: React.FC = () => {
             {/* Language Toggle */}
             <button
               onClick={() => setLang(lang === "en" ? "bn" : "en")}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-stone-100 hover:bg-stone-200 border border-stone-200 text-xs font-bold text-stone-700 transition-colors"
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-stone-100 hover:bg-stone-200 border border-stone-200 text-sm font-bold text-stone-700 transition-colors"
               title="Toggle Language"
             >
               <Globe2 size={13} className="text-stone-500" />

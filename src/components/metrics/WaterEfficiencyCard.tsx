@@ -27,10 +27,10 @@ export const WaterEfficiencyCard: React.FC<WaterEfficiencyCardProps> = ({
             <Droplet size={15} />
           </div>
           <div>
-            <h2 className="text-sm font-bold text-[#14211A] leading-tight">
+            <h2 className="text-base font-bold text-[#14211A] leading-tight">
               {lang === "en" ? "Root-Zone Moisture" : "মূল অঞ্চলের আর্দ্রতা"}
             </h2>
-            <p className="text-[11px] text-[#576B5F]">
+            <p className="text-xs text-[#576B5F]">
               NASA SMAP L4 (0–100cm)
             </p>
           </div>
@@ -39,7 +39,7 @@ export const WaterEfficiencyCard: React.FC<WaterEfficiencyCardProps> = ({
         {/* Status Badge */}
         <div className="flex items-center gap-1.5">
           <span
-            className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full ${
+            className={`text-xs font-bold px-2.5 py-0.5 rounded-full ${
               isCritical
                 ? "bg-[#FEECEB] text-[#9E1C13]"
                 : "bg-[#E2F5DC] text-[#195222]"
@@ -63,9 +63,9 @@ export const WaterEfficiencyCard: React.FC<WaterEfficiencyCardProps> = ({
               className={`h-7 w-[9px] rounded-full transition-all duration-500 ${
                 isActive
                   ? isCritical
-                    ? "bg-[#D97706]" // Warning amber if deficient
-                    : "bg-[#1F513A]" // Deep forest green
-                  : "bg-[#DCE8DE]" // Empty sage track
+                  ? "bg-[#D97706]" // Warning amber if deficient
+                  : "bg-[#1F513A]" // Deep forest green
+                : "bg-[#DCE8DE]" // Empty sage track
               }`}
             />
           );
@@ -73,7 +73,7 @@ export const WaterEfficiencyCard: React.FC<WaterEfficiencyCardProps> = ({
       </div>
 
       {/* Subtext description */}
-      <div className="flex items-center justify-between text-[11px] text-[#576B5F] mt-2 pt-2 border-t border-[#F0F4F1]">
+      <div className="flex items-center justify-between text-xs text-[#576B5F] mt-2 pt-2 border-t border-[#F0F4F1]">
         <span>
           {lang === "en"
             ? `Baseline Deficit: ${deficitPercent}% vs 15-Yr Average`

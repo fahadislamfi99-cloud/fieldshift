@@ -61,7 +61,7 @@ export const CropViabilityGauge: React.FC<CropViabilityGaugeProps> = ({
             <span className="text-base font-extrabold text-[#14211A] tabular-nums leading-none">
               {suitability.overallScore}%
             </span>
-            <span className="text-[9px] text-[#576B5F] font-semibold mt-0.5">
+            <span className="text-xs text-[#576B5F] font-semibold mt-0.5">
               Score
             </span>
           </div>
@@ -71,11 +71,11 @@ export const CropViabilityGauge: React.FC<CropViabilityGaugeProps> = ({
         <div className="flex-1 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between">
-              <span className="text-[11px] text-[#576B5F] font-semibold uppercase tracking-wider">
+              <span className="text-xs text-[#576B5F] font-semibold uppercase tracking-wider">
                 {lang === "en" ? "Planned Crop" : "নির্বাচিত ফসল"}
               </span>
               <span
-                className={`text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 ${
+                className={`text-xs font-bold px-2 py-0.5 rounded-full flex items-center gap-1 ${
                   isCritical
                     ? "bg-[#FEECEB] text-[#9E1C13]"
                     : isModerate
@@ -83,18 +83,18 @@ export const CropViabilityGauge: React.FC<CropViabilityGaugeProps> = ({
                     : "bg-[#E2F5DC] text-[#195222]"
                 }`}
               >
-                {isCritical ? <AlertTriangle size={10} /> : <ShieldCheck size={10} />}
+                {isCritical ? <AlertTriangle size={11} /> : <ShieldCheck size={11} />}
                 {isCritical
                   ? (lang === "en" ? "High Risk" : "উচ্চ ঝুঁকি")
                   : (lang === "en" ? "Viable" : "উপযোগী")}
               </span>
             </div>
 
-            <h3 className="text-sm font-bold text-[#14211A] mt-0.5">
+            <h3 className="text-base font-bold text-[#14211A] mt-0.5">
               {lang === "en" ? crop.nameEn : crop.nameBn}
             </h3>
 
-            <p className="text-[11px] text-[#576B5F] line-clamp-1 mt-0.5">
+            <p className="text-xs text-[#576B5F] line-clamp-1 mt-0.5">
               {suitability.primaryRiskReason}
             </p>
           </div>
@@ -103,10 +103,10 @@ export const CropViabilityGauge: React.FC<CropViabilityGaugeProps> = ({
           {suitability.urgentShiftRequired && (
             <button
               onClick={onExploreShift}
-              className="mt-2.5 inline-flex items-center justify-between w-full px-3 py-1.5 rounded-xl bg-[#1F513A] hover:bg-[#163B2A] text-white text-xs font-semibold shadow-sm transition-all active:scale-[0.98]"
+              className="mt-2.5 inline-flex items-center justify-between w-full px-3 py-1.5 rounded-xl bg-[#1F513A] hover:bg-[#163B2A] text-white text-sm font-semibold shadow-sm transition-all active:scale-[0.98]"
             >
               <span>{lang === "en" ? "View Crop Shift Options" : "বিকল্প ফসল দেখুন"}</span>
-              <ArrowRight size={13} />
+              <ArrowRight size={14} />
             </button>
           )}
         </div>

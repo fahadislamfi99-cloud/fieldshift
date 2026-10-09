@@ -54,6 +54,18 @@
   box-sizing: border-box;
 }
 
+html {
+  font-size: 18px;
+  line-height: 1.55;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (min-width: 1024px) {
+  html {
+    font-size: 18.5px;
+  }
+}
+
 body {
   background-color: var(--bg-canvas);
   color: var(--text-primary);

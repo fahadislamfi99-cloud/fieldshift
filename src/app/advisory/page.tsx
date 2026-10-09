@@ -79,21 +79,21 @@ export default function AdvisoryPage() {
               <CheckCircle2 size={18} />
               <h3>{lang === "en" ? "Directive 2: Recommended Crop Diversification" : "নির্দেশনা ২: লাভজনক বিকল্প ফসল মডেল"}</h3>
             </div>
-            <p className="text-xs text-stone-700 leading-relaxed">
+            <p className="text-sm text-stone-700 leading-relaxed">
               {lang === "en"
                 ? `Due to rapid groundwater depletion, farmers dependent on deep tubewells are advised to dedicate at least 50% of acreage to ${assessment.recommendedAlternatives[0]?.crop.nameEn}. This guarantees harvest before heat waves and saves over ৳14,000 per acre in pumping fuel.`
                 : `ভূগর্ভস্থ পানির তীব্র সংকটের কারণে গভীর নলকূপের ওপর নির্ভরশীল কৃষকদের অন্তত ৫০% জমিতে ${assessment.recommendedAlternatives[0]?.crop.nameBn} চাষের নির্দেশ দেওয়া হচ্ছে। এটি বিঘাপ্রতি হাজার হাজার টাকা সেচ খরচ বাঁচাবে।`}
             </p>
             <div className="grid grid-cols-2 gap-3 pt-2">
               <div className="p-3 bg-stone-50 rounded-xl border border-stone-200 text-xs">
-                <span className="text-stone-500 block text-[10px]">Water Saved</span>
-                <span className="font-extrabold text-[#163B2A] text-sm">
+                <span className="text-stone-500 block text-xs">Water Saved</span>
+                <span className="font-extrabold text-[#163B2A] text-base">
                   {assessment.recommendedAlternatives[0]?.crop.waterSavingsVsRicePercent}%
                 </span>
               </div>
               <div className="p-3 bg-stone-50 rounded-xl border border-stone-200 text-xs">
-                <span className="text-stone-500 block text-[10px]">Cost Saved per Acre</span>
-                <span className="font-extrabold text-emerald-800 text-sm">
+                <span className="text-stone-500 block text-xs">Cost Saved per Acre</span>
+                <span className="font-extrabold text-emerald-800 text-base">
                   ৳{assessment.recommendedAlternatives[0]?.estimatedCostSavedBdtPerAcre.toLocaleString()}
                 </span>
               </div>
@@ -107,7 +107,7 @@ export default function AdvisoryPage() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Smartphone size={18} className="text-[#163B2A]" />
-                <h3 className="text-sm font-bold text-stone-900">
+                <h3 className="text-base font-bold text-stone-900">
                   {lang === "en" ? "Last-Mile Phone Simulator" : "২জি ফোন বার্তা সিমুলেটর"}
                 </h3>
               </div>
@@ -116,7 +116,7 @@ export default function AdvisoryPage() {
               <div className="flex p-0.5 bg-stone-100 rounded-lg text-xs">
                 <button
                   onClick={() => setChannel("sms")}
-                  className={`px-2 py-1 rounded-md font-bold transition-all ${
+                  className={`px-2.5 py-1 rounded-md font-bold transition-all ${
                     channel === "sms" ? "bg-white text-stone-900 shadow-xs" : "text-stone-500"
                   }`}
                 >
@@ -124,7 +124,7 @@ export default function AdvisoryPage() {
                 </button>
                 <button
                   onClick={() => setChannel("ivr")}
-                  className={`px-2 py-1 rounded-md font-bold transition-all ${
+                  className={`px-2.5 py-1 rounded-md font-bold transition-all ${
                     channel === "ivr" ? "bg-white text-stone-900 shadow-xs" : "text-stone-500"
                   }`}
                 >
@@ -135,7 +135,7 @@ export default function AdvisoryPage() {
 
             {/* Feature Phone Screen Simulation */}
             <div className="rounded-2xl bg-stone-900 p-4 text-emerald-400 font-mono shadow-inner border-4 border-stone-800 space-y-3">
-              <div className="flex items-center justify-between text-[10px] text-stone-400 border-b border-stone-800 pb-2">
+              <div className="flex items-center justify-between text-xs text-stone-400 border-b border-stone-800 pb-2">
                 <span>DAE-NASA-ALERT</span>
                 <span>10:45 AM</span>
               </div>
@@ -149,7 +149,7 @@ export default function AdvisoryPage() {
                       <PhoneCall size={14} className="animate-pulse" />
                       <span>Simulated Automated Voice Call...</span>
                     </div>
-                    <p className="text-[11px] text-stone-300 italic">
+                    <p className="text-xs text-stone-300 italic">
                       "{lang === "en"
                         ? "Hello Farmer Rahim. This is the Department of Agricultural Extension. NASA satellites detect severe groundwater drops in Godagari. Do not sow Boro rice on your old schedule..."
                         : "আসসালামু আলাইকুম রহিম ভাই। কৃষি সম্প্রসারণ অধিদপ্তর থেকে বলছি। নাসার উপগ্রহে আপনার এলাকায় তীব্র পানির সংকট দেখা যাচ্ছে..."}"
@@ -158,7 +158,7 @@ export default function AdvisoryPage() {
                 )}
               </div>
 
-              <div className="text-[10px] text-stone-500 pt-1 border-t border-stone-800 text-right">
+              <div className="text-xs text-stone-500 pt-1 border-t border-stone-800 text-right">
                 Delivered via Grameenphone / Banglalink USSD
               </div>
             </div>

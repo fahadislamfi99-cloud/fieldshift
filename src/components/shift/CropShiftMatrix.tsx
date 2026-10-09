@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { CropShiftAssessment } from "@/types/crop";
 import { CalendarShiftDetails } from "@/lib/calendar-optimizer";
-import { Sprout, Calendar, Droplets, Banknote, ShieldAlert, CheckCircle2, ChevronRight, Sparkles } from "lucide-react";
+import { Sprout, Calendar, Droplets, Banknote, ShieldAlert, CheckCircle2, ChevronRight } from "lucide-react";
 
 interface CropShiftMatrixProps {
   assessment: CropShiftAssessment;
@@ -27,13 +27,13 @@ export const CropShiftMatrix: React.FC<CropShiftMatrixProps> = ({
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-lg bg-[#E7F6E1] flex items-center justify-center text-[#1F513A]">
-            <Sparkles size={15} />
+            <Sprout size={15} />
           </div>
           <div>
-            <h2 className="text-sm font-bold text-[#14211A]">
+            <h2 className="text-base font-bold text-[#14211A]">
               {lang === "en" ? "The Double Shift Engine" : "দ্বৈত পরিবর্তন ইঞ্জিন"}
             </h2>
-            <p className="text-[11px] text-[#576B5F]">
+            <p className="text-xs text-[#576B5F]">
               {lang === "en" ? "Prescriptive Climate Adaptation" : "উপগ্রহভিত্তিক বাস্তবসম্মত সিদ্ধান্ত"}
             </p>
           </div>
@@ -43,7 +43,7 @@ export const CropShiftMatrix: React.FC<CropShiftMatrixProps> = ({
         <div className="flex p-0.5 bg-[#EFF4EF] rounded-xl border border-[#E2ECE3]">
           <button
             onClick={() => setActiveTab("crop_shift")}
-            className={`px-2.5 py-1 text-[11px] font-bold rounded-lg transition-all ${
+            className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${
               activeTab === "crop_shift"
                 ? "bg-white text-[#1F513A] shadow-sm"
                 : "text-[#576B5F] hover:text-[#14211A]"
@@ -53,7 +53,7 @@ export const CropShiftMatrix: React.FC<CropShiftMatrixProps> = ({
           </button>
           <button
             onClick={() => setActiveTab("calendar_shift")}
-            className={`px-2.5 py-1 text-[11px] font-bold rounded-lg transition-all ${
+            className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${
               activeTab === "calendar_shift"
                 ? "bg-white text-[#1F513A] shadow-sm"
                 : "text-[#576B5F] hover:text-[#14211A]"
@@ -82,7 +82,7 @@ export const CropShiftMatrix: React.FC<CropShiftMatrixProps> = ({
 
           {/* Recommended Crop Cards */}
           <div className="flex flex-col gap-2 mt-1">
-            <span className="text-[11px] font-bold text-[#576B5F] uppercase tracking-wider">
+            <span className="text-xs font-bold text-[#576B5F] uppercase tracking-wider">
               {lang === "en" ? "Ranked Climate-Resilient Alternatives" : "বিকল্প উপযোগী ফসলসমূহ"}
             </span>
 
@@ -104,17 +104,17 @@ export const CropShiftMatrix: React.FC<CropShiftMatrixProps> = ({
                         #{index + 1}
                       </div>
                       <div>
-                        <h4 className="text-xs font-bold text-[#14211A]">
+                        <h4 className="text-sm font-bold text-[#14211A]">
                           {lang === "en" ? alt.crop.nameEn : alt.crop.nameBn}
                         </h4>
-                        <span className="text-[10px] text-[#576B5F]">
+                        <span className="text-xs text-[#576B5F]">
                           {alt.crop.growthDays} {lang === "en" ? "Days Duration" : "দিনের ফসল"}
                         </span>
                       </div>
                     </div>
 
                     <div className="flex items-center gap-1.5">
-                      <span className="px-2 py-0.5 rounded-full bg-[#E2F5DC] text-[#195222] text-[10px] font-bold">
+                      <span className="px-2 py-0.5 rounded-full bg-[#E2F5DC] text-[#195222] text-xs font-bold">
                         {alt.suitability.overallScore}% Fit
                       </span>
                       <ChevronRight size={14} className="text-[#94A3B8]" />
@@ -123,14 +123,14 @@ export const CropShiftMatrix: React.FC<CropShiftMatrixProps> = ({
 
                   {/* Benefit Chips */}
                   <div className="grid grid-cols-2 gap-2 mt-2 pt-2 border-t border-[#E2ECE3]/60">
-                    <div className="flex items-center gap-1 text-[11px] text-[#1F513A] font-semibold">
+                    <div className="flex items-center gap-1 text-xs text-[#1F513A] font-semibold">
                       <Droplets size={12} />
                       <span>
                         {lang === "en" ? `Save ${alt.crop.waterSavingsVsRicePercent}% Water` : `${alt.crop.waterSavingsVsRicePercent}% কম পানি`}
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-1 text-[11px] text-[#163B2A] font-semibold justify-end">
+                    <div className="flex items-center gap-1 text-xs text-[#163B2A] font-semibold justify-end">
                       <Banknote size={12} />
                       <span>
                         {lang === "en"
@@ -157,7 +157,7 @@ export const CropShiftMatrix: React.FC<CropShiftMatrixProps> = ({
                 <p className="text-xs font-bold text-[#14211A]">
                   {lang === "en" ? "Heat Avoidance Score" : "তাপদাহ এড়ানোর হার"}
                 </p>
-                <p className="text-[11px] text-[#576B5F]">
+                <p className="text-xs text-[#576B5F]">
                   {lang === "en" ? "Dodges March 15-28 thermal spike" : "মার্চের চরম তাপদাহ থেকে রক্ষা"}
                 </p>
               </div>
@@ -176,14 +176,14 @@ export const CropShiftMatrix: React.FC<CropShiftMatrixProps> = ({
                   <span className="w-2 h-2 rounded-full bg-[#DC2626]" />
                   {lang === "en" ? "Ancestral Calendar (Obsolete)" : "পূর্বপুরুষের ক্যালেন্ডার"}
                 </span>
-                <span className="font-semibold text-[#576B5F] text-[11px]">
+                <span className="font-semibold text-[#576B5F] text-xs">
                   {calendar.traditionalWindow}
                 </span>
               </div>
               <div className="h-2 w-full bg-[#FEECEB] rounded-full overflow-hidden">
                 <div className="h-full w-3/5 bg-[#DC2626] rounded-full" />
               </div>
-              <p className="text-[10px] text-[#9E1C13] mt-0.5">
+              <p className="text-xs text-[#9E1C13] mt-0.5">
                 {lang === "en" ? "Flowers directly during 36°C heat wave" : "৩৬° সে তাপদাহে ফুল ঝরে পড়ার ঝুঁকি"}
               </p>
             </div>
@@ -195,14 +195,14 @@ export const CropShiftMatrix: React.FC<CropShiftMatrixProps> = ({
                   <span className="w-2 h-2 rounded-full bg-[#16A34A]" />
                   {lang === "en" ? `NASA Shifted (+${calendar.shiftDeltaDays} Days)` : `উপগ্রহ নির্ধারিত (+${calendar.shiftDeltaDays} দিন)`}
                 </span>
-                <span className="font-semibold text-[#14211A] text-[11px]">
+                <span className="font-semibold text-[#14211A] text-xs">
                   {calendar.nasaAdjustedWindow}
                 </span>
               </div>
               <div className="h-2 w-full bg-[#E2F5DC] rounded-full overflow-hidden">
                 <div className="h-full w-4/5 bg-[#16A34A] rounded-full ml-auto" />
               </div>
-              <p className="text-[10px] text-[#195222] mt-0.5">
+              <p className="text-xs text-[#195222] mt-0.5">
                 {lang === "en" ? "Flowering aligns with cooler night temps" : "অনুকূল তাপমাত্রায় সর্বোচ্চ ফলন নিশ্চিত"}
               </p>
             </div>

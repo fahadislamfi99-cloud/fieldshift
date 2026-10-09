@@ -73,7 +73,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({
               <Icon size={18} strokeWidth={isActive ? 2.2 : 1.8} />
             </div>
             <span
-              className={`text-[10px] mt-0.5 tracking-tight ${
+              className={`text-xs mt-0.5 tracking-tight ${
                 isActive ? "font-bold text-[#1F513A]" : "font-medium"
               }`}
             >
