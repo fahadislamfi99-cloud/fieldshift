@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse } from "next/server";
 import { fetchNASAPowerData } from "@/services/nasa-power";
 import { evaluateCropSuitability } from "@/lib/ecocrop";
 import { CropProfile } from "@/types/crop";
@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
       try {
         const res = await fetch(nominatimUrl, {
           headers: {
-            "User-Agent": "FieldShift-NASA-App/1.0 (contact: info@fieldshift.earth)",
+            "User-Agent": "CropSafe-NASA-App/1.0 (contact: info@cropsafe.earth)",
             "Accept-Language": "en,bn",
           },
         });
@@ -88,7 +88,7 @@ export async function GET(request: NextRequest) {
         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&addressdetails=1`,
         {
           headers: {
-            "User-Agent": "FieldShift-NASA-App/1.0 (contact: info@fieldshift.earth)",
+            "User-Agent": "CropSafe-NASA-App/1.0 (contact: info@cropsafe.earth)",
             "Accept-Language": "en,bn",
           },
         }

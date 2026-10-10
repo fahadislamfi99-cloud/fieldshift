@@ -78,7 +78,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
             </div>
             <div>
               <h1 className="text-xl font-extrabold text-[#163B2A] tracking-tight leading-none">
-                FieldShift
+                CropSafe
               </h1>
               <p className="text-xs font-medium text-stone-600 mt-1">
                 {lang === "en" ? "Smarter Farms. Stronger Futures." : "স্মার্ট কৃষি। নিরাপদ ভবিষ্যৎ।"}
@@ -188,7 +188,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
               <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#236B43] flex items-center justify-center text-white">
                 <Leaf size={15} />
               </div>
-              <span className="font-extrabold text-stone-900 text-base sm:text-lg tracking-tight">FieldShift</span>
+              <span className="font-extrabold text-stone-900 text-base sm:text-lg tracking-tight">CropSafe</span>
             </Link>
           </div>
 
@@ -290,7 +290,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
                 </div>
                 <div>
                   <h2 className="text-xl font-extrabold text-[#163B2A] tracking-tight leading-none">
-                    FieldShift
+                    CropSafe
                   </h2>
                   <p className="text-xs font-medium text-stone-600 mt-1">
                     {lang === "en" ? "Smarter Farms. Stronger Futures." : "স্মার্ট কৃষি। নিরাপদ ভবিষ্যৎ।"}

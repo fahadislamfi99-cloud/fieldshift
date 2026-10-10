@@ -1,12 +1,17 @@
-import type { Metadata, Viewport } from "next";
+﻿import type { Metadata, Viewport } from "next";
 import { AppProvider } from "@/context/AppContext";
 import { AppShell } from "@/components/layout/AppShell";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "FieldShift | Smarter Farms. Stronger Futures.",
+  title: "CropSafe | Smarter Farms. Stronger Futures.",
   description:
     "Satellite-powered insights for climate-resilient farming in Bangladesh.",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 export const viewport: Viewport = {

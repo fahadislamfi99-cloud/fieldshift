@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
@@ -68,7 +68,7 @@ export const Navbar: React.FC = () => {
               </div>
               <div className="flex flex-col">
                 <span className="text-base font-extrabold text-stone-900 tracking-tight flex items-center gap-1.5">
-                  FieldShift
+                  CropSafe
                   <span className="text-xs px-2 py-0.5 rounded-md bg-stone-100 border border-stone-200 text-stone-600 font-semibold uppercase">
                     NASA Space Apps
                   </span>

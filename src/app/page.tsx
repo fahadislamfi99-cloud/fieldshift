@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
@@ -260,7 +260,7 @@ export default function HomePage() {
           <div className="space-y-2 sm:space-y-2.5">
             <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[#1E7B48] text-xs font-bold border border-emerald-200/80 shadow-2xs">
               <Sprout size={13} className="text-[#1E7B48]" />
-              <span>{lang === "en" ? "FieldShift • Barind Earth Observation" : "ফিল্ডশিফট • বরেন্দ্র কৃষি পর্যবেক্ষণ"}</span>
+              <span>{lang === "en" ? "CropSafe • Barind Earth Observation" : "ক্রপসেফ • বরেন্দ্র কৃষি পর্যবেক্ষণ"}</span>
             </div>
 
             <h1 className="text-[24px] sm:text-[30px] lg:text-[34px] font-bold text-stone-900 tracking-tight leading-tight">
