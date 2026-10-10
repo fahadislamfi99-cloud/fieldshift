@@ -1,9 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useApp } from "@/context/AppContext";
 import { CustomSelect, SelectOption } from "@/components/CustomSelect";
+import { LocationSearch } from "@/components/map/LocationSearch";
+import { FieldInsightsPanel } from "@/components/field/FieldInsightsPanel";
+import type { FieldCoordinates } from "@/components/map/FieldPickerMap";
+import type { FieldTelemetryResponse, LocationSuggestion } from "@/types/nasa";
 import {
   MapPin,
   Sprout,
@@ -11,7 +16,20 @@ import {
   ArrowRight,
   CheckCircle2,
   Sliders,
+  Globe,
 } from "lucide-react";
+
+const FieldPickerMap = dynamic(
+  () => import("@/components/map/FieldPickerMap").then((m) => m.FieldPickerMap),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-full bg-stone-200/60 animate-pulse flex items-center justify-center text-xs font-semibold text-stone-500">
+        Loading map...
+      </div>
+    ),
+  }
+);
 
 export default function HomePage() {
   const {
@@ -31,6 +49,54 @@ export default function HomePage() {
   } = useApp();
 
   const [openSelect, setOpenSelect] = useState<"location" | "crop" | "water" | null>(null);
+
+  // Global field picker state
+  const [focus, setFocus] = useState<{ lng: number; lat: number; seq: number } | null>(null);
+  const [fieldData, setFieldData] = useState<FieldTelemetryResponse | null>(null);
+  const [fieldLoading, setFieldLoading] = useState(false);
+  const [fieldError, setFieldError] = useState<string | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const mapWrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const onFs = () => setIsFullscreen(Boolean(document.fullscreenElement));
+    document.addEventListener("fullscreenchange", onFs);
+    return () => document.removeEventListener("fullscreenchange", onFs);
+  }, []);
+
+  const toggleFullscreen = () => {
+    const el = mapWrapperRef.current;
+    if (!el) return;
+    if (document.fullscreenElement) {
+      document.exitFullscreen?.();
+    } else {
+      el.requestFullscreen?.();
+    }
+  };
+
+  const handleFieldSelect = useCallback(async (coords: FieldCoordinates) => {
+    setFieldLoading(true);
+    setFieldError(null);
+    try {
+      const res = await fetch(
+        `/api/field-telemetry?lat=${coords.lat}&lon=${coords.lng}`
+      );
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data: FieldTelemetryResponse = await res.json();
+      setFieldData(data);
+    } catch (err) {
+      console.warn("Field telemetry failed", err);
+      setFieldError("failed");
+    } finally {
+      setFieldLoading(false);
+    }
+  }, []);
+
+  const handleSearchPick = (s: LocationSuggestion) => {
+    const coords = { lng: s.lon, lat: s.lat };
+    setFocus((prev) => ({ lng: coords.lng, lat: coords.lat, seq: (prev?.seq ?? 0) + 1 }));
+    handleFieldSelect(coords);
+  };
 
   const handleSelectZone = (id: string) => {
     setZoneId(id);
@@ -106,6 +172,56 @@ export default function HomePage() {
 
   return (
     <div className="space-y-6" suppressHydrationWarning>
+      {/* =========================================================================
+          GLOBAL FIELD PICKER MAP
+          ========================================================================= */}
+      <section className="space-y-4">
+        <div className="flex items-center justify-between gap-3 px-1">
+          <div>
+            <h2 className="text-lg sm:text-xl font-bold text-stone-900 flex items-center gap-2">
+              <Globe size={20} className="text-[#1E7B48]" />
+              <span>
+                {lang === "en" ? "Find Your Field" : "আপনার জমি খুঁজুন"}
+              </span>
+            </h2>
+            <p className="text-xs sm:text-sm text-stone-500 font-medium mt-0.5">
+              {lang === "en"
+                ? "Search a place or drop a pin anywhere on Earth to see what grows there."
+                : "যেকোনো স্থান খুঁজে বা মানচিত্রে পিন স্থাপন করে জেনে নিন কোন ফসল ভালো হবে।"}
+            </p>
+          </div>
+        </div>
+
+        <div
+          ref={mapWrapperRef}
+          className={`map-fullscreen relative overflow-hidden border border-stone-200/90 shadow-[0_4px_24px_rgba(18,43,30,0.06)] bg-stone-200 ${
+            isFullscreen
+              ? "w-screen h-screen rounded-none border-0 shadow-none"
+              : "rounded-3xl h-[320px] sm:h-[420px] lg:h-[460px]"
+          }`}
+        >
+          <FieldPickerMap
+            onSelect={handleFieldSelect}
+            focus={focus}
+            lang={lang}
+            isFullscreen={isFullscreen}
+            onToggleFullscreen={toggleFullscreen}
+          />
+
+          {/* Floating search bar */}
+          <div className="absolute top-3 left-3 right-3 sm:left-4 sm:right-auto sm:w-96 z-10">
+            <LocationSearch lang={lang} onPick={handleSearchPick} />
+          </div>
+        </div>
+
+        <FieldInsightsPanel
+          data={fieldData}
+          loading={fieldLoading}
+          error={fieldError}
+          lang={lang}
+        />
+      </section>
+
       {/* HERO BANNER CARD */}
       <div className="relative rounded-3xl border border-stone-200/90 shadow-[0_4px_24px_rgba(0,0,0,0.04)] min-h-0 sm:min-h-[520px] pb-6 flex flex-col justify-between">
         {/* Full Photographic Landscape Background */}

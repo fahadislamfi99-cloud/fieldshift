@@ -30,6 +30,49 @@ export interface NASAQueryCoordinates {
   longitude: number;
 }
 
+import { CurrentClimateMetrics } from "./climate";
+
+export interface LocationSuggestion {
+  displayName: string;
+  name: string;
+  district: string;
+  country: string;
+  lat: number;
+  lon: number;
+}
+
+export interface FieldLocationInfo {
+  name: string;
+  region: string;
+  fullName: string;
+  lat: number;
+  lon: number;
+}
+
+export interface EvaluatedCrop {
+  id: string;
+  nameEn: string;
+  nameBn: string;
+  category: string;
+  growthDays: number;
+  waterReqMm: number;
+  criticalFloweringTempC: number;
+  waterSavingsVsRicePercent: number;
+  overallScore: number;
+  riskLevel: string;
+  primaryRiskReason: string;
+  rating: "A" | "B" | "C";
+}
+
+export interface FieldTelemetryResponse {
+  location: FieldLocationInfo;
+  metrics: CurrentClimateMetrics;
+  cropCount: number;
+  suitableCrops: EvaluatedCrop[];
+  highRiskCrops: EvaluatedCrop[];
+  historicalSample: NormalizedNASADataPoint[];
+}
+
 export interface NormalizedNASADataPoint {
   date: string;
   tempMeanC: number;

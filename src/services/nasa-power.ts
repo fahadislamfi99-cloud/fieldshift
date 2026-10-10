@@ -64,7 +64,6 @@ export async function fetchNASAPowerData(
 
     const res = await fetch(url, {
       signal: controller.signal,
-      next: { revalidate: 3600 }, // Next.js cache 1 hour
     });
     clearTimeout(timeout);
 

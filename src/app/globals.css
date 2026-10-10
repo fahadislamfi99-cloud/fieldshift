@@ -128,3 +128,11 @@ body {
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
+/* Fullscreen map */
+.map-fullscreen:fullscreen {
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  border: 0;
+}
