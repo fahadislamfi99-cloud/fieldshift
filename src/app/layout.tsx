@@ -1,10 +1,10 @@
-﻿import type { Metadata, Viewport } from "next";
+import type { Metadata, Viewport } from "next";
 import { AppProvider } from "@/context/AppContext";
 import { AppShell } from "@/components/layout/AppShell";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "CropSafe | Smarter Farms. Stronger Futures.",
+  title: "AgroShift: Smarter Farm Stronger Futures",
   description:
     "Satellite-powered insights for climate-resilient farming in Bangladesh.",
   icons: {
